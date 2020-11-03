@@ -1,0 +1,2223 @@
+---
+title: "General Code Notebook"
+author: "Nina Dombrowski"
+affiliation: "NIOZ"
+date: "`r Sys.Date()`"
+knit: (function(input_file, encoding) {
+  out_dir <- 'docs';
+  rmarkdown::render(input_file,
+output:
+  rmdformats::readthedown:
+    highlight: kate
+editor_options: 
+  chunk_output_type: console
+---
+
+
+
+
+```{r knitr setup, include=FALSE,  eval=TRUE, echo=FALSE, warning=FALSE}
+library(knitr)
+knitr::opts_chunk$set(eval=TRUE, cache=FALSE, message=FALSE, warning=FALSE, 
+                      comment = "", results="markup")
+#https://bookdown.org/yihui/rmarkdown/html-document.html
+#install.packages('knitr', ependencies = TRUE)
+#install.packages("devtools", lib="~/R/lib")
+#library(DT)
+#devtools::session_info()
+```
+
+
+This workflow gives a basic introduction into the command line and also has a list that are commonly used by the Spang team.
+
+If working on the servers please keep in mind:
+
+<div class="alert alert-danger" role="alert">
+  <strong>Since we share resources with a lot of other users please keep the resources in mind. <br><br>
+  Try not to use more than 30% of our avail. resources. <br><br>
+  If you need more contact the users.<br><br>
+  Below you will learn the basic commands to learn about resources used by the servers.
+  </strong>
+</div>
+
+
+A lot of the files work with some basic text files provdided in the Input_docs folder. If you want to run this tutorial you can use these files.
+
+
+# General
+
+## Tutorials for bioinformatics
+
+to be added in future versions
+
+## Useful Databases (mostly for annotations)
+
+1. [KAAS](http://www.genome.jp/tools/kaas/)
+2. [RAST](http://rast.nmpdr.org/)
+3. [IMG-MER](https://img.jgi.doe.gov/cgi-bin/mer/main.cgi)
+4. [CAZy](http://csbl.bmb.uga.edu/dbCAN/annotate.php) and [dbCAN](http://bcb.unl.edu/dbCAN2/)
+5. [MEROPS](http://merops.sanger.ac.uk/)
+6.	[Seed](ftp://ftp.theseed.org/)
+7. [Eggnog](http://eggnogdb.embl.de/download/latest/data/ )
+8.	[Uniprot](http://www.uniprot.org/downloads)
+9. [Pfam](ftp://ftp.ebi.ac.uk/pub/databases/Pfam)
+10.	[Tigrfam](ftp://ftp.jcvi.org/pub/data/TIGRFAMs/)
+11.	[HydDB](https://services.birc.au.dk/hyddb/)
+12.	[Silva](https://www.arb-silva.de/)
+13. [ArCOGs](ftp://ftp.ncbi.nih.gov/pub/wolf/COGs/arCOG/)
+
+
+
+
+
+###################################################################################
+###################################################################################
+# Basic Linux introduction
+###################################################################################
+###################################################################################
+
+## Basics
+
+What is the shell?
+
+This is a program that opens a window and lets you interact with the shell.
+
+
+What is the terminal?
+
+A Program that takes commands from the keyboard and gives them to the operating system to perform
+Nowadays, we have graphical user interfaces (GUIs) in addition to command line interfaces (CLIs) such as the shell.
+
+- Accessing the terminal (to work on our servers, this is our most important tool)
+  
+    - Mac users: Search for **terminal** in spotlight and you are done.
+    - Windows users: You will need some software for using the servers. An introduction to Cygwin can be found under <How_to/Windows_users/Cygwin_intro.docx>. Another alternative is mobaXterm, which is used by a lot of NIOZ people (but we do not have a lot of experience with it at the moment ourselves, find out more [here](https://mobaxterm.mobatek.net/))
+
+If all is working you should see something like this:
+
+<p align="left">
+  <img width="400" height="400" src="/Users/ninadombrowski/Desktop/WorkingDir/Notebooks/Pictures/terminal.png">
+</p>
+
+If you are working from a mac, most of the important things (nano, perl, python are already installed). 
+For Windows users you might need to setup some more things (esp a textviewer, like nano, and python/perl are good to have)
+
+
+
+## The file system
+
+The basic file system on Linux looks like this
+
+<p align="left">
+  <img width="400" height="400" src="/Users/ninadombrowski/Desktop/WorkingDir/Notebooks/Pictures/filesystem.png">
+</p>
+
+- The first directory in the file system is called the root directory.
+- Different to what you might know from Windows, unix does not use Drives.
+- So with Linux we do not split our system into different drives but Linux always has a single tree.
+- Different storage devices may contain different branches of the tree, but there is always a single tree. e.g., /users/john/ and / users/mary/
+- Here, users is on the first level of the tree and john and mary on the second.
+- /bin is the directory that contains binaries, that is, some of the applications and programs you can run.
+
+
+
+
+## Moving around folders via the terminal
+
+Now that we know how the file system looks like, we do want to move around. Especially for the servers this becomes important since we can not use our mouse anymore.
+
+- ``pwd`` = print working directory, find out where we are. Usually when we login we start from our home directory ()
+  - This is /export/lv1/user/your_name on ada 
+  - This will be something like /Users/ninadombrowski on your own computer
+
+```bash
+
+#check where we are
+pwd
+
+```
+
+Now lets find out how to move around
+
+- ``cd`` = change directory
+
+```bash
+#move into the next directory, called Desktop
+cd Desktop/
+
+#move one directory backwards, back to our personal homedirectory
+cd ..
+
+#from whereever you are, go directly into your homedirectory
+cd ~
+
+#on ada, move the spang directory and into the project directory
+cd ../spang_team/Projects/
+
+```
+
+The last example is a bit longer but essentially what we are doing:
+
+- move back to a lower directory
+- go into the spang_team folder
+- from the spang_team directory, go into the Project directory
+
+
+
+## Pathnames
+
+Important syntax, understand the difference between absolute and relative pathnames
+
+**Absolute pathnames**
+
+An absolute pathname begins with the root directory and follows the tree branch by branch until the path to the desired directory or file is completed. 
+For example on ada the full path to our home directory is:
+``/export/lv1/user/ndombrowski``
+
+If we want to go to the desktop using an absolute path we do
+
+```bash
+cd /export/lv1/user/ndombrowski/Desktop
+```
+
+**Relative pathnames**
+
+A relative pathname starts from the working directory (the directory you are currently in). 
+Using the relative pathway allows you to use a couple of special notations to represent relative positions in the file system tree. 
+For example on ada the full path to our home directory is:
+
+- "." (dot) The working directory itself 
+- ".." (dot dot) Refers to the working directory's parent directory
+
+If we want to go to the desktop using an relative path we do (assuming we start from our home directory)
+
+```bash
+cd Desktop
+```
+
+General comment:
+
+When recording your script it is useful to always start with the absolute path to set your working directory. 
+Afterwards, you can work with relative paths.
+
+
+## General structure of a Linux command
+
+The general structure of a command looks like this:
+
+** command [options] [arguments] **
+
+- command is the name of the command 
+- options is one or more adjustments to the command's behavior. 
+    - Short notation: “-i” • Long notation: “—no-group” 
+- arguments is one or more "things" upon which the command operates.
+
+
+
+############################################
+############################################
+# Working on the NIOZ servers
+############################################
+############################################
+
+We have two computational systems we can use at NIOZ. Some basic info about them can be found [here](http://laplace.nioz.nl/HPC/index.html) (can only be viewed via VPN or NIOZ network):
+
+- If you need access to our servers, the first person to contact is Hans Malschaert (hans.malschaert@nioz.nl). He will set up an account that will work for all systems we have at NIOZ.
+
+- To access the servers from home you need to set up a VPN. Information on how to do this can be found here:
+  
+    - Access the [intranet](https://intranet.nioz.nl)
+    - Follow the instructions [here](https://intranet.nioz.nl/vpn)
+
+1. ada
+
+- We can work directly from the command line
+- 1 node, 144 CPUS
+- ~800 GB memory
+- Usage: Try not use more than 30-40% of resources
+
+
+2. laplace
+
+- We can not work from the log in node but need to submit via a slurm submission system
+- 12 nodes (11 working nodes = no61-72) --> each with each 96GB memory and 80 "cpus""
+- ~800 GB memory
+- Usage: Use submission system, do not use more than 3-4 nodes
+- Different nodes allow to run jobs for different lengths:
+
+<p align="left">
+  <img width="400" height="400" src="/Users/ninadombrowski/Desktop/WorkingDir/Notebooks/Pictures/lapalce.png">
+</p>
+
+
+## Connecting
+######################
+
+**SSH** (Secure Shell) is a network protocol that enables secure remote connections between two systems.
+
+Options:
+
+``-Y`` option enables trusted X11 forwarding in SSH (if we want to open i.e. a java interface, or view alignments). For this to work you might need to install X11 on your computer first. Trusted means: the remote machine is treated as a trusted client. This means that  other graphical (X11) clients could take data from the remote machine (make screenshots, do keylogging and other nasty stuff) and it is even possible to alter those data.
+``-X`` option enables untrusted X11 forwarding in SSH. Untrusted means = your local client sends a command to the remote machine and receives the graphical output
+
+```bash
+#connect to ada
+ssh -X username@ada.nioz.nl
+
+#connect to laplace.
+ssh -X username@laplace.nioz.nl
+
+```
+
+
+## Checking available resources
+######################
+
+
+<div class="alert alert-danger" role="alert">
+  <strong>Since we share resources with a lot of other users keep all of this in mind. <br><br>
+  Try not to use more than 30% of our avail. resources. <br><br>
+  If you need more contact the users.
+  </strong>
+</div>
+
+There are different methods we have to check how busy the servers are.
+
+1a. ``top``
+
+Typing top into the terminal should give something like this:
+
+<p align="left">
+  <img width="400" height="400" src="/Users/ninadombrowski/Desktop/WorkingDir/Notebooks/Pictures/top.png">
+</p>
+
+- PID: Unique process id.
+- USER: Task’s owner.
+- PR: It is the priority of the task.
+- NI: The nice value of the task. A negative nice value means higher priority,whereas a positive nice value means lower priority.
+- VIRT: Total amount of virtual memory used by the task.
+- RES: Resident size, the non-swapped physical memory a task has used.
+- SHR: Shared Mem size (kb), the amount of shared memory used by a task.
+- %CPU: It shows the CPU usage as a percentage of total CPU time.
+- %MEM: It shows the Memory usage, a task’s currently used share of available physical memory.
+  - **as a rule of thump in the example above the first process uses 1492/100 = so roughly 15 of the 144 avail. cpus**
+- S: Status of the process
+- TIME+: CPU Time
+- COMMAND: Display the command line used to start a task or the name ofthe associated program.
+
+
+1b. ``htop``
+
+Htop gives similar info to top but allows to access how many CPUs and how much mem is used in total a bit easier:
+
+<p align="left">
+  <img src="/Users/ninadombrowski/Desktop/WorkingDir/Notebooks/Pictures/htop.png">
+</p>
+
+The numbers from 1-144 are our 155 CPUs and the fuller the bar is, the more it is currently in use. This is also summarized under **tasks**
+Another important line is the **memory** listing how much in total of the avail. memory is in use.
+
+2. ``df``
+
+Monitor avail. space on the different file systems.
+
+<p align="left">
+  <img width="400" height="400" src="/Users/ninadombrowski/Desktop/WorkingDir/Notebooks/Pictures/df.png">
+</p>
+
+
+
+3. ``free``
+
+Monitor avail. memory on the different file systems.
+
+<p align="left">
+  <img width="400" height="400" src="/Users/ninadombrowski/Desktop/WorkingDir/Notebooks/Pictures/free.png">
+</p>
+
+
+
+4. ``du``
+
+Monitor how much space specific folders take up. In the example below we look at all the folders in the current directory
+
+<p align="left">
+  <img width="400" height="400" src="/Users/ninadombrowski/Desktop/WorkingDir/Notebooks/Pictures/du.png">
+</p>
+
+
+
+
+
+## Downloading data
+######################
+
+Download data using ``wget`` and unzipping data
+
+```bash
+
+#download data
+wget ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/002/728/275/GCA_002728275.1_ASM272827v1/GCA_002728275.1_ASM272827v1_genomic.fna.gz
+
+#decompress gz data (-d = decompress)
+gzip -d GCA_002728275.1_ASM272827v1_genomic.fna.gz
+
+
+```
+
+
+
+## Transferring data
+######################
+
+Note: If transferring data the transfer is prepared from the terminal of your local computer. 
+There are filetransfer systems that can make the job easier, i.e. FileZilla.
+
+```bash
+
+#from local to server
+scp File ndombrowski@ada.nioz.nl:/HomeDir
+
+#from server to local
+scp ndombrowski@ada.nioz.nl:/HomeDir/File Desktop
+
+```
+
+
+## File compression
+######################
+
+**TAR files**
+
+- Short for Tape Archive, and sometimes referred to as tarball, is a file in the Consolidated Unix Archive format.
+- The TAR file format is common in Linux and Unix systems, but only for storing data! Not compressing it!
+- TAR files are often compressed after being created, but those become TGZ files, using the tgz, tar.gz, or gz extension.
+
+
+```bash
+
+#create and compress a tar file from a directory
+tar -cvzf backup.tar.gz dir1
+
+#uncompress a file
+tar -xvf backup.tar.gz -C dir1
+
+```
+
+**Gz files**
+
+gzip reduces the size of the named files using Lempel–Ziv coding (LZ77). Whenever possible, each file is replaced by one with the extension ‘.gz’, while keeping the same ownership modes, access and modification times. 
+
+```bash
+
+#compress a file
+gzip GCA_002728275.1_ASM272827v1_genomic.fna 
+
+#decompress a file
+gzip -d GCA_002728275.1_ASM272827v1_genomic.fna.gz 
+
+```
+
+
+## Working on laplace via slurm
+######################
+
+As mentioned above on laplace we can not directly run jobs but need to submit them via a job submission system called slurm.
+
+### Preparing a job script
+
+To submit a job, we need to open a document in nano and describe what resources we need, i.e. with 
+
+```bash
+nano jobscript.sh
+```
+
+Inside the script we can have something written like this:
+
+```bash
+#!/bin/sh
+#SBATCH --partition=normal    # default "normal", if not specified
+#SBATCH --nodelist=no70       # the node we want to work on
+#SBATCH --time=0-06:30:00     # run time in days-hh:mm:ss
+#SBATCH --nodes=1             # require 1 node
+#SBATCH --ntasks-per-node=36  # (by default, "ntasks"="cpus")
+#SBATCH --mem-per-cpu=4000    # MB RAM per CPU core (default 4 GB/core)
+#SBATCH --error=job.%J.err
+#SBATCH --output=job.%J.out
+
+# Executable commands :
+iqtree -s my_aln.faa
+```
+
+The most important things are
+
+- the partition, esp. for jobs that run longer 
+- the node we want to work on, i.e. only some allow for longer running jobs
+- the number of nodes, we usally use one for our jobs
+- --error and --output are good to keep in case you ran into problems
+
+Not absolutely necessary
+
+- time = not necessary for laplace, just make sure you are in the max limit
+- mem-per-cpu
+- nodes = not needed if you use nodelist
+
+
+
+### basic commands:
+
+- ``squeue`` is important to check and see whether your command is running ok but also to see how heavily used laplace is.
+
+```bash
+
+#submitting your job
+sbatch jobscript.sh
+
+#checking for running jobs
+squeue
+
+#kill a job incase sth is wrong (the job ID you can find via squeue)
+scancel job#
+
+```
+
+
+###################################################################################
+###################################################################################
+# Working with the terminal = Basics
+###################################################################################
+###################################################################################
+
+
+## Viewing what files, folders, etc are present in our directories
+
+Here, we use the command ``ls`` with an option ``-l``
+
+- ls stands for list directory contents
+- everything starting with a minus symbol is an optional argument we can use
+- ``-l`` = use a long listing format
+
+```bash
+
+#list everything in the current directory
+ls -l
+
+#if we want to check for what other options ls has we do (exit the manual with q)
+man ls
+
+```
+
+In case you want to check what a program does or what options there are, depending on the program there are different ways how to do this.
+These most common are:
+
+- man ls
+- ls --help
+- ls -h
+
+
+## Generating and viewing files
+
+Let's first make a file using nano. 
+
+Nano is a basic text editor that lets us view and generate text. 
+
+
+```bash 
+
+#open a new document and name it random.txt
+nano random.txt
+
+```
+
+If we type this and press enter, we will open a new document. Type something in there.
+Close the document with ``control + X""
+Type ``y`` to save changes and press enter
+
+If we now use ls -l again, we see that a new file was generated. 
+We can open it in nano again, but there are some other options that are useful with extremely big files.
+
+### less
+
+less is a program that lets you view text files (by pagination!)
+
+```bash
+less random.txt
+```
+
+Once started, less will display the text file one page at a time. 
+
+- You can use the arrow Up and Page arrow keys to move through the text file. 
+- To exit less, type "q". 
+- G Go to the end of the text file 
+- 1G Go to the beginning of the text file (or to the Nth line “NG”) 
+- /characters Search forward in the text file for an occurrence of the specified characters 
+- n Repeat the previous search 
+- h Display a complete list less commands and options
+
+For files with a low of columns we can use 
+
+```bash
+less -S random.txt
+```
+
+In this mode we can also use the arrow right and left keys, to view columns that are further on the right.
+
+
+## I/O redirection to new files
+
+
+By using some special notations we can redirect the output of many commands to files, devices, and even to the input of other commands.
+
+**Standard output (stdout)**
+
+By default, standard output directs its contents to the display. To redirect standard output to a file, the ">" character is used like this:
+
+
+```bash
+
+#redirect the output from ls to a new file
+ls > file_list.txt
+
+#Use this symbol twice (“>>”) to append the result to an existant file
+ls >> file_list.txt
+
+```
+
+
+**Standard input (stdin)**
+
+By default, standard input gets its contents from the keyboard.
+To redirect standard input from a file, the "<“ character is used like this:
+
+```bash
+#redirect standard input from a file
+sort < file_list.txt
+
+# redirect standard output to another file
+sort < file_list.txt > sorted_file_list.txt
+
+```
+
+
+
+## Escaping characters
+
+Certain characters are significant to the shell; Escaping is a method of quoting single characters. The escape (\) preceding a character tells the shell to interpret that character literally.
+Below, we find the special meanings of certain escaped characters:
+
+<p align="left">
+  <img width="400" height="400" src="/Users/ninadombrowski/Desktop/WorkingDir/Notebooks/Pictures/escaping.png">
+</p>
+
+
+
+## Making new folders
+
+- ``mkdir`` - make a new directory
+
+```bash
+
+#make a new folder (in the directory we currently are in, name it new_older)
+mkdir new_folder
+
+```
+
+
+## Moving and copying files 
+
+- ``cp`` - copy files and directories
+- ``mv`` - move or rename files and directories
+
+```bash
+
+#copy our random file into our new_folder
+cp random.txt new_folder
+
+```
+
+If we check the files after this command, we can see that we have a version in our home directory and our new folder
+
+```bash
+
+#copy our random file into our new_folder
+mv random.txt new_folder
+
+```
+
+If we do this again with mv, we see that we only have the file in the new folder.
+
+
+## Moving folders
+
+
+```bash
+
+#move file1 into dir1
+mv file1 dir1
+
+#move file1 into dir1 using absolute + relative file paths
+mv /export/lv3/scratch/workshop_2019/file1 my_dir/dir1
+
+#mv file1,file2, file3 into dir1
+ mv file1 file2 file3 dir1
+
+```
+
+
+## Removing files and folders
+
+```bash
+
+#rm file1
+rm file1
+
+#rm dir1
+rm -r dir1
+
+```
+
+For the ``rm`` command, we need to tell the command that we want to remove folders. 
+Therefore we need to use the ``-r`` argument (to remove directories and their contents recursively).
+
+
+<div class="alert alert-danger" role="alert">
+  <strong>Linux does not have an undelete command. <br><br>
+  Once you delete something with rm, it's gone
+  </strong>
+</div>
+
+
+
+###################################################################################
+###################################################################################
+# Basic UNIX tools
+###################################################################################
+###################################################################################
+
+
+## WC: Counting files 
+######################
+
+The wc command in UNIX is a command line utility for printing newline, word and byte counts for files. It can return the number of lines in a file, the number of characters in a file and the number of words in a file. It can also be combine with pipes for general counting operations.
+
+This command is simple but essential for quality control
+
+```bash
+#count how many lines we have in a file we have
+wc -l Input_docs/Experiment1.txt
+
+#count how many files we have that end with a certain extension
+ll Input_docs/*.txt | wc -l
+
+```
+
+## Grep: Finding patterns in files
+######################
+
+The grep command is used to search text. It searches the given file for lines containing a match to the given strings or words.
+
+This command is simple but essential for quality control
+
+
+```bash
+#count how often the pattern **control** occurs in our document
+grep "control" Input_docs/Experiment1.txt
+
+#only give the counts, not the lines
+grep -c "control" Input_docs/Experiment1.txt
+
+#grep a pattern only if it occurs at the beginning of a line
+grep "^Ex" Input_docs/Experiment1.txt
+```
+
+
+## Using basic wildcards
+######################
+
+Since the shell uses filenames so much, it provides special characters to help you rapidly specify groups of filenames.
+
+**Wild-card** character that can be used as a substitute for any class of characters in a search
+
+1. wildcard with the broadest meaning of any of the wildcards,can represent 0 characters, all single characters or any string of characters
+
+```bash
+grep -c "^Ex" *txt
+```
+
+2. ? wildcard = matches exactly one character except a dot
+
+```bash
+grep -c "^Ex." *.txt
+```
+3. '.' wildcard = any letter or number bc dot is a wildcard, be careful when using it in some commands
+
+```bash
+grep -c "^Ex." *.txt
+```
+
+4. [012] wildcard = matches 0 or 1 or 2 exactly once
+```bash
+grep -c "^Ex" Experiment[012].txt
+```
+
+5. [0-9] wildcard = matches matches any number exactly one
+```bash
+grep -c "^Ex" Experiment[0-9].txt
+```
+
+6. combining wildcards
+- [A-Z] wildcard = any letter in capitals occurring once
+- [a-z]* wildcard = any letter in non-capital letters occurring many times
+
+```bash
+grep -c "^Ex" [A-Z][a-z]*[12].txt
+```
+
+- [a-z]\{6\} we are exactly looking for 6 letters (as in 'control')
+- these 6 letters should be followed by either a 1 or 2
+
+```bash
+grep -c "[a-z]\{6\}[12]" Experiment[12].txt
+```
+
+7. if we are not sure how many characters we have
+- matches 3-10 characters
+
+```bash
+grep -c "[a-z]\{3,10\}[12]" Experiment[12].txt
+```
+
+
+
+## Shortening headers --> the **cut** function
+######################
+
+The cut command in UNIX is a command line utility for cutting sections from each line of files and writing the result to standard output. It can be used to cut parts of a line by byte position, character and delimiter. It can also be used to cut data from file formats like CSV.
+
+Options:
+
+- ``-d`` defines the delimiter
+- ``-f1`` keep the first element after the separators (tab, \t, by default)
+
+```bash
+#keep the first element
+cut -f1 -d "-" File.fna > File_new.fna
+
+#keep the first and second element
+cut -f1,2 -d "-" File.fna > File_new.fna
+```
+
+
+ 
+## Cat: Combining data
+######################
+
+The cat command has three main functions related to manipulating text files: creating them, displaying them, and combining them.
+
+Cat has different functions, depending on how you use it. 
+
+1. Create a new file, type something and *Press “ctrl+d” to save the file
+
+```bash
+cat > file_test.txt
+
+```
+
+2. Display the content of an existing file
+
+```bash
+
+cat file_test.txt
+
+```
+
+3. Concatenating several files
+
+```bash
+ 
+cat file1 file2 file3 > file_merged.txt
+ 
+ ```
+
+
+In this example combine Ex1.txt and Ex2.txt into one file named All_experiments
+
+```bash
+cat Experiment1.txt Experiment2.txt > All_experiments.txt
+```
+
+## Sort and uniq
+######################
+
+1. **sort** – sort lines in a file from A-Z
+
+There are a number of programs that require files to be sorted
+
+```bash
+#sort using the fourth column
+sort -k4 Experiment2.txt
+
+#sort using the 5th and then the third column
+sort -k5 -k3 Experiment1.txt
+```
+
+2. **uniq** – can be used to remove or find duplicates. However, for this to work the file first needs to be sorted
+
+```bash
+#only keep duplicate
+sort Experiment2.txt | uniq -d
+
+#remove duplicate
+sort Experiment2.txt| uniq -u
+```
+
+
+
+## datamash: merging rows by keys
+######################
+
+GNU datamash is a command-line program which performs basic numeric, textual and statistical operations on input textual data files.
+
+```bash
+datamash -sW -g1 collapse 2 collapse 4 < Unimarkers_KO_count_table.txt  > Unimarkers_KO_collapsed.txt
+```
+
+
+
+## Pipes: Combining commands
+######################
+
+Powerful utility to connect multiple commands together.
+The standard output of one command is fed into the standard input of another
+
+In this example we first combine the files, then sort the combined output and find the uniq elements.
+
+```bash
+cat Experiment[12].txt | sort | uniq
+```
+
+
+############################################
+############################################
+# Using a screen
+############################################
+############################################
+
+
+Screen or GNU Screen is a terminal multiplexer. 
+It means that you can start a screen session and then open any number of windows (virtual terminals) inside that session.
+Processes running in Screen will continue to run when their window is not visible even if you get disconnected
+This is perfect, if we start longer running processes on the server and want to shut down our computer.
+
+The basic commands to know are
+
+```bash
+#start a screen
+screen
+
+```
+
+We detach from a screen with ``control+a+d``
+
+```bash
+#start a screen and give it a name
+screen -S testrun
+
+#see what screens you have running
+screen -ls
+
+#restart an existing screen
+screen -r testrun
+
+#detach a screen (from outside a screen)
+screen -d
+ 
+#completely close and remove the screen, type
+exit
+
+```
+
+
+############################################
+############################################
+# Random but useful
+############################################
+############################################
+
+
+## Excel/DOS to UNIX issue cleanup
+######################
+
+1. hidden symbols
+
+Sometimes when saving excel documents as text this insert hidden symbols.
+These can be seen as a blue M when opening the file in vim. This symbol can be removed as follows in vim:
+
+```bash
+:%s/\r/\r/g   to remove blue M
+```
+
+
+2. wrong file types
+
+Files created on WINDOWS systems are not always compatible with UNIX. In case there is an issue it is always safer to convert. You see if you have an issue if you open your file of interest with nano and check the file format at the bottom.
+
+If we see we are dealing with a dos file, we can clean files like this:
+
+```bash
+
+#dos to unix
+awk '{ sub("\r$", ""); print }' winfile.txt > unixfile.txt
+
+#unix to dos
+awk 'sub("$", "\r")' unixfile.txt > winfile.txt
+
+```
+
+
+## Installing 
+######################
+
+For installing things on the server, for bigger things talk to Hans Malschaert (hans.malschaert@nioz.nl) since we do not have administrator rights.
+
+When installing tools on your own computer you check ``apt-get``, however, since this requires admin rights, always be careful what you install.
+
+```bash
+apt-get install xx
+```
+
+For Mac users, [brew](https://brew.sh) is another, relatively safe alternative to install tools [conda](https://docs.conda.io/en/latest/) is another option that 
+is supported for Mac and Windows.
+
+
+
+
+## Working with Conda Environments
+######################
+
+Some quick words about conda.
+
+Conda is a powerful package manager and environment manager that you use with command line commands at the Anaconda Prompt for Windows, or in a terminal window for macOS or Linux.
+
+Importantly, it allows to install without admin rights and is a safe alternative to not mess-up program setups.
+
+```bash
+#list all avail. environements
+conda info --envs
+
+#start environment
+source activate myenv
+
+#end environment
+source deactivate
+
+```
+
+
+
+## Using environmental variables
+######################
+
+Simply put, environment variables are variables that are set up in your shell when you log in. They are called “environment variables” because most of them affect the way your Unix shell works for you. I.e. one points to your home directory and another to your history file.
+
+```bash
+#list of avail. variables
+env | sort | head -10
+
+# show where variables are stored
+echo $PATH
+
+# change location of variables
+export HOME=/home/shs
+
+#change path of environmental varialbes
+PATH=~/bin:$PATH:/apps/bin
+```
+
+
+
+## Dealing with PDFs --> CPDF
+######################
+
+CPDF is a useful program if you want to merge pdfs, remodel them all to A4 etc. 
+
+This is not available on the server but easy to install in case you are interested.
+
+For more information, see [here](https://community.coherentpdf.com)
+
+```bash
+# merge pdfs
+~/Desktop/Programs/cpdf-binaries-master/OSX-Intel/cpdf -merge *pdf -o All_Main_Figs.pdf
+
+#convert to A4
+~/Desktop/Programs/cpdf-binaries-master/OSX-Intel/cpdf -scale-to-fit a4portrait SI_Figures.pdf -o test.pdf
+
+```
+
+
+
+## Change file extensions
+######################
+
+```bash
+for f in *.fa; do  
+mv -- "$f" "${f%.fa}.fna" 
+done
+```
+
+
+## Change file names
+######################
+
+**rename** works as follows:
+Oldname - NewName - Pattern used to grep all files
+
+**Warning**
+Based on the file system there are two versions on how to use rename:
+
+```bash
+# version 1
+rename 's/OldName/NewName/' Bin*  
+
+#version 2
+rename OldName Newname Bin*
+
+```
+
+## Replacing names in files (works on every kind of file)
+######################
+
+The file **names_to_replace.txt** needs to look as follows:
+Two columns, which are tab separated
+First column = Original name
+Second column = New name
+
+**Warning**: 
+Be careful with similar names. Both Bin1 and Bin11 would be replaced with: Bin1 /tab Bin1_new
+In these cases either update your naming scheme OR add an end of line indicator
+
+
+```bash
+perl replace_tree_names.pl names_to_replace.txt File.fasta > File_renamed.fasta
+```
+
+
+## Extract sequence by pattern found in fasta header
+######################
+
+```bash
+perl extractSequence.pl File.faa <pattern> > File_Subset.faa
+```
+
+ 
+
+## Counting things in a large number of files
+######################
+
+Here: Find all files that start with *DN** and have a *codon** in them. Once you have these files grep the number of sequences in each file.
+
+```bash
+find . -maxdepth 6 -name 'DN*codon*' -exec grep -c -H ">" {} \; > Count_hits.txt
+```
+
+
+
+
+###################################################################################
+###################################################################################
+# Running loops
+###################################################################################
+###################################################################################
+
+A ‘for *loop’** is a bash programming language statement which allows code to be repeatedly executed. 
+
+The bash *while** loop is a control flow statement that allows code or commands to be executed repeatedly based on a given condition. For example, run echo command 5 times or read text file line by line or evaluate the options passed on the command line for a script.
+
+```bash
+#1. by providing a file with names to loop through
+for sample in `cat List`; do cp ${sample}.fna new_dir/fna; done  
+
+#2. by grepping files using file names
+for sample in *`cat List`*fna; do cp $sample new_dir/fna; done  
+
+#3.while loop example 1
+
+'''
+#!/bin/bash
+file=/etc/resolv.conf
+while IFS= read -r line
+do
+        # echo line is stored in $line
+	echo $line
+done < "$file"
+'''
+
+#4. while loop to move a list of genomes to folder A to folder B
+	
+	while read from to; do
+		echo "mv ${from}* $to"
+	done < to_replace.txt
+```
+
+
+
+
+###################################################################################
+###################################################################################
+# SED: manipulating files
+###################################################################################
+###################################################################################
+
+The most basic pattern to use sed for is **sed 's/find/replace/' file**.
+And example file can be generated with *echo "how now brown cow" > temp.txt*
+
+
+## Basics search and replace
+######################
+```bash
+# search for 'ow' and replace it with 'aagh'
+sed 's/ow/aagh/' temp.txt
+
+# search and replace pattern across the whole file and not only the first line
+sed 's/ow/aagh/g' temp.txt
+
+#we also can use wildcards
+sed 's/control[0-9]/control/g' Experiment1.txt > new_file.txt
+```
+
+One important thing to remember is that certain symbols have specific meanings in UNIX. Examples are: comma, brackets, pipes. Do search for these in files, we need to escape them with a **\**:
+
+```bash
+sed 's/N\[0.4uM\]/N(0.4uM)/g' Experiment1.txt > new_file.txt
+```
+
+
+## Removing things (and using WILDCARDs)
+######################
+
+- *$' indicates a line containing zero or more spaces. Hence, this will delete all lines which are either empty or lines with only some blank spaces.
+
+```bash
+# remove 1 first line
+sed '1d' temp.txt
+
+#remove last line
+sed '$d' file
+
+#remove lines 2-4
+sed '2,4d' file
+
+#remove lines other than 2-4
+sed '2,4!d' file 
+
+#remove the first and last line
+sed '1d;$d' file
+
+#remove lines beginning with an **L**
+sed '/^L/d' file
+
+#delete lines ending with x
+sed '/x$/d' file
+
+#delete lines ending with x OR X
+sed '/[xX]$/d' file
+
+#delete blank lines ('^$' indicates lines containing nothing)
+sed '/^$/d' file
+
+#delete lines that start with capital letters
+sed '/^[A-Z]*$/d' file
+
+#delete lines with the pattern **Unix**
+sed '/Unix/d' file
+
+#delete files with the pattern unix or Linux
+sed '/Unix\|Linux/d' file
+
+#delete the 2nd occurence of each pattern (here *u*)
+sed 's/u//2' file
+
+#remove all digits across the whole file
+sed 's/[0-9]//g' file
+
+#remove all alpha-numerical characters
+sed 's/[a-zA-Z0-9]//g' file
+
+#remove character regardless of the case
+sed 's/[uU]//g' file
+```
+
+
+###################################################################################
+###################################################################################
+# JOIN: Merging files with common columns
+###################################################################################
+###################################################################################
+
+## General
+
+For join to work input files need to be sorted, in the given example the files are sorted by the first column, if column needs to be change use -k
+
+- LC_ALL=C: make sure that join and sort speak the same language
+-a1 = also print unpairable lines (print lines from file 1 in this case)
+-j = equivalent to '-1 FIELD -2 FIELD'
+-1 FIELD = in File1 use column FIELD (i.e. 1)
+-o: specify the order of the output format
+
+
+```bash
+LC_ALL=C join -a1  -j1 -e'-' -o 0,2.2,2.3 <(LC_ALL=C sort File1) <(LC_ALL=C sort File2) -t $'\t' | LC_ALL=C sort  > MergedFile
+```
+
+
+
+###################################################################################
+###################################################################################
+# Dealing with data from sequencing centers
+###################################################################################
+###################################################################################
+
+## FastQC: Checking sequence quality 
+######################
+
+Example of output found [here](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/)
+
+```bash
+fastqc fasta_file
+```
+
+
+
+## Trimming adaptors 
+######################
+
+### Trimmomatic
+
+Not run yet but basic info can be found [here](http://www.usadellab.org/cms/?page=trimmomatic)
+
+
+### Cutadapt
+
+Basic info can be found [here](http://www.usadellab.org/cms/?page=trimmomatic). Adaptor info you should get from your sequence center or you can check the FastQC files for overrepresented sequences
+
+Parameters:
+
+- O : If the overlap between the read and the adapter is shorter than MINLENGTH, the read is not modified.
+- m: Discard trimmed reads that are shorter than LENGTH
+- --max-n COUNT: Discard reads containing more than COUNT N bases. A fractional COUNT between 0 and 1 can also be given and will be treated as the proportion of maximally allowed N bases in the read.
+- trim_n : Remove flanking N bases from each read. That is, a read such as this: NNACGTACGTNNNN
+
+When you use -p/--paired-output, cutadapt checks whether the files are properly paired. If a read is removed from one of the files, cutadapt will ensure it is also removed from the other file. By default, the filtering options discard or redirect the read pair if any of the two reads fulfill the criteria. That is, --max-n discards the pair if one of the two reads has too many N bases. To further complicate matters, cutadapt switches to a backwards compatibility mode (“legacy mode”) when none of the uppercase modification options (-A/-B/-G/-U) are given. In that mode, filtering criteria are checked only for the first read. Cutadapt will also tell you at the top of the report whether legacy mode is active. Check that line if you get strange results!
+
+```bash
+cutadapt -a ADAPTER_FWD -A ADAPTER_REV -o out.1.fastq -p out.2.fastq reads.1.fastq reads.2.fastq
+```
+
+
+## Interleaving reads (from R1 and R2) 
+######################
+
+Some programs need the R1 and R2 reads to be interleaved for data analysis (i.e. IDBA)
+
+```bash
+python interleave_fastq.py R1_001_CUTADAPT.fastq R2_001_CUTADAPT.fastq > combined.fastq
+```
+
+
+
+## SICKLE: Filtering sequences by quality
+######################
+
+More info can be found [here](https://github.com/najoshi/sickle)
+
+Parameters:
+- -q: quality threshold, default 20
+- -l : length threshold, default 20
+
+
+```bash
+path/Sickle/sickle-master/sickle pe -c combined.fastq -t sanger -m MB12_15_S22_L5_combo_trimmed.fastq -s MB12_15_S22_L5_singles_trimmed.fastq
+```
+
+
+
+
+
+###################################################################################
+###################################################################################
+# Running assemblies
+###################################################################################
+###################################################################################
+
+## Metaspades
+######################
+Basic info can be found [here](http://cab.spbu.ru/software/meta-spades/). 
+
+Out of experience this assemblies provides good assemblies with low memory requirements. There are several additional settings that can be controlled, the most relevant to check out is usually the kmer size (applies for all assemblers)
+
+```bash
+#on R1 and R2
+metaspades.py   -1 MB12_15_S22_combined_combo_trimmed_1.fastq -2 combo_trimmed_2.fastq -o outdir
+
+#run based on interleaved sequences
+metaspades.py   --12 MB12_15_S22_combined_combo_trimmed.fastq -o outdir
+
+#setup for a loop
+#setup for loop
+for i in `cat SampleList`; do megahit -1 path/${i}.fw_paired.fastq.gz -2 path/${i}.rv_paired.fastq.gz -t 20 -o $i; done
+```
+
+## IDBA-UD
+######################
+Basic info can be found [here](https://github.com/loneknightpy/idba). 
+
+This assembler runs quickly and provides decent assembliers, however, it has not been maintained for several years
+
+
+### fq2fa: Transfer files into format needed by IDBA
+```bash
+fq2fa --paired MB12_15_S22_combined_combo_trimmed.fastq  MB12_15_S22_combined_combo_trimmed.fasta
+```
+
+### assemble
+```bash
+idba_ud -r input_file.fasta -o output_directory_name --pre_correction --mink 75 --maxk 105 --step 10 --seed_kmer 55 --num_threads 40
+```
+
+
+## Metaquast: Control the quality of assemblies
+######################
+
+```bash
+metaquast.py contigs.fasta -o outputfolder
+```
+
+
+
+###################################################################################
+###################################################################################
+# Read mapping
+###################################################################################
+###################################################################################
+
+The example uses bwa, however, an alternative is bowtie
+
+1. create Index file
+```bash
+bwa index All_Bacteria_RP.fasta
+```
+
+2. Align genomes against raw R1 and R2 reads with default bwa settings
+
+```bash
+bwa mem All_Bacteria_RP.fasta R1_001.fastq R2_001.fastq  > paired.sam
+```
+
+3. create bam file and sort
+```bash
+samtools view -hb -F4 paired.sam | samtools sort - -o paired_sorted.sam
+```
+
+4. create index for bam file
+```bash
+samtools index paired_sorted.sam
+```
+
+5. count mapped reads (contig ID, read length, #mapped reads and # unmapped reads)
+```bash
+samtools idxstats paired_sorted.bam > mapped.txt
+```
+6. count row sum
+```bash
+awk '{Mapped+=$3}END{print FILENAME,Mapped}' mapped.txt; done > All_mapped.txt
+```
+
+NA. Only print out properly paired reads (use a flag)
+```bash
+samtools view -hbS -f 2 All_Bacteria_4572_12cm_final.sam | samtools sort - Bacteria_4572_12cm_sorted_only_paired
+```
+
+samtools specifications: 
+
+- -h Include the header in the output.
+- -b Output in the BAM format. 
+- -S Previously this option was required if input was in SAM format
+-  -f INT: Only output alignments with all bits set in INT present in the FLAG field. INT can be specified in hex by beginning with `0x' (i.e. /^0x[0-9A-F]+/) or in octal by beginning with `0' (i.e. /^0[0-7]+/) [0]. 
+
+Info on [flags](http://picard.sourceforge.net/explain-flags.html)
+
+
+###################################################################################
+###################################################################################
+# Binning
+###################################################################################
+###################################################################################
+
+
+## ESOM
+######################
+
+First binning tools that works on tetranucleotide frequencies. ESOM uses a manual selection of bins, so is tedious for larger sets. However, it still can be used for smaller sets and cleanup. Additionally, it nicely illustrates how binning generally works.
+
+0. Select subset of fasta sequences
+```bash
+perl /home/scripts/screen_list_new.pl to_keep.txt xxx.fasta keep > subsetted.fasta
+```
+
+1. Transfer files to needed format, ideally include reference genomes
+```bash
+perl /home/scripts/ESOM/esomWrapper.pl -path /home/DWH_SIP/binning -ext fasta -dir ESOM_4K -min 4000 -max 4000 -mod
+```
+
+2.  run esomana
+- upload mod.lrn file and .cls file
+- standardize data using Z-transform
+- Run Training: Tools > Training
+
+Parameters:
+
+- Training algorithm: K-batch
+- Number of rows/columns in map: I use check log of bin training for recommendation
+- Start value for radius = 50 (increase/decrease for smaller/larger maps).  Hit “START” – training will take many minutes to several hours depending on the size of the data set and parameters used.
+
+3. select bins in esomana
+- Load .wts and .names files generated (.names is sometimes opened automatically check info tab to see)
+- Click on View check contours box bring clip down to ~95 % 
+- Go to Classes and begin drawing bins by left click and tracing ridges. Left click again to release 
+- Save classes using bottom tab. Once class is saved it can be loaded as .class file along with .wts and .names when the program is opened 
+
+4. extract bins
+```bash
+perl /home/scripts/ESOM/getClassFasta.pl -cls ../Tetra_esom_final2.cls -names ../Tetra_esom_5000.names -fasta ../esom.fasta -loyal 51 -num 1
+```
+
+NA. change memory allowance for java
+
+-  go to esomstart
+-  adjust ‘java -cp "$CP" -Xms1800m $MAIN "$@"’
+
+
+## Anvi'o
+######################
+
+A tutorial can be found [here](http://merenlab.org/tutorials/infant-gut/)
+
+Warning: The script below was run a while back and might be outdated, check webpage whether things need to be updated.
+
+Notice for Anvi’o and metabat:
+These tools benefit from coverage information, so if you have information from 4 samples (i.e. one site with 4 depths) then you can use the coverage to better find bins (for example you might expect that one Archaeum increases in depth and this should be reflected in the mapping file).
+
+In the case of 4 samples (S1, S2, S3, S4) and you want to get bins form S1 do:
+1. get the contigs database for the scaffolds of S1 (anvi-gen-contigs-database)
+2. get a coverage profile/depth file for the combinations :
+- S1 scaffolds <-> S1_reads
+- S1 scaffolds <-> S2_reads
+- S1 scaffolds <-> S3 reads
+- S1 scaffolds <-> S4 reads
+
+In the case of anvi-profile this would give you 4 profile.db to merge (or in the case of depth.txt/metabat this should give you 4 columns with coverage info)
+
+A) Getting it to run:
+
+1. set the python3 environment in your shell (keep that in mind to deactivate it and go to python2 when not needed)
+
+```bash
+source ~/.bashrc.conda3
+```
+
+B) activate the environment	
+
+```bash
+anvi-activate-v3
+```
+
+C) test that all is good 	
+
+```bash
+anvi-self-test --suite mini
+```
+D) close virtual environment with 
+
+```bash
+deactivate
+```
+
+2. needed input files
+Anvi’o needs the assembled contigs (see above) and a mapping file (see details in the BWA section below)
+Conversion sam to bam (do not sort and keep easy headers!, init-bam is doing the sorting):
+
+```bash
+samtools view -bS -F 4 G1_v_G1.sam -o G1_v_G1.bam
+
+samtools view -F 4 -bS G1_vs_G1.sam | samtools sort - G1_vs_G1_sorted
+```
+
+3. prepare bam file
+```bash
+anvi-init-bam G1_vs_G1_sorted.bam -o G1_vs_G1_init.bam
+For several samples at once at once do:
+for sample in `cat SAMPLE_IDs`; do anvi-init-bam $sample.bam -o $sample-init.bam; done
+```
+
+5. prepare contigs db (from anvio folder)
+```bash
+anvi-gen-contigs-database -f Guay1_2kb_scaffolds.fasta  -o contigs.db
+```
+5. prepare bam db (from anvio folder)
+```bash
+anvi-profile -i ../../../ggKbase/Guay1/BWA/G1_vs_G2-init.bam -c contigs.db --min-contig-length 2000 --output-dir G1_vs_G2_profile --sample-name G1_vs_G2 -T 2
+
+anvi-profile -i BWA/G1_vs_G1-init.bam -c contigs.db --min-contig-length 2500 --output-dir G1_vs_G1_profile --sample-name G1_vs_G1 -T 2 -M 2500
+```
+
+6. combine profiles (for the 4 mapping files against S1 scaffolds) and bin
+```bash
+anvi-merge */PROFILE.db -o SAMPLES-MERGED -c contigs.db 
+```
+
+7. summarize bins
+```bash
+anvi-summarize -p SAMPLES-MERGED/PROFILE.db -c contigs.db -o SAMPLES-SUMMARY -C CONCOCT 
+```
+
+Paramters:
+- M INT, --min-contig-length INT
+                        Minimum length of contigs in a BAM file to analyze.
+                        The minimum length should be long enough for tetra-
+                        nucleotide frequency analysis to be meaningful. There
+                        is no way to define a golden number of minumum length
+                        that would be applicable to genomes found in all
+                        environments, but we chose the default to be 2500, and
+                        have been happy with it. You are welcome to
+                        experiment, but we advise to never go below 1,000. You
+                        also should remember that the lower you go, the more
+                        time it will take to analyze all contigs. You can use
+                        --list-contigs parameter to have an idea how many
+                        contigs would be discarded for a given M.
+
+
+
+
+
+## Metabat
+######################
+
+1. prepare files:
+
+- Scaffolds (from assembly)
+- Mapping files (bam format)
+- For creating sam files see in ggkbase section (as an example)
+
+Conversion sam to bam (do not sort and keep easy headers!):
+```bash
+samtools view -S -b xxx.sam > xxx.bam
+```
+
+2. Convert bam files
+```bash
+jgi_summarize_bam_contig_depths --outputDepth Sample_depth_metabat.txt --pairedContigs Sample/paired.txt Sample/*.bam 
+```
+If you want to get rid of the variance (for abundance graphs later on)
+```bash
+jgi_summarize_bam_contig_depths --outputDepth G17_depth_no_var.txt ../../../ggKbase/Guay17/BWA/*-init.bam  --noIntraDepthVariance
+```
+3. run metabat
+```bash
+metabat -i Guay17_2kb_scaffolds.fasta -a depth.txt -o bin -t 5 --minProb 75 --minContig 2500 --minContigByCorr 2500
+```
+
+Ideally oone has > 10 samples to estimate the coverage across samples accurately, If we have less we can do the following:
+```bash
+metabat -i Guay9_5kb_scaffolds.fasta -a depth.txt -o bin --minSamples 2 --minCVSum 0 -s 500000 --saveCls --unbinned --keep -d -v --minCV 0.1 -m 2500
+```
+
+Options:
+- -m [ --minContig ] arg (=2500)    Minimum size of a contig to be considered for binning (should be >=1500;  ideally >=2500). If # of samples >= minSamples, small contigs (>=1000)
+- --pairedContigs     arg  The file to output the sparse matrix of contigs which paired reads span (default: none)
+
+
+## Maxbin
+######################
+
+1. create mapping files (done with bwa)
+
+2. use the depth file created with the metabat workflow but do some cosmetics so that it works for maxbin
+```bash
+cut -f1,3 Sample_depth_metabat.txt | tail -n+2 > Sample_depth_maxbin.txt
+```
+
+3. run binner
+```bash
+run_MaxBin.pl -thread 30 -contig contigs_2500.fna -out Maxbin/mx_b -abund Sample_depth_maxbin.txt
+```
+
+
+## Concot
+######################
+
+Concot is also part of anvio but can be used without the anvio interface as follows:
+
+1. create mapping files (done with bwa)
+
+2. use the depth file created with the metabat workflow but do some cosmetics so that it works for maxbin
+```bash
+awk 'NR > 1 {for(x=1;x<=NF;x++) if(x == 1 || (x >= 4 && x % 2 == 0)) printf "%s", $x (x == NF || x == (NF-1) ? "\n":"\t")}' depth_metabat.txt > depth_concoct.txt
+```
+
+3. run binner
+```bash
+#on ada activate the environment first
+source ~/.bashrc.conda3
+
+#activate environment
+conda activate concoct_env
+
+#run binner
+concoct -t 20 --composition_file contigs_2500.fna --coverage_file depth_concoct.txt -b Concoct
+
+#prepare file that lists clustered contigs
+merge_cutup_clustering.py Concoct/clustering_gt1000.csv > Concoct/clustering_merged.csv
+
+#extract bins
+extract_fasta_bins.py Assembly/contigs_2500.fna Concoct/clustering_merged.csv --output_path Concoct/bins
+
+#close environment
+conda deactivate concoct_env
+```
+
+
+## BinSanity
+######################
+
+1. create mapping files (done with bwa)
+
+2. prepare the contig IDs in a format that works for BinSanity
+```bash
+get-ids -f Assembly_folder -l contigs_2500.fna -o Assembly_folder/ids.txt
+```
+
+3. create depth profiles for BinSanity
+```bash
+Binsanity-profile -i Assembly_folder/_contigs_2500.fna -s mapping_files_folder/ -T 10 --ids /Assembly_folder/ids.txt -c depth_binsanity -o Binsanity
+
+4. run BinSanity
+Binsanity-wf --threads 10 -x 5000 -f Assembly_folder -l contigs_2500.fna -c depth_binsanity.cov.x100.lognorm -o BinSanity
+```
+
+
+## DASTool: Combining results from different binners
+######################
+
+For this program to run we need to provide a bin --> to contig list for all binning tools we have just. We can use awk to create this from the bin fna files created by each binning tools. For this to work ideally modify the bin headers + bin names to be shprt but descriptive
+
+```bash
+awk '/>/{sub(">","&"FILENAME"-");sub(/\.fa/,x)}1' BinSanity/bins/* | grep ">" | sed 's/>//g' | awk 'BEGIN{FS="\t";OFS="\t"}{split($1,a,"-")}{print a[2],a[1]}' | awk 'BEGIN{FS="\t";OFS="\t"}{split($2,a,"/")}{print $1,a[4]}' > BinSanity/Binsanity_contig_list.txt
+```
+
+Now we can run DASTool
+
+```bash
+DAS_Tool -i BinSanity/Binsanity_contig_list.txt,Metabat/Metabat_contig_list.txt,Concoct/Concoct_contig_list.txt,Maxbin/Maxbin_contig_list.txt -l BinSanity,Metabat,Concoct,Maxbin -c Assembly/contigs_2500.fna --proteins DASTool/DASTool_${i}_proteins.faa --db_directory /opt/biolinux/DAS_Tool  -o DASTool/DASTool --write_bins 1 -t 40
+```
+
+
+## Renaming bins
+######################
+```bash
+#add file name into header
+for i in *faa; do awk '/>/{sub(">","&"FILENAME"-");sub(/\.faa/,x)}1' $i > renamed/$i; done
+
+#screen fasta headers for sequences to remove or to keep (example keeps)
+perl screen_list_new.pl to_keep.txt File.fasta keep > File_clean.fasta
+
+#screen fasta headers for sequences to remove or to keep (example removes)
+perl screen_list_new.pl to_remove.txt File.fasta  > File_clean.fasta
+```
+
+
+## Cleaning bins
+######################
+
+### RefineM
+
+Refine metagenomic bins using GC, TNF, taxonomy and coverage
+
+Not used yet, but info can be found [here](https://github.com/dparks1134/RefineM)
+
+
+### FinishM
+
+FinishM attempts to improve draft genomes by considering the computational problem to be about finishing, not assembly in the traditional sense.
+
+Seems to also have some visual aids for cleaning the genomes, i.e. see [here](https://github.com/wwood/finishm)
+
+
+### mmgenome
+
+to be added
+
+
+## CheckM: Check bin quality
+######################
+
+```bash
+#run tool
+checkm lineage_wf -x fna -f CheckM_table.txt -t 30 --pplacer_threads 1 bin_location outputdir
+
+#rm rows with "-" and replace multiple spaces with a tab
+sed '/-/d' CheckM_table.txt | sed 's/ \+ /\t/g' | cut -f 2-  > temp1
+
+#clean header name
+awk 'BEGIN{FS="\t"; OFS="\t"}{if(NR==1) $1="BinID"} {print $0 }' temp1  > /CheckM_table_clean.txt
+
+#clean up
+rm temp*
+```
+
+
+## GTDB_tk: Get quick taxonomic overview
+######################
+
+```bash
+gtdbtk classify_wf --genome_dir bin_dir --out_dir outdir --cpus 20
+```
+
+
+###################################################################################
+###################################################################################
+# Analysing bins
+###################################################################################
+###################################################################################
+
+## Get proteins
+
+### Prodigal
+
+```bash
+prodigal -a protein_output.fasta -i input_file.fasta -o output_file.fasta
+```
+
+1. get list of files you want to loop trough
+```bash
+ls fna/*fna > Files.txt
+```
+2. loop trough files with prodigal
+```bash
+for sample in `cat Files.txt`; do  prodigal -i $sample -a prodigal/$sample.faa; done
+```
+
+### Prokka
+
+```bash
+prokka Genome.fna --outdir Prokka --prefix $sample --kingdom Archaea --addgenes --force --increment 10 --compliant --centre UU --cpus 20 --norrna --notrna
+```
+
+## Barrnap: Find ribosomal marker proteins
+######################
+
+Notice; Can be also run on the assemblies
+
+```bash
+#run barrnap for archaea/bacteria
+barrnap --kingdom arc --lencutoff 0.2 --reject 0.3 --evalue 1e-05 ../All_Old_Bins.fasta > barrnap_archaea.txt
+barrnap --kingdom bac --lencutoff 0.2 --reject 0.3 --evalue 1e-05 ../All_Old_Bins.fasta > barrnap_bacteria.txt
+
+#extract sequnces of interest from fasta files
+bedtools getfasta -fi Cascadia25_renamed.fasta -bed barrnap_hits.txt -fo 16S_seqs.fasta
+
+```
+
+
+
+## Psort: Search for signal peptides
+######################
+
+Note:
+You might need to add /usr/local/lib64 to the ' LD_LIBRARY_PATH ' environment variable before each execution
+
+If you ever happen to want to link against installed libraries in a given directory, LIBDIR, you must either use libtool, and
+specify the full pathname of the library, or use the `-LLIBDIR' flag during linking and do at least one of the following:
+   - add LIBDIR to the `LD_LIBRARY_PATH' environment variable
+     during execution
+   - add LIBDIR to the `LD_RUN_PATH' environment variable
+     during linking
+   - use the `-Wl,--rpath -Wl,LIBDIR' linker flag
+   - have your system administrator add LIBDIR to `/etc/ld.so.conf'
+
+1. run locally
+
+```bash
+/home/ninad/Scripts/PSORT_V3.0/bio-tools-psort-all/psort/bin/psort  -a B10_G11.fa -o terse > test.out
+```
+
+Install:
+$ make
+$ make test
+$ make install
+RECOMMENDED: 
+cp -r psort /usr/local/psortb
+
+Options:
+- --positive, -p    Gram positive bacteria
+-   --negative, -n    Gram negative bacteria
+-   --archaea, -a     Archaea
+
+
+
+
+
+## Antismash: Find secondary metabolites
+######################
+
+Notice: Might not yet be on ada
+
+1. start antismash
+
+```bash
+	source activate antismash 
+```
+
+2. run antismash
+
+```bash
+find . -maxdepth 2 -name "*.fa" -exec antismash --cpus 4  {} \;
+antismash All_GB_Bins.faa --input-type prot --outputfolder antimash/ --cpu 4
+```
+
+3. close antismash
+
+```bash
+	source deactivate antismash
+```
+
+
+###################################################################################
+###################################################################################
+# Phylogenies
+###################################################################################
+###################################################################################
+
+## Finding marker proteins
+######################
+
+Marker can be either identified via the Annotations-workflow or programs can be used. Generally, the annotation workflow is recommend, however, for quick checks the programs below can be used.
+
+### Phylosift
+
+General notice: This can be used to get quick phylogenies, however, the marker genes used by phylosift are not necessarily the best when looking at archaeal monophyly or rate of HGT. Therefore, it should only be used as a quick first look.
+
+###  Phylosift marker set
+```bash
+# find markers
+phylosift search --threads 10  --isolate --besthit {}
+
+#align markers
+phylosift align --threads 10 --isolate --besthit {}
+
+#add in original bin name into the header
+phylosift name --threads 10 --isolate --besthit
+
+#prepare the alignment file
+find . -type f -regex '.*alignDir/concat.updated.1.fasta'   -exec cat {} \; | sed -r 's/\.1\..*//'  > Ref_V1_alignment.fa  
+```
+
+
+###  to find RPs (RP16 set)
+1. run Phylosift
+
+```bash
+phylosift all --keep_search ex4484_10.fasta  --output output dir
+```
+
+2. Phylosift provides and output dir called aligndir/
+
+The fasta names of the sequences in the following files need to be trimmed with sed, phylosift adds numbers at the end of the name stating the location on the contig.  These number need to be trimmed so that they are consistent between files and can be concatenated in Geneious.  This command removes all the characters after “.” In the name portion of the fasta sequences and outputs it a renamed faa file.
+
+```bash
+	sed 's/[.].*//' DNGNGWU00010.updated.1.fasta > rpL2_bins.faa    
+	sed 's/[.].*//' DNGNGWU00012.updated.1.fasta > rpL3_bins.faa    
+	sed 's/[.].*//' DNGNGWU00009.updated.1.fasta > rpL4_bins.faa    
+	sed 's/[.].*//' DNGNGWU00025.updated.1.fasta > rpL5_bins.faa    
+	sed 's/[.].*//' DNGNGWU00023.updated.1.fasta > rpL6_bins.faa    
+	sed 's/[.].*//' DNGNGWU00014.updated.1.fasta > rpL14_bins.faa  
+	sed 's/[.].*//' DNGNGWU00021.updated.1.fasta > rpL15_bins.faa 
+	sed 's/[.].*//' DNGNGWU00018.updated.1.fasta > rpL16_bins.faa  
+	sed 's/[.].*//' DNGNGWU00033.updated.1.fasta > rpL18_bins.faa  
+	sed 's/[.].*//' DNGNGWU00007.updated.1.fasta > rpL22_bins.faa  
+	sed 's/[.].*//' DNGNGWU00040.updated.1.fasta > rpL24_bins.faa  
+	sed 's/[.].*//' DNGNGWU00028.updated.1.fasta > rpS3_bins.faa   
+	sed 's/[.].*//' DNGNGWU00031.updated.1.fasta > rpS8_bins.faa   
+	sed 's/[.].*//' DNGNGWU00002.updated.1.fasta > rpS10_bins.faa  
+	sed 's/[.].*//' DNGNGWU00036.updated.1.fasta > rpS17_bins.faa  
+  sed 's/[.].*//' DNGNGWU00016.updated.1.fasta > rpS19_bins.faa
+```
+
+
+## Alignments
+######################
+
+### mafft
+```bash
+mafft --reorder --thread 8 Marker_Genes/Sample.faa > Alignment/mafft/Sample.aln
+```
+
+### muscle
+
+Generally slower than mafft.
+
+```bash
+muscle -in <inputfile> -out <outputfile>
+```
+
+
+## Trimming
+######################
+
+### BMGE
+```bash
+java -jar /opt/biolinux/BMGE-1.12/BMGE.jar -i Alignment/mafft/Sample.aln -t AA -m BLOSUM30 -b 2 -h 0.55 -of Alignment/BMGE/h0.55/Sample_trimmed.aln
+```
+
+### Trimal
+```bash
+trimal -in Bacteria_alignment_renamed.fa -out Bacteria_alignment_trimed.fa -automated1
+```
+
+
+## Concatenate single protein alignments
+######################
+
+```bash 
+catfasta2phyml.pl -f -c Alignment/BMGE/h0.55/*.aln > Alignment/concatenated/Alignment_concat.faa
+```
+
+
+## Running phylogenies
+######################
+
+### iqtree
+```bash
+#find right substitutions mode and then run tree
+iqtree -s example.phy -m MFP
+
+#run iqtree without the model test
+iqtree -s Alignment_concat.faa -ntmax 20 -nt AUTO -m LG+G -bb 1000 -alrt 1000 -pre Alignment_concat
+```
+
+### Raxml
+```bash 
+raxmlHPC-PTHREADS-AVX -T 10 -f a -m PROTGAMMAAUTO -N autoMRE -p 12345 -x 12345 -s Bacteria_alignment_trimed2.phy -n Bacteria_tree
+```
+
+### fasttree
+
+Comment: This tool is not as good as ML methods but can be used for very large alignments and to get an overview.
+
+```bash
+FastTree -wag -gamma 29conservedZaremba_BS18BacRefv4_bmge.faa > 29conservedZaremba_BS18BacRefv4_bmge_Fasttree_wag_gamma.tree
+```
+
+### Phylobayes
+
+Bayesian trees. Notice, needs special setup to run on laplace. Will be added later.
+
+NOTE:
+convergence if maxdiff < 0.1
+still ok < 0.3
+not converged > 0.3
+
+
+```bash
+#start some chains 
+for i in 1 2 3 4; do mpirun -np 7 pb_mpi -d aln.phy -cat -gtr -x 10 -1 chain$i & done
+
+#check for convergence
+#example: bpcomp -x <burnin> <every> -o <outputprefix> <chain1> <chain2> <chain3> <chain4>
+bpcomp -x 250 1 -o convergence chain1 chain2 chain3 chain4
+
+#check number of available trees
+wc -l *.trace
+
+#stop run
+for i in 1 2 3 4; do echo 0 > chain$i.run; done
+
+#restart runs
+for i in 1 2 3 4; do mpirun -np 7 pb_mpi chain$i & done 
+
+```
+
+
+
+## removing contaminants from nexus files
+######################
+Notice: For this to work ONLY the potential things to remove (or keep) need to be color coded
+
+```bash
+#1. Get contaminants
+grep "#" OG25_colored > OG25_contaminated.txt
+
+#2. Separate column by ‘
+awk '{split($0,a,"["); print a[1],a[2],a[3]}' OG25_contaminated.txt > temp1
+
+#3. Split by | 
+awk '{split($0,a,"|"); print a[9]}' temp1 | awk '{if (NR!=1) {print}}'   > temp2
+
+#4. Cut after _ to only get GCA nr (cut after 2nd _)
+cut -d "_" -f1-2 temp2    > temp3
+
+#5. Cut after . to only get GCA nr 
+cut -d "." -f1  temp3  > temp4
+
+#6. Cut after ' to only get GCA nr
+cut -d "'" -f1  temp4  > to_remove
+
+#clean
+rm temp*
+```
+
+###################################################################################
+###################################################################################
+# Working with NCBI genomes
+###################################################################################
+###################################################################################
+
+## Getting genomes from NCBI
+######################
+1. Download available NCBI archaeal and bacterial genome lists
+```bash
+wget ftp://ftp.ncbi.nlm.nih.gov/genomes/genbank/bacteria/assembly_summary.txt
+wget ftp://ftp.ncbi.nlm.nih.gov/genomes/genbank/archaea/assembly_summary.txt  
+```
+2. Select set of complete and reference genomes you want to work with
+3. Copy link in column ftp_path and generate a new file ‘get_genomes.txt ‘ 
+4. Add complete path information to get_genomes.txt:
+```bash
+sed -r 's|(ftp://ftp.ncbi.nlm.nih.gov/genomes/all/)(GCA/)([0-9]{3}/)([0-9]{3}/)([0-9]{3}/)(GCA_.+)|\1\2\3\4\5\6/\6_genomic.fna.gz|' get_genomes.txt  > get_genomes_v2.txt  
+```
+5. Download genomes: 
+```bash
+for next in $(cat get_genomes_v2.txt); do wget "$next"; done
+```
+
+
+
+
+## Dealing with NCBI genomes and their taxonomy
+######################
+
+
+to be added
+
+
+
+###################################################################################
+###################################################################################
+# Other
+###################################################################################
+###################################################################################
+
+
+## Hmmer
+######################
+
+Hmmer can be used to run against larger databases, such as the PFAMs. However, if we have an alignment we can build our own profiles
+
+The files do have a unix language issue, if hmmsearchTable is setup the first time do the following (got this script from Karthik):
+open hmmsearchTable in vim or vi and then type
+:set fileformat=unix
+:wq!
+
+1. make your own profile
+```bash
+hmmbuild Rhodopsin_aln.hmm Rhodopsin_aln.fasta
+```
+
+2. run hmmsearch
+```bash
+hmmsearchTable Genomes.faa Rhodopsin_aln.hmm 6 -E 1e-20 > output.txt
+```
+
+
+## Blast
+######################
+1. make blastdb
+
+- against DNA sequences
+
+```bash
+makeblastdb -in All_Bacteria_RP.fasta -out All_Bacteria_RP -dbtype nucl -parse_seqids
+```
+
+- against proteins equences
+
+```bash
+makeblastdb -in Genomes.faa -out Genomes -dbtype prot -parse_seqids
+```
+
+2. run blast
+
+- DNA
+
+```bash
+blastn -num_threads 5 -outfmt 6 -query 4484_0_1cm.fasta -db All_Bacteria_RP -out 4484_0_1cm_e20.blast.txt -evalue 1e-20
+```
+
+- Protein
+
+```bash
+blastp -num_threads 5 -outfmt 6 -query K01783.faa -db Genomes -out K01783_v_AllUAP2_e20.txt -evalue 1e-20
+```
+
+3. get best hit
+
+```bash
+perl best_blast.pl K01783_v_AllUAP2_e20.txt K01783_v_AllUAP2_e20_best_hit.txt
+```
+
+NA. get hits that meet certain criteria, i.e. only sequences with % > 75
+
+```bash
+	awk ' $3 >= 75 '  Cas25_WOR_52_54_Protein_e20_best.txt
+```
+
+The header for blast files looks as follows:
+
+***query id	 subject id	 % identity	 alignment length	 mismatches	 gap opens	 q. start	 q. end	 s. start	 s. end	 evalue	 bit score***
+
+
+
+## Calculate ANI
+######################
+
+```bash
+perl ANI.pl --fd formatdb --bl blastall --qr ../Bins/Cascadia25_renamed.fasta --sb ../ReferenceGenomes/DNA/Bacteria_KD3_62_uncultured_DG_56.fna --od ANI > KD3_ANI.txt
+```
+
+## Comparem: Calculate AAI
+######################
+
+[Tutorial](https://github.com/dparks1134/CompareM)
+
+```bash
+comparem  aai_wf  --tmp_dir temp/ --file_ext fna -c 30  fna Output
+```
+
+## Phylorank
+######################
+
+Provide functionality for calculating the relative evolutionary divergence (RED) of taxa in a tree and for finding the best placement of taxonomic labels in a tree . 
+
+More info [here](https://github.com/dparks1134/PhyloRank)
+
+
+
+## USEARCH
+######################
+
+Cluster sequences by sequence identiy
+
+```bash
+usearch10.0.240_i86linux32 -cluster_fast GB_rps3_blast.faa  -id 0.97 -consout nr_consensus.fasta
+```
+
+
