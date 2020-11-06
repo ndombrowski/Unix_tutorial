@@ -129,8 +129,7 @@ The basic file system on Linux looks like this
 Now that we know how the file system looks like, we do want to move around. Especially for the servers this becomes important since we can not use our mouse anymore.
 
 - ``pwd`` = print working directory, find out where we are. Usually when we login we start from our home directory ()
-  - This is /export/lv1/user/your_name on ada 
-  - This will be something like /Users/ninadombrowski on your own computer
+  - This will be something like /Users/username on your own computer
 
 ```bash
 
@@ -153,7 +152,7 @@ cd ..
 #from whereever you are, go directly into your homedirectory
 cd ~
 
-#on ada, move the spang directory and into the project directory
+#on the NIOZ server, move the spang directory and into the project directory
 cd ../spang_team/Projects/
 
 ```
@@ -173,20 +172,19 @@ Important syntax, understand the difference between absolute and relative pathna
 **Absolute pathnames**
 
 An absolute pathname begins with the root directory and follows the tree branch by branch until the path to the desired directory or file is completed. 
-For example on ada the full path to our home directory is:
-``/export/lv1/user/ndombrowski``
+For example on your computer full path to our home directory is:
+``/Users/username/Desktop``
 
 If we want to go to the desktop using an absolute path we do
 
 ```bash
-cd /export/lv1/user/ndombrowski/Desktop
+cd /Users/username/Desktop
 ```
 
 **Relative pathnames**
 
 A relative pathname starts from the working directory (the directory you are currently in). 
 Using the relative pathway allows you to use a couple of special notations to represent relative positions in the file system tree. 
-For example on ada the full path to our home directory is:
 
 - "." (dot) The working directory itself 
 - ".." (dot dot) Refers to the working directory's parent directory
@@ -217,20 +215,22 @@ The general structure of a command looks like this:
 
 
 
-## Connecting
+# Connecting to severs
 ######################
+
+## Basics
 
 **SSH** (Secure Shell) is a network protocol that enables secure remote connections between two systems.
 
 Options:
 
-``-Y`` option enables trusted X11 forwarding in SSH (if we want to open i.e. a java interface, or view alignments). For this to work you might need to install X11 on your computer first. Trusted means: the remote machine is treated as a trusted client. This means that  other graphical (X11) clients could take data from the remote machine (make screenshots, do keylogging and other nasty stuff) and it is even possible to alter those data.
-``-X`` option enables untrusted X11 forwarding in SSH. Untrusted means = your local client sends a command to the remote machine and receives the graphical output
+- ``-Y`` option enables trusted X11 forwarding in SSH (if we want to open i.e. a java interface, or view alignments). For this to work you might need to install X11 on your computer first. Trusted means: the remote machine is treated as a trusted client. This means that  other graphical (X11) clients could take data from the remote machine (make screenshots, do keylogging and other nasty stuff) and it is even possible to alter those data.
+- ``-X`` option enables untrusted X11 forwarding in SSH. Untrusted means = your local client sends a command to the remote machine and receives the graphical output
 
 ```bash
-#connect to a server
-ssh -X username@severname
 
+#connect to a server
+ssh -X username@server
 
 ```
 
@@ -306,10 +306,13 @@ Monitor avail. memory on the different file systems.
 
 Monitor how much space specific folders take up. In the example below we look at all the folders in the current directory
 
-<p align="left">
-  <img width="400" height="400" src="/Users/ninadombrowski/Desktop/WorkingDir/Notebooks/Pictures/du.png">
-</p>
+For example, we can ask how much space our desktop needs:
 
+```bash
+
+du -sh Desktop/
+
+```
 
 
 
@@ -341,10 +344,10 @@ There are filetransfer systems that can make the job easier, i.e. FileZilla.
 ```bash
 
 #from local to server
-scp File user@serername:/HomeDir
+scp Fileusername@server:/HomeDir
 
 #from server to local
-scp user@serername:/HomeDir/File Desktop
+scp username@server:/HomeDir/File Desktop
 
 ```
 
@@ -387,7 +390,7 @@ gzip -d GCA_002728275.1_ASM272827v1_genomic.fna.gz
 ## Working on a server via slurm
 ######################
 
-As mentioned above on laplace we can not directly run jobs but need to submit them via a job submission system called slurm.
+As mentioned above on the larger NIOZ server we can not directly run jobs but need to submit them via a job submission system called slurm.
 
 ### Preparing a job script
 
@@ -423,7 +426,7 @@ The most important things are
 
 Not absolutely necessary
 
-- time = not necessary for laplace, just make sure you are in the max limit
+- time = not necessary for the NIOZ server, just make sure you are in the max limit
 - mem-per-cpu
 - nodes = not needed if you use nodelist
 
@@ -431,7 +434,7 @@ Not absolutely necessary
 
 ### basic commands:
 
-- ``squeue`` is important to check and see whether your command is running ok but also to see how heavily used laplace is.
+- ``squeue`` is important to check and see whether your command is running ok but also to see how heavily used servers are.
 
 ```bash
 
@@ -1630,6 +1633,7 @@ awk 'NR > 1 {for(x=1;x<=NF;x++) if(x == 1 || (x >= 4 && x % 2 == 0)) printf "%s"
 ```
 
 3. run binner
+
 ```bash
 #on ada activate the environment first
 source ~/.bashrc.conda3
@@ -1984,7 +1988,7 @@ FastTree -wag -gamma 29conservedZaremba_BS18BacRefv4_bmge.faa > 29conservedZarem
 
 ### Phylobayes
 
-Bayesian trees. Notice, needs special setup to run on laplace. Will be added later.
+Bayesian trees. Notice, needs special setup to run on on the NIOZ severs. Will be added later.
 
 NOTE:
 convergence if maxdiff < 0.1
