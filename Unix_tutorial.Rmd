@@ -6,6 +6,8 @@ date: "`r Sys.Date()`"
 knit: (function(input_file, encoding) {
   out_dir <- 'docs';
   rmarkdown::render(input_file,
+ encoding=encoding,
+ output_file=file.path(dirname(input_file), out_dir, 'index.html'))})
 output:
   rmdformats::readthedown:
     highlight: kate
@@ -214,41 +216,6 @@ The general structure of a command looks like this:
 
 
 
-############################################
-############################################
-# Working on the NIOZ servers
-############################################
-############################################
-
-We have two computational systems we can use at NIOZ. Some basic info about them can be found [here](http://laplace.nioz.nl/HPC/index.html) (can only be viewed via VPN or NIOZ network):
-
-- If you need access to our servers, the first person to contact is Hans Malschaert (hans.malschaert@nioz.nl). He will set up an account that will work for all systems we have at NIOZ.
-
-- To access the servers from home you need to set up a VPN. Information on how to do this can be found here:
-  
-    - Access the [intranet](https://intranet.nioz.nl)
-    - Follow the instructions [here](https://intranet.nioz.nl/vpn)
-
-1. ada
-
-- We can work directly from the command line
-- 1 node, 144 CPUS
-- ~800 GB memory
-- Usage: Try not use more than 30-40% of resources
-
-
-2. laplace
-
-- We can not work from the log in node but need to submit via a slurm submission system
-- 12 nodes (11 working nodes = no61-72) --> each with each 96GB memory and 80 "cpus""
-- ~800 GB memory
-- Usage: Use submission system, do not use more than 3-4 nodes
-- Different nodes allow to run jobs for different lengths:
-
-<p align="left">
-  <img width="400" height="400" src="/Users/ninadombrowski/Desktop/WorkingDir/Notebooks/Pictures/lapalce.png">
-</p>
-
 
 ## Connecting
 ######################
@@ -261,11 +228,9 @@ Options:
 ``-X`` option enables untrusted X11 forwarding in SSH. Untrusted means = your local client sends a command to the remote machine and receives the graphical output
 
 ```bash
-#connect to ada
-ssh -X username@ada.nioz.nl
+#connect to a server
+ssh -X username@severname
 
-#connect to laplace.
-ssh -X username@laplace.nioz.nl
 
 ```
 
@@ -376,10 +341,10 @@ There are filetransfer systems that can make the job easier, i.e. FileZilla.
 ```bash
 
 #from local to server
-scp File ndombrowski@ada.nioz.nl:/HomeDir
+scp File user@serername:/HomeDir
 
 #from server to local
-scp ndombrowski@ada.nioz.nl:/HomeDir/File Desktop
+scp user@serername:/HomeDir/File Desktop
 
 ```
 
@@ -419,7 +384,7 @@ gzip -d GCA_002728275.1_ASM272827v1_genomic.fna.gz
 ```
 
 
-## Working on laplace via slurm
+## Working on a server via slurm
 ######################
 
 As mentioned above on laplace we can not directly run jobs but need to submit them via a job submission system called slurm.
@@ -437,7 +402,7 @@ Inside the script we can have something written like this:
 ```bash
 #!/bin/sh
 #SBATCH --partition=normal    # default "normal", if not specified
-#SBATCH --nodelist=no70       # the node we want to work on
+#SBATCH --nodelist=no1       # the node we want to work on
 #SBATCH --time=0-06:30:00     # run time in days-hh:mm:ss
 #SBATCH --nodes=1             # require 1 node
 #SBATCH --ntasks-per-node=36  # (by default, "ntasks"="cpus")
