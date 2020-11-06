@@ -344,7 +344,7 @@ There are filetransfer systems that can make the job easier, i.e. FileZilla.
 ```bash
 
 #from local to server
-scp Fileusername@server:/HomeDir
+scp File username@server:/HomeDir
 
 #from server to local
 scp username@server:/HomeDir/File Desktop
