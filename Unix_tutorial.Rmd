@@ -46,7 +46,7 @@ A lot of the files work with some basic text files provdided in the Input_docs f
 
 ## Tutorials for bioinformatics
 
-to be added in future versions
+One example unix tutorial can be found [here](http://www.ee.surrey.ac.uk/Teaching/Unix/index.html)
 
 ## Useful Databases (mostly for annotations)
 
@@ -76,12 +76,12 @@ to be added in future versions
 
 ## Basics
 
-What is the shell?
+**What is the shell?**
 
 This is a program that opens a window and lets you interact with the shell.
 
 
-What is the terminal?
+**What is the terminal?**
 
 A Program that takes commands from the keyboard and gives them to the operating system to perform
 Nowadays, we have graphical user interfaces (GUIs) in addition to command line interfaces (CLIs) such as the shell.
@@ -182,8 +182,8 @@ cd /Users/username/Desktop
 A relative pathname starts from the working directory (the directory you are currently in). 
 Using the relative pathway allows you to use a couple of special notations to represent relative positions in the file system tree. 
 
-- "." (dot) The working directory itself 
-- ".." (dot dot) Refers to the working directory's parent directory
+- ``.`` (dot) The working directory itself 
+- ``..`` (dot dot) Refers to the working directory's parent directory
 
 If we want to go to the desktop using an relative path we do (assuming we start from our home directory)
 
@@ -201,7 +201,7 @@ Afterwards, you can work with relative paths.
 
 The general structure of a command looks like this:
 
-** command [options] [arguments] **
+**command [options] [arguments]**
 
 - command is the name of the command 
 - options is one or more adjustments to the command's behavior. 
@@ -491,13 +491,17 @@ Nano is a basic text editor that lets us view and generate text.
 #open a new document and name it random.txt
 nano random.txt
 
+
 ```
 
-If we type this and press enter, we will open a new document. Type something in there.
-Close the document with ``control + X""
-Type ``y`` to save changes and press enter
+If we type this and press enter, we will open a new document. 
+
+- Type something in there.
+- Close the document with ``control + X``
+- Type ``y`` to save changes and press enter
 
 If we now use ls -l again, we see that a new file was generated. 
+
 We can open it in nano again, but there are some other options that are useful with extremely big files.
 
 ### less
@@ -505,23 +509,27 @@ We can open it in nano again, but there are some other options that are useful w
 less is a program that lets you view text files (by pagination!)
 
 ```bash
+
 less random.txt
+
 ```
 
 Once started, less will display the text file one page at a time. 
 
 - You can use the arrow Up and Page arrow keys to move through the text file. 
-- To exit less, type "q". 
-- G Go to the end of the text file 
-- 1G Go to the beginning of the text file (or to the Nth line “NG”) 
-- /characters Search forward in the text file for an occurrence of the specified characters 
-- n Repeat the previous search 
-- h Display a complete list less commands and options
+- To exit less, type ``q``. 
+- ``G`` Go to the end of the text file 
+- ``1G`` Go to the beginning of the text file (or to the Nth line “NG”) 
+- ``/characters`` Search forward in the text file for an occurrence of the specified characters 
+- ``n`` Repeat the previous search 
+- ``h`` Display a complete list less commands and options
 
-For files with a low of columns we can use 
+For files with a lots of columns we can use 
 
 ```bash
+
 less -S random.txt
+
 ```
 
 In this mode we can also use the arrow right and left keys, to view columns that are further on the right.
@@ -611,21 +619,6 @@ mv random.txt new_folder
 If we do this again with mv, we see that we only have the file in the new folder.
 
 
-## Moving folders
-
-
-```bash
-
-#move file1 into dir1
-mv file1 dir1
-
-#move file1 into dir1 using absolute + relative file paths
-mv /export/lv3/scratch/workshop_2019/file1 my_dir/dir1
-
-#mv file1,file2, file3 into dir1
- mv file1 file2 file3 dir1
-
-```
 
 
 ## Removing files and folders
@@ -633,10 +626,10 @@ mv /export/lv3/scratch/workshop_2019/file1 my_dir/dir1
 ```bash
 
 #rm file1
-rm file1
+rm random.txt
 
 #rm dir1
-rm -r dir1
+rm -r new_folder
 
 ```
 
@@ -654,7 +647,7 @@ Therefore we need to use the ``-r`` argument (to remove directories and their co
 
 ###################################################################################
 ###################################################################################
-# Basic UNIX tools
+# Basic UNIX commands
 ###################################################################################
 ###################################################################################
 
@@ -662,16 +655,23 @@ Therefore we need to use the ``-r`` argument (to remove directories and their co
 ## WC: Counting files 
 ######################
 
-The wc command in UNIX is a command line utility for printing newline, word and byte counts for files. It can return the number of lines in a file, the number of characters in a file and the number of words in a file. It can also be combine with pipes for general counting operations.
+The ``wc`` (=wordcount) command in UNIX is a command line utility for printing newline, word and byte counts for files. It can return the number of lines in a file, the number of characters in a file and the number of words in a file. It can also be combine with pipes for general counting operations.
 
 This command is simple but essential for quality control
 
 ```bash
+
+#count how many words we have
+wc -w Input_docs/Experiment1.txt
+
 #count how many lines we have in a file we have
-wc -l Input_docs/Input_docs/Experiment1.txt
+wc -l Input_docs/Experiment1.txt
 
 #count how many files we have that end with a certain extension
 ll Input_docs/*.txt | wc -l
+
+#we can also count the number of sequences in a fasta file
+grep -c ">" Input_docs/*faa
 
 ```
 
@@ -685,13 +685,13 @@ This command is simple but essential for quality control
 
 ```bash
 #count how often the pattern **control** occurs in our document
-grep "control" Input_docs/Input_docs/Experiment1.txt
+grep "control" Input_docs/Experiment1.txt
 
 #only give the counts, not the lines
-grep -c "control" Input_docs/Input_docs/Experiment1.txt
+grep -c "control" Input_docs/Experiment1.txt
 
 #grep a pattern only if it occurs at the beginning of a line
-grep "^Ex" Input_docs/Input_docs/Experiment1.txt
+grep "^Ex" Input_docs/Experiment1.txt
 ```
 
 
@@ -752,8 +752,37 @@ grep -c "[a-z]\{3,10\}[12]" Input_docs/Experiment[12].txt
 ```
 
 
+Grep and special symbols:
 
-## Shortening headers --> the **cut** function
+```bash
+grep -E "control?" Input_docs/Experiment1.txt
+```
+
+- ``-E`` tells grep that the '?' is not taken literally but as a wildcard  
+
+unfortunately different programs have slightly ways to do things, i.e greop uses  ``-E`` while sed uses different quotes.
+If you run into problems when using wildcards check the manual or the web.
+
+
+## The cut command
+######################
+
+We can use ``cut`` to separate columns
+
+- ``-f2`` = keep the second element after the separators (tab, \t, by default)
+
+```bash
+
+#only print the second column of our table
+cut -f2 Input_docs/Experiment1.txt
+
+#change how we cut
+cut -f1 -d "#" Input_docs/Experiment1.txt
+
+```
+
+
+## Shortening headers using cut
 ######################
 
 The cut command in UNIX is a command line utility for cutting sections from each line of files and writing the result to standard output. It can be used to cut parts of a line by byte position, character and delimiter. It can also be used to cut data from file formats like CSV.
@@ -783,6 +812,7 @@ Cat has different functions, depending on how you use it.
 1. Create a new file, type something and *Press “ctrl+d” to save the file
 
 ```bash
+
 cat > file_test.txt
 
 ```
@@ -853,17 +883,184 @@ cat Input_docs/Experiment[12].txt | sort | uniq
 
 
 
-
-## datamash: merging rows by keys
+## diff: finding differences
 ######################
 
-GNU datamash is a command-line program which performs basic numeric, textual and statistical operations on input textual data files.
+This command compares the contents of two files and displays the differences.
+Lines beginning with a < denotes file1, while lines beginning with a > denotes file2.
+
+
 
 ```bash
 
-datamash -sW -g1 collapse 2 collapse 4 < Unimarkers_KO_count_table.txt  > Unimarkers_KO_collapsed.txt
+diff Input_docs/Experiment2.txt Input_docs/Experiment3.txt
+
+````
+
+
+
+## find
+######################
+
+This searches through the directories for files and directories with a given name, date, size, or any other attribute you care to specify.
+
+```bash
+
+#find all files with a txt extension
+find Input_docs/ -name "*txt"
+
+#find files over a certain size and display results as a long list
+find . -size +1M -ls
 
 ```
+
+
+## echo and variables
+######################
+
+### echo
+
+echo displays a line of text
+
+```bash
+
+#print a string to the console
+echo "Hello everyone"
+
+````
+
+### variables
+
+A variable is a character string to which we assign a value. ... The value assigned could be a number, text, filename, device, or any other type of data.
+
+```bash
+
+#store your name in a variable called ``name``
+x="User"
+
+#print your name
+echo "I am $x"
+
+```
+
+Something to be aware of is that echo treats quotes differently:
+
+- double quote the $x is read as a VARIABLE
+- single quote the $x is read literally
+
+
+```bash
+x=10
+
+echo "the value is $x"
+echo 'the value is $x'
+
+```
+
+A useful thing of echo is that we can use it to add rows, i.e. a header to our data
+
+```bash
+
+echo -e 'Experiment\tTreatment\tValue1\tValue2\tcomment' |cat - Input_docs/Experiment1.txt
+
+```
+
+Here. the ``-`` is used as a pseudo file name to indicate standard input in this case the input is the echo-line from our first command.
+The ``-e`` is used to enable interpretation of backslash escapes
+
+
+
+
+###################################################################################
+###################################################################################
+# SED: manipulating files
+###################################################################################
+###################################################################################
+
+The most basic pattern to use sed for is **sed 's/find/replace/' file**.
+And example file can be generated with *echo "how now brown cow" > temp.txt*
+
+
+## Basics: search and replace
+######################
+
+```bash
+# search for 'Ex' and replace it with 'Experiment'
+sed 's/Ex/Experiment/' Input_docs/Experiment1.txt 
+
+# search and replace pattern across the whole file and not only the first line
+sed 's/Ex/Experiment/g' Input_docs/Experiment1.txt 
+
+#we also can use wildcards
+sed 's/control[0-9]/control/g' Input_docs/Experiment1.txt > Output_docs/new_file.txt
+```
+
+One important thing to remember is that certain symbols have specific meanings in UNIX. Examples are: comma, brackets, pipes. Do search for these in files, we need to escape them with a **\**:
+
+```bash
+
+sed 's/N\[0.4uM\]/N(0.4uM)/g' Input_docs/Experiment1.txt > Output_docs/new_file.txt
+
+```
+
+
+## Removing things (and using WILDCARDs)
+######################
+
+- *$' indicates a line containing zero or more spaces. Hence, this will delete all lines which are either empty or lines with only some blank spaces.
+
+```bash
+# remove 1 first line
+sed '1d' Input_docs/Experiment1.txt
+
+#remove last line
+sed '$d' Input_docs/Experiment1.txt
+
+#remove lines 2-4
+sed '2,4d' Input_docs/Experiment1.txt
+
+#remove lines other than 2-4
+sed '2,4!d' Input_docs/Experiment1.txt 
+
+#remove the first and last line
+sed '1d;$d' Input_docs/Experiment1.txt
+
+#remove lines beginning with an **L**
+sed '/^L/d' Input_docs/Experiment1.txt
+
+#delete lines ending with d
+sed '/d$/d' Input_docs/Experiment1.txt
+
+#delete lines ending with x OR X
+sed '/[dD]$/d' Input_docs/Experiment1.txt
+
+#delete blank lines ('^$' indicates lines containing nothing)
+sed '/^$/d' Input_docs/Experiment1.txt
+
+#delete lines that start with capital letters
+sed '/^[A-Z]*$/d' Input_docs/Experiment1.txt
+
+#delete lines with the pattern **Unix**
+sed '/Ex/d' Input_docs/Experiment1.txt
+
+#delete files with the pattern unix or Linux
+sed '/Unix\|Linux/d' Input_docs/Experiment1.txt
+
+#delete the 2nd occurence of each pattern (here *o*)
+sed 's/o//2' Input_docs/Experiment1.txt
+
+#remove all digits across the whole file
+sed 's/[0-9]//g' Input_docs/Experiment1.txt
+
+#remove all alpha-numerical characters
+sed 's/[a-zA-Z0-9]//g' Input_docs/Experiment1.txt
+
+#remove character regardless of the case
+sed 's/[eE]//g' Input_docs/Experiment1.txt
+```
+
+
+
 
 ############################################
 ############################################
@@ -906,11 +1103,123 @@ exit
 ```
 
 
+
+
+
+###################################################################################
+###################################################################################
+# Running loops
+###################################################################################
+###################################################################################
+
+A ‘for *loop’** is a bash programming language statement which allows code to be repeatedly executed. I.e. it allows us to run a command 100 times.
+
+The bash *while** loop is a control flow statement that allows code or commands to be executed repeatedly based on a given condition. For example, run echo command 5 times or read text file line by line or evaluate the options passed on the command line for a script.
+
+A basic example:
+
+```bash
+
+for i in 1 2 3 4 5; do echo "Welcome $i times"; done
+
+````
+
+Here, you see what this command does steo by step:
+
+<p align="left">
+  <img width=600, height=600, src="/Users/ninadombrowski/Desktop/WorkingDir/Notebooks/Pictures/loops.png">
+</p>
+
+
+We could also use a loop to run sed on all our txt files
+
+
+```bash
+
+#change the N against the P in all our files
+for i in Input_docs/*txt; do sed 's/N/P/g' $i; done
+
+````
+
+<p align="left">
+  <img width=600, height=600, src="/Users/ninadombrowski/Desktop/WorkingDir/Notebooks/Pictures/loops2.png">
+</p>
+
+
+We might also want to store the output of our loops
+
+```bash
+
+for i in Input_docs/*txt; do sed 's/N/P/g' $i > ${i}_2.txt; done
+
+#check that all went alright with 
+ll Input_docs/*txt
+
+```
+
+You see here, that we added curly brackets to define the borders of our variable i. I.e. if we would not have the brackets unix would look for a variable i_2, which does not exist.
+
+
+We can also use a file list for building a loop, which allows us to much better control, where we want to store the new files/
+For example in ``FileList`` we have a list of the two files we want to work with: Experiment1 and Experiment2
+
+
+```bash
+
+for i in `cat Input_docs/FileList`; do sed 's/N/P/g' Input_docs/${i}.txt > Output_docs/${i}_2.txt; done
+
+```
+
+Notice, that here we need to add the file extension!
+
+
+While loops (usable example to follow):
+
+```bash
+#3.while loop example 1
+
+'''
+#!/bin/bash
+file=/etc/resolv.conf
+while IFS= read -r line
+do
+        # echo line is stored in $line
+	echo $line
+done < "$file"
+'''
+
+#4. while loop to move a list of genomes to folder A to folder B
+	
+	while read from to; do
+		echo "mv ${from}* $to"
+	done < to_replace.txt
+```
+
+
+
+
+
+
+
+
 ############################################
 ############################################
 # Random but useful
 ############################################
 ############################################
+
+
+## datamash: merging rows by keys
+######################
+
+GNU datamash is a command-line program which performs basic numeric, textual and statistical operations on input textual data files.
+
+```bash
+
+datamash -sW -g1 collapse 2 collapse 4 < Unimarkers_KO_count_table.txt  > Unimarkers_KO_collapsed.txt
+
+```
+
 
 
 ## Excel/DOS to UNIX issue cleanup
@@ -1023,6 +1332,76 @@ For more information, see [here](https://community.coherentpdf.com)
 ```
 
 
+## accesss rights
+######################
+
+
+Each file (and directory) has associated access rights, which may be found by typing ls -l. Also, ls -lg gives additional information as to which group owns the file
+
+```bash
+
+ls -lg Input_docs/Experiment1.txt 
+
+```
+
+``-rw-r--r--  1 staff   156B Sep 28  2019 Input_docs/Experiment1.txt``
+
+
+In the left-hand column is a 10 symbol string consisting of the symbols d, r, w, x, -, and, occasionally, s or S. If d is present, it will be at the left hand end of the string, and indicates a directory: otherwise - will be the starting symbol of the string.
+
+The 9 remaining symbols indicate the permissions, or access rights, and are taken as three groups of 3.
+
+- The left group of 3 gives the file permissions for the user that owns the file (or directory) 
+- the middle group gives the permissions for the group of people to whom the file (or directory) 
+- the rightmost group gives the permissions for all others.
+
+The symbols r, w, etc., have slightly different meanings depending on whether they refer to a simple file or to a directory.
+
+### Access rights on files.
+
+
+- r (or -), indicates read permission (or otherwise), that is, the presence or absence of permission to read and copy the file
+- w (or -), indicates write permission (or otherwise), that is, the permission (or otherwise) to change a file
+- x (or -), indicates execution permission (or otherwise), that is, the permission to execute a file, where appropriate
+
+
+### Access rights on directories.
+
+
+- r allows users to list files in the directory;
+- w means that users may delete files from the directory or move files into it;
+- x means the right to access files in the directory. This implies that you may read files in the directory provided you have read permission on the individual files.
+
+So, in order to read a file, you must have execute permission on the directory containing that file, and hence on any directory containing that directory as a subdirectory, and so on, up the tree.
+
+
+
+## Changing access rights
+######################
+
+- ``chmod`` = changing a file mode
+
+Chmod options:
+
+u = user
+g = group
+o = other
+a = all
+r = read
+w = write (and delete)
+x = execute (and access directory)
++ = add permission
+- = take away permission
+
+
+For example, to remove read write and execute permissions on the file example.txt for the group and others, type
+
+```bash
+
+chmod go-rwx example.txt 
+
+```
+
 
 ## Change file extensions
 ######################
@@ -1041,6 +1420,7 @@ cd ..
 Exercise:
 
 Change the filename back to faa.
+
 
 
 
@@ -1095,12 +1475,6 @@ perl replace_tree_names.pl Input_docs/names_to_replace Input_docs/PF00900.faa > 
 
 ```
 
-Exercise:
-
-1. Grep the names of the fasta headers of PF01015
-2. Remove the ``>``
-3. 
-
 
 
 ## Extract sequence by pattern found in fasta header
@@ -1126,137 +1500,6 @@ find . -maxdepth 6 -name 'DN*codon*' -exec grep -c -H ">" {} \; > Count_hits.txt
 ```
 
 
-
-
-###################################################################################
-###################################################################################
-# Running loops
-###################################################################################
-###################################################################################
-
-A ‘for *loop’** is a bash programming language statement which allows code to be repeatedly executed. 
-
-The bash *while** loop is a control flow statement that allows code or commands to be executed repeatedly based on a given condition. For example, run echo command 5 times or read text file line by line or evaluate the options passed on the command line for a script.
-
-```bash
-
-#1. by providing a file with names to loop through
-mkdir new_dir
-
-for sample in `cat List`; do cp Input_docs/${sample}.faa new_dir; done  
-
-#2. by grepping files using file names
-for sample in Input_docs/*fna; do cp $sample new_dir/fna; done  
-
-#3.while loop example 1
-
-'''
-#!/bin/bash
-file=/etc/resolv.conf
-while IFS= read -r line
-do
-        # echo line is stored in $line
-	echo $line
-done < "$file"
-'''
-
-#4. while loop to move a list of genomes to folder A to folder B
-	
-	while read from to; do
-		echo "mv ${from}* $to"
-	done < to_replace.txt
-```
-
-
-
-
-###################################################################################
-###################################################################################
-# SED: manipulating files
-###################################################################################
-###################################################################################
-
-The most basic pattern to use sed for is **sed 's/find/replace/' file**.
-And example file can be generated with *echo "how now brown cow" > temp.txt*
-
-
-## Basics search and replace
-######################
-
-```bash
-# search for 'Ex' and replace it with 'Experiment'
-sed 's/Ex/Experiment/' Input_docs/Experiment1.txt 
-
-# search and replace pattern across the whole file and not only the first line
-sed 's/Ex/Experiment/g' Input_docs/Experiment1.txt 
-
-#we also can use wildcards
-sed 's/control[0-9]/control/g' Input_docs/Experiment1.txt > Output_docs/new_file.txt
-```
-
-One important thing to remember is that certain symbols have specific meanings in UNIX. Examples are: comma, brackets, pipes. Do search for these in files, we need to escape them with a **\**:
-
-```bash
-
-sed 's/N\[0.4uM\]/N(0.4uM)/g' Input_docs/Experiment1.txt > Output_docs/new_file.txt
-
-```
-
-
-## Removing things (and using WILDCARDs)
-######################
-
-- *$' indicates a line containing zero or more spaces. Hence, this will delete all lines which are either empty or lines with only some blank spaces.
-
-```bash
-# remove 1 first line
-sed '1d' Input_docs/Experiment1.txt
-
-#remove last line
-sed '$d' Input_docs/Experiment1.txt
-
-#remove lines 2-4
-sed '2,4d' Input_docs/Experiment1.txt
-
-#remove lines other than 2-4
-sed '2,4!d' Input_docs/Experiment1.txt 
-
-#remove the first and last line
-sed '1d;$d' Input_docs/Experiment1.txt
-
-#remove lines beginning with an **L**
-sed '/^L/d' Input_docs/Experiment1.txt
-
-#delete lines ending with d
-sed '/d$/d' Input_docs/Experiment1.txt
-
-#delete lines ending with x OR X
-sed '/[dD]$/d' Input_docs/Experiment1.txt
-
-#delete blank lines ('^$' indicates lines containing nothing)
-sed '/^$/d' Input_docs/Experiment1.txt
-
-#delete lines that start with capital letters
-sed '/^[A-Z]*$/d' Input_docs/Experiment1.txt
-
-#delete lines with the pattern **Unix**
-sed '/Ex/d' Input_docs/Experiment1.txt
-
-#delete files with the pattern unix or Linux
-sed '/Unix\|Linux/d' Input_docs/Experiment1.txt
-
-#delete the 2nd occurence of each pattern (here *o*)
-sed 's/o//2' Input_docs/Experiment1.txt
-
-#remove all digits across the whole file
-sed 's/[0-9]//g' Input_docs/Experiment1.txt
-
-#remove all alpha-numerical characters
-sed 's/[a-zA-Z0-9]//g' Input_docs/Experiment1.txt
-
-#remove character regardless of the case
-sed 's/[eE]//g' Input_docs/Experiment1.txt
-```
 
 
 ###################################################################################
