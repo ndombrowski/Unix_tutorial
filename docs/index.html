@@ -10,7 +10,7 @@
 
 <meta name="author" content="Nina Dombrowski" />
 
-<meta name="date" content="2020-11-06" />
+<meta name="date" content="2020-11-16" />
 
 <title>General Code Notebook</title>
 
@@ -1636,9 +1636,9 @@ $(document).ready(function () {
       <li><a href="#using-basic-wildcards">Using basic wildcards</a></li>
       <li><a href="#shortening-headers-the-cut-function">Shortening headers –&gt; the <strong>cut</strong> function</a></li>
       <li><a href="#cat-combining-data">Cat: Combining data</a></li>
-      <li><a href="#sort-and-uniq">Sort and uniq</a></li>
-      <li><a href="#datamash-merging-rows-by-keys">datamash: merging rows by keys</a></li>
+      <li><a href="#sort">Sort</a></li>
       <li><a href="#pipes-combining-commands">Pipes: Combining commands</a></li>
+      <li><a href="#datamash-merging-rows-by-keys">datamash: merging rows by keys</a></li>
       </ul></li>
       <li><a href="#using-a-screen">Using a screen</a></li>
       <li><a href="#random-but-useful">Random but useful</a><ul>
@@ -1717,7 +1717,7 @@ $(document).ready(function () {
     
     <div id="postamble" data-toggle="wy-nav-shift" class="status">
               <p class="author"><span class="glyphicon glyphicon-user"></span> Nina Dombrowski</p>
-                  <p class="date"><span class="glyphicon glyphicon-calendar"></span> 2020-11-06</p>
+                  <p class="date"><span class="glyphicon glyphicon-calendar"></span> 2020-11-16</p>
         </div>
 </div>
 
@@ -1990,10 +1990,10 @@ $(document).ready(function () {
 <p>gzip reduces the size of the named files using Lempel–Ziv coding (LZ77). Whenever possible, each file is replaced by one with the extension ‘.gz’, while keeping the same ownership modes, access and modification times.</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1"></a></span>
 <span id="cb10-2"><a href="#cb10-2"></a><span class="co">#compress a file</span></span>
-<span id="cb10-3"><a href="#cb10-3"></a><span class="fu">gzip</span> GCA_002728275.1_ASM272827v1_genomic.fna </span>
+<span id="cb10-3"><a href="#cb10-3"></a><span class="fu">gzip</span> Input_docs/PF00900.faa</span>
 <span id="cb10-4"><a href="#cb10-4"></a></span>
 <span id="cb10-5"><a href="#cb10-5"></a><span class="co">#decompress a file</span></span>
-<span id="cb10-6"><a href="#cb10-6"></a><span class="fu">gzip</span> -d GCA_002728275.1_ASM272827v1_genomic.fna.gz </span></code></pre></div>
+<span id="cb10-6"><a href="#cb10-6"></a><span class="fu">gzip</span> -d Input_docs/PF00900.faa.gz </span></code></pre></div>
 </div>
 </div>
 <div id="working-on-a-server-via-slurm" class="section level2">
@@ -2210,7 +2210,7 @@ $(document).ready(function () {
 <p>The wc command in UNIX is a command line utility for printing newline, word and byte counts for files. It can return the number of lines in a file, the number of characters in a file and the number of words in a file. It can also be combine with pipes for general counting operations.</p>
 <p>This command is simple but essential for quality control</p>
 <div class="sourceCode" id="cb25"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1"></a><span class="co">#count how many lines we have in a file we have</span></span>
-<span id="cb25-2"><a href="#cb25-2"></a><span class="fu">wc</span> -l Input_docs/Experiment1.txt</span>
+<span id="cb25-2"><a href="#cb25-2"></a><span class="fu">wc</span> -l Input_docs/Input_docs/Experiment1.txt</span>
 <span id="cb25-3"><a href="#cb25-3"></a></span>
 <span id="cb25-4"><a href="#cb25-4"></a><span class="co">#count how many files we have that end with a certain extension</span></span>
 <span id="cb25-5"><a href="#cb25-5"></a><span class="ex">ll</span> Input_docs/*.txt <span class="kw">|</span> <span class="fu">wc</span> -l</span></code></pre></div>
@@ -2223,13 +2223,13 @@ $(document).ready(function () {
 <p>The grep command is used to search text. It searches the given file for lines containing a match to the given strings or words.</p>
 <p>This command is simple but essential for quality control</p>
 <div class="sourceCode" id="cb26"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1"></a><span class="co">#count how often the pattern **control** occurs in our document</span></span>
-<span id="cb26-2"><a href="#cb26-2"></a><span class="fu">grep</span> <span class="st">&quot;control&quot;</span> Input_docs/Experiment1.txt</span>
+<span id="cb26-2"><a href="#cb26-2"></a><span class="fu">grep</span> <span class="st">&quot;control&quot;</span> Input_docs/Input_docs/Experiment1.txt</span>
 <span id="cb26-3"><a href="#cb26-3"></a></span>
 <span id="cb26-4"><a href="#cb26-4"></a><span class="co">#only give the counts, not the lines</span></span>
-<span id="cb26-5"><a href="#cb26-5"></a><span class="fu">grep</span> -c <span class="st">&quot;control&quot;</span> Input_docs/Experiment1.txt</span>
+<span id="cb26-5"><a href="#cb26-5"></a><span class="fu">grep</span> -c <span class="st">&quot;control&quot;</span> Input_docs/Input_docs/Experiment1.txt</span>
 <span id="cb26-6"><a href="#cb26-6"></a></span>
 <span id="cb26-7"><a href="#cb26-7"></a><span class="co">#grep a pattern only if it occurs at the beginning of a line</span></span>
-<span id="cb26-8"><a href="#cb26-8"></a><span class="fu">grep</span> <span class="st">&quot;^Ex&quot;</span> Input_docs/Experiment1.txt</span></code></pre></div>
+<span id="cb26-8"><a href="#cb26-8"></a><span class="fu">grep</span> <span class="st">&quot;^Ex&quot;</span> Input_docs/Input_docs/Experiment1.txt</span></code></pre></div>
 </div>
 </div>
 <div id="using-basic-wildcards" class="section level2">
@@ -2253,11 +2253,11 @@ $(document).ready(function () {
 <ol start="4" style="list-style-type: decimal">
 <li>[012] wildcard = matches 0 or 1 or 2 exactly once</li>
 </ol>
-<div class="sourceCode" id="cb30"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb30-1"><a href="#cb30-1"></a><span class="fu">grep</span> -c <span class="st">&quot;^Ex&quot;</span> Experiment[012].txt</span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb30-1"><a href="#cb30-1"></a><span class="fu">grep</span> -c <span class="st">&quot;^Ex&quot;</span> Input_docs/Experiment[012].txt</span></code></pre></div>
 <ol start="5" style="list-style-type: decimal">
 <li>[0-9] wildcard = matches matches any number exactly one</li>
 </ol>
-<div class="sourceCode" id="cb31"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb31-1"><a href="#cb31-1"></a><span class="fu">grep</span> -c <span class="st">&quot;^Ex&quot;</span> Experiment[0-9].txt</span></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb31-1"><a href="#cb31-1"></a><span class="fu">grep</span> -c <span class="st">&quot;^Ex&quot;</span> Input_docs/Experiment[0-9].txt</span></code></pre></div>
 <ol start="6" style="list-style-type: decimal">
 <li>combining wildcards</li>
 </ol>
@@ -2270,14 +2270,14 @@ $(document).ready(function () {
 <li>[a-z]{6} we are exactly looking for 6 letters (as in ‘control’)</li>
 <li>these 6 letters should be followed by either a 1 or 2</li>
 </ul>
-<div class="sourceCode" id="cb33"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb33-1"><a href="#cb33-1"></a><span class="fu">grep</span> -c <span class="st">&quot;[a-z]\{6\}[12]&quot;</span> Experiment[12].txt</span></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb33-1"><a href="#cb33-1"></a><span class="fu">grep</span> -c <span class="st">&quot;[a-z]\{6\}[12]&quot;</span> Input_docs/Experiment[12].txt</span></code></pre></div>
 <ol start="7" style="list-style-type: decimal">
 <li>if we are not sure how many characters we have</li>
 </ol>
 <ul>
 <li>matches 3-10 characters</li>
 </ul>
-<div class="sourceCode" id="cb34"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb34-1"><a href="#cb34-1"></a><span class="fu">grep</span> -c <span class="st">&quot;[a-z]\{3,10\}[12]&quot;</span> Experiment[12].txt</span></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb34-1"><a href="#cb34-1"></a><span class="fu">grep</span> -c <span class="st">&quot;[a-z]\{3,10\}[12]&quot;</span> Input_docs/Experiment[12].txt</span></code></pre></div>
 </div>
 </div>
 <div id="shortening-headers-the-cut-function" class="section level2">
@@ -2291,10 +2291,10 @@ $(document).ready(function () {
 <li><code>-f1</code> keep the first element after the separators (tab,  by default)</li>
 </ul>
 <div class="sourceCode" id="cb35"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb35-1"><a href="#cb35-1"></a><span class="co">#keep the first element</span></span>
-<span id="cb35-2"><a href="#cb35-2"></a><span class="fu">cut</span> -f1 -d <span class="st">&quot;-&quot;</span> File.fna <span class="op">&gt;</span> File_new.fna</span>
+<span id="cb35-2"><a href="#cb35-2"></a><span class="fu">cut</span> -f1 -d <span class="st">&quot;_&quot;</span> Input_docs/PF01015.faa <span class="op">&gt;</span> Output_docs/File_new.fna</span>
 <span id="cb35-3"><a href="#cb35-3"></a></span>
 <span id="cb35-4"><a href="#cb35-4"></a><span class="co">#keep the first and second element</span></span>
-<span id="cb35-5"><a href="#cb35-5"></a><span class="fu">cut</span> -f1,2 -d <span class="st">&quot;-&quot;</span> File.fna <span class="op">&gt;</span> File_new.fna</span></code></pre></div>
+<span id="cb35-5"><a href="#cb35-5"></a><span class="fu">cut</span> -f1,2 -d <span class="st">&quot;_&quot;</span> Input_docs/PF01015.faa <span class="op">&gt;</span> Output_docs/File_new.fna</span></code></pre></div>
 </div>
 </div>
 <div id="cat-combining-data" class="section level2">
@@ -2318,12 +2318,12 @@ $(document).ready(function () {
 <div class="sourceCode" id="cb38"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb38-1"><a href="#cb38-1"></a> </span>
 <span id="cb38-2"><a href="#cb38-2"></a><span class="fu">cat</span> file1 file2 file3 <span class="op">&gt;</span> file_merged.txt</span>
 <span id="cb38-3"><a href="#cb38-3"></a> </span></code></pre></div>
-<p>In this example combine Ex1.txt and Ex2.txt into one file named All_experiments</p>
-<div class="sourceCode" id="cb39"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb39-1"><a href="#cb39-1"></a><span class="fu">cat</span> Experiment1.txt Experiment2.txt <span class="op">&gt;</span> All_experiments.txt</span></code></pre></div>
+<p>In this example combine Ex1.txt and Ex2.txt into one file named All_Input_docs/Experiments</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb39-1"><a href="#cb39-1"></a><span class="fu">cat</span> Input_docs/Experiment1.txt Input_docs/Experiment2.txt <span class="op">&gt;</span> All_Input_docs/Experiments.txt</span></code></pre></div>
 </div>
 </div>
-<div id="sort-and-uniq" class="section level2">
-<h2>Sort and uniq</h2>
+<div id="sort" class="section level2">
+<h2>Sort</h2>
 <div id="section-23" class="section level22">
 <p class="heading"></p>
 <ol style="list-style-type: decimal">
@@ -2331,35 +2331,37 @@ $(document).ready(function () {
 </ol>
 <p>There are a number of programs that require files to be sorted</p>
 <div class="sourceCode" id="cb40"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb40-1"><a href="#cb40-1"></a><span class="co">#sort using the fourth column</span></span>
-<span id="cb40-2"><a href="#cb40-2"></a><span class="fu">sort</span> -k4 Experiment2.txt</span>
+<span id="cb40-2"><a href="#cb40-2"></a><span class="fu">sort</span> -k4 Input_docs/Experiment2.txt</span>
 <span id="cb40-3"><a href="#cb40-3"></a></span>
 <span id="cb40-4"><a href="#cb40-4"></a><span class="co">#sort using the 5th and then the third column</span></span>
-<span id="cb40-5"><a href="#cb40-5"></a><span class="fu">sort</span> -k5 -k3 Experiment1.txt</span></code></pre></div>
+<span id="cb40-5"><a href="#cb40-5"></a><span class="fu">sort</span> -k5 -k3 Input_docs/Experiment1.txt</span></code></pre></div>
 <ol start="2" style="list-style-type: decimal">
 <li><strong>uniq</strong> – can be used to remove or find duplicates. However, for this to work the file first needs to be sorted</li>
 </ol>
-<div class="sourceCode" id="cb41"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb41-1"><a href="#cb41-1"></a><span class="co">#only keep duplicate</span></span>
-<span id="cb41-2"><a href="#cb41-2"></a><span class="fu">sort</span> Experiment2.txt <span class="kw">|</span> <span class="fu">uniq</span> -d</span>
-<span id="cb41-3"><a href="#cb41-3"></a></span>
-<span id="cb41-4"><a href="#cb41-4"></a><span class="co">#remove duplicate</span></span>
-<span id="cb41-5"><a href="#cb41-5"></a><span class="fu">sort</span> Experiment2.txt<span class="kw">|</span> <span class="fu">uniq</span> -u</span></code></pre></div>
-</div>
-</div>
-<div id="datamash-merging-rows-by-keys" class="section level2">
-<h2>datamash: merging rows by keys</h2>
-<div id="section-24" class="section level22">
-<p class="heading"></p>
-<p>GNU datamash is a command-line program which performs basic numeric, textual and statistical operations on input textual data files.</p>
-<div class="sourceCode" id="cb42"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb42-1"><a href="#cb42-1"></a><span class="ex">datamash</span> -sW -g1 collapse 2 collapse 4 <span class="op">&lt;</span> Unimarkers_KO_count_table.txt  <span class="op">&gt;</span> Unimarkers_KO_collapsed.txt</span></code></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb41-1"><a href="#cb41-1"></a></span>
+<span id="cb41-2"><a href="#cb41-2"></a><span class="co">#only keep duplicate</span></span>
+<span id="cb41-3"><a href="#cb41-3"></a><span class="fu">sort</span> Input_docs/Experiment2.txt <span class="kw">|</span> <span class="fu">uniq</span> -d</span>
+<span id="cb41-4"><a href="#cb41-4"></a></span>
+<span id="cb41-5"><a href="#cb41-5"></a><span class="co">#remove duplicate</span></span>
+<span id="cb41-6"><a href="#cb41-6"></a><span class="fu">sort</span> Input_docs/Experiment2.txt<span class="kw">|</span> <span class="fu">uniq</span> -u</span></code></pre></div>
 </div>
 </div>
 <div id="pipes-combining-commands" class="section level2">
 <h2>Pipes: Combining commands</h2>
-<div id="section-25" class="section level22">
+<div id="section-24" class="section level22">
 <p class="heading"></p>
 <p>Powerful utility to connect multiple commands together. The standard output of one command is fed into the standard input of another</p>
 <p>In this example we first combine the files, then sort the combined output and find the uniq elements.</p>
-<div class="sourceCode" id="cb43"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb43-1"><a href="#cb43-1"></a><span class="fu">cat</span> Experiment[12].txt <span class="kw">|</span> <span class="fu">sort</span> <span class="kw">|</span> <span class="fu">uniq</span></span></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb42-1"><a href="#cb42-1"></a><span class="fu">cat</span> Input_docs/Experiment[12].txt <span class="kw">|</span> <span class="fu">sort</span> <span class="kw">|</span> <span class="fu">uniq</span></span></code></pre></div>
+</div>
+</div>
+<div id="datamash-merging-rows-by-keys" class="section level2">
+<h2>datamash: merging rows by keys</h2>
+<div id="section-25" class="section level22">
+<p class="heading"></p>
+<p>GNU datamash is a command-line program which performs basic numeric, textual and statistical operations on input textual data files.</p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb43-1"><a href="#cb43-1"></a></span>
+<span id="cb43-2"><a href="#cb43-2"></a><span class="ex">datamash</span> -sW -g1 collapse 2 collapse 4 <span class="op">&lt;</span> Unimarkers_KO_count_table.txt  <span class="op">&gt;</span> Unimarkers_KO_collapsed.txt</span></code></pre></div>
 <div id="section-26" class="section level44">
 <p class="heading"></p>
 </div>
@@ -2496,9 +2498,16 @@ $(document).ready(function () {
 <h2>Change file extensions</h2>
 <div id="section-39" class="section level22">
 <p class="heading"></p>
-<div class="sourceCode" id="cb52"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb52-1"><a href="#cb52-1"></a><span class="kw">for</span> <span class="ex">f</span> in *.fa<span class="kw">;</span> <span class="kw">do</span>  </span>
-<span id="cb52-2"><a href="#cb52-2"></a><span class="fu">mv</span> -- <span class="st">&quot;</span><span class="va">$f</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">${f%</span>.fa<span class="va">}</span><span class="st">.fna&quot;</span> </span>
-<span id="cb52-3"><a href="#cb52-3"></a><span class="kw">done</span></span></code></pre></div>
+<div class="sourceCode" id="cb52"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb52-1"><a href="#cb52-1"></a></span>
+<span id="cb52-2"><a href="#cb52-2"></a><span class="bu">cd</span> Input_docs</span>
+<span id="cb52-3"><a href="#cb52-3"></a></span>
+<span id="cb52-4"><a href="#cb52-4"></a><span class="kw">for</span> <span class="ex">f</span> in *.faa<span class="kw">;</span> <span class="kw">do</span>  </span>
+<span id="cb52-5"><a href="#cb52-5"></a><span class="fu">mv</span> -- <span class="st">&quot;</span><span class="va">$f</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">${f%</span>.faa<span class="va">}</span><span class="st">.fna&quot;</span> </span>
+<span id="cb52-6"><a href="#cb52-6"></a><span class="kw">done</span></span>
+<span id="cb52-7"><a href="#cb52-7"></a></span>
+<span id="cb52-8"><a href="#cb52-8"></a><span class="bu">cd</span> ..</span></code></pre></div>
+<p>Exercise:</p>
+<p>Change the filename back to faa.</p>
 </div>
 </div>
 <div id="change-file-names" class="section level2">
@@ -2506,12 +2515,19 @@ $(document).ready(function () {
 <div id="section-40" class="section level22">
 <p class="heading"></p>
 <p><strong>rename</strong> works as follows: Oldname - NewName - Pattern used to grep all files</p>
-<p><strong>Warning</strong> Based on the file system there are two versions on how to use rename:</p>
+<p><strong>Warning</strong> Based on the file system there are two versions on how to use rename and if you work on your own system you might need to install it first.</p>
 <div class="sourceCode" id="cb53"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb53-1"><a href="#cb53-1"></a><span class="co"># version 1</span></span>
 <span id="cb53-2"><a href="#cb53-2"></a><span class="ex">rename</span> <span class="st">&#39;s/OldName/NewName/&#39;</span> Bin*  </span>
 <span id="cb53-3"><a href="#cb53-3"></a></span>
 <span id="cb53-4"><a href="#cb53-4"></a><span class="co">#version 2</span></span>
 <span id="cb53-5"><a href="#cb53-5"></a><span class="ex">rename</span> OldName Newname Bin*</span></code></pre></div>
+<p>Exercise:</p>
+<div class="sourceCode" id="cb54"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb54-1"><a href="#cb54-1"></a></span>
+<span id="cb54-2"><a href="#cb54-2"></a><span class="bu">cd</span> Input_docs</span>
+<span id="cb54-3"><a href="#cb54-3"></a></span>
+<span id="cb54-4"><a href="#cb54-4"></a><span class="ex">rename</span> <span class="st">&#39;s/PF/PFAM/&#39;</span> PF*  </span>
+<span id="cb54-5"><a href="#cb54-5"></a></span>
+<span id="cb54-6"><a href="#cb54-6"></a><span class="bu">cd</span> ..</span></code></pre></div>
 </div>
 </div>
 <div id="replacing-names-in-files-works-on-every-kind-of-file" class="section level2">
@@ -2520,14 +2536,22 @@ $(document).ready(function () {
 <p class="heading"></p>
 <p>The file <strong>names_to_replace.txt</strong> needs to look as follows: Two columns, which are tab separated First column = Original name Second column = New name</p>
 <p><strong>Warning</strong>: Be careful with similar names. Both Bin1 and Bin11 would be replaced with: Bin1 /tab Bin1_new In these cases either update your naming scheme OR add an end of line indicator</p>
-<div class="sourceCode" id="cb54"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb54-1"><a href="#cb54-1"></a><span class="fu">perl</span> replace_tree_names.pl names_to_replace.txt File.fasta <span class="op">&gt;</span> File_renamed.fasta</span></code></pre></div>
+<div class="sourceCode" id="cb55"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb55-1"><a href="#cb55-1"></a></span>
+<span id="cb55-2"><a href="#cb55-2"></a><span class="fu">perl</span> replace_tree_names.pl Input_docs/names_to_replace Input_docs/PF00900.faa <span class="op">&gt;</span> Output_docs/PF00900_renamed.faa</span></code></pre></div>
+<p>Exercise:</p>
+<ol style="list-style-type: decimal">
+<li>Grep the names of the fasta headers of PF01015</li>
+<li>Remove the <code>&gt;</code></li>
+<li></li>
+</ol>
 </div>
 </div>
 <div id="extract-sequence-by-pattern-found-in-fasta-header" class="section level2">
 <h2>Extract sequence by pattern found in fasta header</h2>
 <div id="section-42" class="section level22">
 <p class="heading"></p>
-<div class="sourceCode" id="cb55"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb55-1"><a href="#cb55-1"></a><span class="fu">perl</span> extractSequence.pl File.faa <span class="op">&lt;</span>pattern<span class="op">&gt;</span> <span class="op">&gt;</span> File_Subset.faa</span></code></pre></div>
+<div class="sourceCode" id="cb56"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb56-1"><a href="#cb56-1"></a></span>
+<span id="cb56-2"><a href="#cb56-2"></a><span class="fu">perl</span> extractSequence.pl File.faa <span class="op">&lt;</span>pattern<span class="op">&gt;</span> <span class="op">&gt;</span> File_Subset.faa</span></code></pre></div>
 </div>
 </div>
 <div id="counting-things-in-a-large-number-of-files" class="section level2">
@@ -2535,7 +2559,8 @@ $(document).ready(function () {
 <div id="section-43" class="section level22">
 <p class="heading"></p>
 <p>Here: Find all files that start with *DN** and have a *codon** in them. Once you have these files grep the number of sequences in each file.</p>
-<div class="sourceCode" id="cb56"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb56-1"><a href="#cb56-1"></a><span class="fu">find</span> . -maxdepth 6 -name <span class="st">&#39;DN*codon*&#39;</span> -exec grep -c -H <span class="st">&quot;&gt;&quot;</span> {} <span class="dt">\;</span> <span class="op">&gt;</span> <span class="ex">Count_hits.txt</span></span></code></pre></div>
+<div class="sourceCode" id="cb57"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb57-1"><a href="#cb57-1"></a></span>
+<span id="cb57-2"><a href="#cb57-2"></a><span class="fu">find</span> . -maxdepth 6 -name <span class="st">&#39;DN*codon*&#39;</span> -exec grep -c -H <span class="st">&quot;&gt;&quot;</span> {} <span class="dt">\;</span> <span class="op">&gt;</span> <span class="ex">Count_hits.txt</span></span></code></pre></div>
 <div id="section-44" class="section level83">
 <p class="heading"></p>
 </div>
@@ -2554,29 +2579,32 @@ $(document).ready(function () {
 <p class="heading"></p>
 <p>A ‘for *loop’** is a bash programming language statement which allows code to be repeatedly executed.</p>
 <p>The bash *while** loop is a control flow statement that allows code or commands to be executed repeatedly based on a given condition. For example, run echo command 5 times or read text file line by line or evaluate the options passed on the command line for a script.</p>
-<div class="sourceCode" id="cb57"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb57-1"><a href="#cb57-1"></a><span class="co">#1. by providing a file with names to loop through</span></span>
-<span id="cb57-2"><a href="#cb57-2"></a><span class="kw">for</span> <span class="ex">sample</span> in <span class="kw">`</span><span class="fu">cat</span> List<span class="kw">`;</span> <span class="kw">do</span> <span class="fu">cp</span> <span class="va">${sample}</span>.fna new_dir/fna<span class="kw">;</span> <span class="kw">done</span>  </span>
-<span id="cb57-3"><a href="#cb57-3"></a></span>
-<span id="cb57-4"><a href="#cb57-4"></a><span class="co">#2. by grepping files using file names</span></span>
-<span id="cb57-5"><a href="#cb57-5"></a><span class="kw">for</span> <span class="ex">sample</span> in *<span class="kw">`</span><span class="fu">cat</span> List<span class="kw">`</span>*fna<span class="kw">;</span> <span class="kw">do</span> <span class="fu">cp</span> <span class="va">$sample</span> new_dir/fna<span class="kw">;</span> <span class="kw">done</span>  </span>
-<span id="cb57-6"><a href="#cb57-6"></a></span>
-<span id="cb57-7"><a href="#cb57-7"></a><span class="co">#3.while loop example 1</span></span>
-<span id="cb57-8"><a href="#cb57-8"></a></span>
-<span id="cb57-9"><a href="#cb57-9"></a><span class="st">&#39;&#39;&#39;</span></span>
-<span id="cb57-10"><a href="#cb57-10"></a><span class="st">#!/bin/bash</span></span>
-<span id="cb57-11"><a href="#cb57-11"></a><span class="st">file=/etc/resolv.conf</span></span>
-<span id="cb57-12"><a href="#cb57-12"></a><span class="st">while IFS= read -r line</span></span>
-<span id="cb57-13"><a href="#cb57-13"></a><span class="st">do</span></span>
-<span id="cb57-14"><a href="#cb57-14"></a><span class="st">        # echo line is stored in $line</span></span>
-<span id="cb57-15"><a href="#cb57-15"></a><span class="st">    echo $line</span></span>
-<span id="cb57-16"><a href="#cb57-16"></a><span class="st">done &lt; &quot;$file&quot;</span></span>
-<span id="cb57-17"><a href="#cb57-17"></a><span class="st">&#39;&#39;&#39;</span></span>
-<span id="cb57-18"><a href="#cb57-18"></a></span>
-<span id="cb57-19"><a href="#cb57-19"></a><span class="co">#4. while loop to move a list of genomes to folder A to folder B</span></span>
-<span id="cb57-20"><a href="#cb57-20"></a>    </span>
-<span id="cb57-21"><a href="#cb57-21"></a>    <span class="kw">while</span> <span class="bu">read</span> <span class="va">from</span> <span class="va">to</span>; <span class="kw">do</span></span>
-<span id="cb57-22"><a href="#cb57-22"></a>        <span class="bu">echo</span> <span class="st">&quot;mv </span><span class="va">${from}</span><span class="st">* </span><span class="va">$to</span><span class="st">&quot;</span></span>
-<span id="cb57-23"><a href="#cb57-23"></a>    <span class="kw">done</span> <span class="op">&lt;</span> <span class="ex">to_replace.txt</span></span></code></pre></div>
+<div class="sourceCode" id="cb58"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb58-1"><a href="#cb58-1"></a></span>
+<span id="cb58-2"><a href="#cb58-2"></a><span class="co">#1. by providing a file with names to loop through</span></span>
+<span id="cb58-3"><a href="#cb58-3"></a><span class="fu">mkdir</span> new_dir</span>
+<span id="cb58-4"><a href="#cb58-4"></a></span>
+<span id="cb58-5"><a href="#cb58-5"></a><span class="kw">for</span> <span class="ex">sample</span> in <span class="kw">`</span><span class="fu">cat</span> List<span class="kw">`;</span> <span class="kw">do</span> <span class="fu">cp</span> Input_docs/<span class="va">${sample}</span>.faa new_dir<span class="kw">;</span> <span class="kw">done</span>  </span>
+<span id="cb58-6"><a href="#cb58-6"></a></span>
+<span id="cb58-7"><a href="#cb58-7"></a><span class="co">#2. by grepping files using file names</span></span>
+<span id="cb58-8"><a href="#cb58-8"></a><span class="kw">for</span> <span class="ex">sample</span> in Input_docs/*fna<span class="kw">;</span> <span class="kw">do</span> <span class="fu">cp</span> <span class="va">$sample</span> new_dir/fna<span class="kw">;</span> <span class="kw">done</span>  </span>
+<span id="cb58-9"><a href="#cb58-9"></a></span>
+<span id="cb58-10"><a href="#cb58-10"></a><span class="co">#3.while loop example 1</span></span>
+<span id="cb58-11"><a href="#cb58-11"></a></span>
+<span id="cb58-12"><a href="#cb58-12"></a><span class="st">&#39;&#39;&#39;</span></span>
+<span id="cb58-13"><a href="#cb58-13"></a><span class="st">#!/bin/bash</span></span>
+<span id="cb58-14"><a href="#cb58-14"></a><span class="st">file=/etc/resolv.conf</span></span>
+<span id="cb58-15"><a href="#cb58-15"></a><span class="st">while IFS= read -r line</span></span>
+<span id="cb58-16"><a href="#cb58-16"></a><span class="st">do</span></span>
+<span id="cb58-17"><a href="#cb58-17"></a><span class="st">        # echo line is stored in $line</span></span>
+<span id="cb58-18"><a href="#cb58-18"></a><span class="st">    echo $line</span></span>
+<span id="cb58-19"><a href="#cb58-19"></a><span class="st">done &lt; &quot;$file&quot;</span></span>
+<span id="cb58-20"><a href="#cb58-20"></a><span class="st">&#39;&#39;&#39;</span></span>
+<span id="cb58-21"><a href="#cb58-21"></a></span>
+<span id="cb58-22"><a href="#cb58-22"></a><span class="co">#4. while loop to move a list of genomes to folder A to folder B</span></span>
+<span id="cb58-23"><a href="#cb58-23"></a>    </span>
+<span id="cb58-24"><a href="#cb58-24"></a>    <span class="kw">while</span> <span class="bu">read</span> <span class="va">from</span> <span class="va">to</span>; <span class="kw">do</span></span>
+<span id="cb58-25"><a href="#cb58-25"></a>        <span class="bu">echo</span> <span class="st">&quot;mv </span><span class="va">${from}</span><span class="st">* </span><span class="va">$to</span><span class="st">&quot;</span></span>
+<span id="cb58-26"><a href="#cb58-26"></a>    <span class="kw">done</span> <span class="op">&lt;</span> <span class="ex">to_replace.txt</span></span></code></pre></div>
 </div>
 <div id="section-48" class="section level83">
 <p class="heading"></p>
@@ -2598,16 +2626,17 @@ $(document).ready(function () {
 <h2>Basics search and replace</h2>
 <div id="section-52" class="section level22">
 <p class="heading"></p>
-<div class="sourceCode" id="cb58"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb58-1"><a href="#cb58-1"></a><span class="co"># search for &#39;ow&#39; and replace it with &#39;aagh&#39;</span></span>
-<span id="cb58-2"><a href="#cb58-2"></a><span class="fu">sed</span> <span class="st">&#39;s/ow/aagh/&#39;</span> temp.txt</span>
-<span id="cb58-3"><a href="#cb58-3"></a></span>
-<span id="cb58-4"><a href="#cb58-4"></a><span class="co"># search and replace pattern across the whole file and not only the first line</span></span>
-<span id="cb58-5"><a href="#cb58-5"></a><span class="fu">sed</span> <span class="st">&#39;s/ow/aagh/g&#39;</span> temp.txt</span>
-<span id="cb58-6"><a href="#cb58-6"></a></span>
-<span id="cb58-7"><a href="#cb58-7"></a><span class="co">#we also can use wildcards</span></span>
-<span id="cb58-8"><a href="#cb58-8"></a><span class="fu">sed</span> <span class="st">&#39;s/control[0-9]/control/g&#39;</span> Experiment1.txt <span class="op">&gt;</span> new_file.txt</span></code></pre></div>
+<div class="sourceCode" id="cb59"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb59-1"><a href="#cb59-1"></a><span class="co"># search for &#39;Ex&#39; and replace it with &#39;Experiment&#39;</span></span>
+<span id="cb59-2"><a href="#cb59-2"></a><span class="fu">sed</span> <span class="st">&#39;s/Ex/Experiment/&#39;</span> Input_docs/Experiment1.txt </span>
+<span id="cb59-3"><a href="#cb59-3"></a></span>
+<span id="cb59-4"><a href="#cb59-4"></a><span class="co"># search and replace pattern across the whole file and not only the first line</span></span>
+<span id="cb59-5"><a href="#cb59-5"></a><span class="fu">sed</span> <span class="st">&#39;s/Ex/Experiment/g&#39;</span> Input_docs/Experiment1.txt </span>
+<span id="cb59-6"><a href="#cb59-6"></a></span>
+<span id="cb59-7"><a href="#cb59-7"></a><span class="co">#we also can use wildcards</span></span>
+<span id="cb59-8"><a href="#cb59-8"></a><span class="fu">sed</span> <span class="st">&#39;s/control[0-9]/control/g&#39;</span> Input_docs/Experiment1.txt <span class="op">&gt;</span> Output_docs/new_file.txt</span></code></pre></div>
 <p>One important thing to remember is that certain symbols have specific meanings in UNIX. Examples are: comma, brackets, pipes. Do search for these in files, we need to escape them with a ****:</p>
-<div class="sourceCode" id="cb59"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb59-1"><a href="#cb59-1"></a><span class="fu">sed</span> <span class="st">&#39;s/N\[0.4uM\]/N(0.4uM)/g&#39;</span> Experiment1.txt <span class="op">&gt;</span> new_file.txt</span></code></pre></div>
+<div class="sourceCode" id="cb60"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb60-1"><a href="#cb60-1"></a></span>
+<span id="cb60-2"><a href="#cb60-2"></a><span class="fu">sed</span> <span class="st">&#39;s/N\[0.4uM\]/N(0.4uM)/g&#39;</span> Input_docs/Experiment1.txt <span class="op">&gt;</span> Output_docs/new_file.txt</span></code></pre></div>
 </div>
 </div>
 <div id="removing-things-and-using-wildcards" class="section level2">
@@ -2617,53 +2646,53 @@ $(document).ready(function () {
 <ul>
 <li>*$’ indicates a line containing zero or more spaces. Hence, this will delete all lines which are either empty or lines with only some blank spaces.</li>
 </ul>
-<div class="sourceCode" id="cb60"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb60-1"><a href="#cb60-1"></a><span class="co"># remove 1 first line</span></span>
-<span id="cb60-2"><a href="#cb60-2"></a><span class="fu">sed</span> <span class="st">&#39;1d&#39;</span> temp.txt</span>
-<span id="cb60-3"><a href="#cb60-3"></a></span>
-<span id="cb60-4"><a href="#cb60-4"></a><span class="co">#remove last line</span></span>
-<span id="cb60-5"><a href="#cb60-5"></a><span class="fu">sed</span> <span class="st">&#39;$d&#39;</span> file</span>
-<span id="cb60-6"><a href="#cb60-6"></a></span>
-<span id="cb60-7"><a href="#cb60-7"></a><span class="co">#remove lines 2-4</span></span>
-<span id="cb60-8"><a href="#cb60-8"></a><span class="fu">sed</span> <span class="st">&#39;2,4d&#39;</span> file</span>
-<span id="cb60-9"><a href="#cb60-9"></a></span>
-<span id="cb60-10"><a href="#cb60-10"></a><span class="co">#remove lines other than 2-4</span></span>
-<span id="cb60-11"><a href="#cb60-11"></a><span class="fu">sed</span> <span class="st">&#39;2,4!d&#39;</span> file </span>
-<span id="cb60-12"><a href="#cb60-12"></a></span>
-<span id="cb60-13"><a href="#cb60-13"></a><span class="co">#remove the first and last line</span></span>
-<span id="cb60-14"><a href="#cb60-14"></a><span class="fu">sed</span> <span class="st">&#39;1d;$d&#39;</span> file</span>
-<span id="cb60-15"><a href="#cb60-15"></a></span>
-<span id="cb60-16"><a href="#cb60-16"></a><span class="co">#remove lines beginning with an **L**</span></span>
-<span id="cb60-17"><a href="#cb60-17"></a><span class="fu">sed</span> <span class="st">&#39;/^L/d&#39;</span> file</span>
-<span id="cb60-18"><a href="#cb60-18"></a></span>
-<span id="cb60-19"><a href="#cb60-19"></a><span class="co">#delete lines ending with x</span></span>
-<span id="cb60-20"><a href="#cb60-20"></a><span class="fu">sed</span> <span class="st">&#39;/x$/d&#39;</span> file</span>
-<span id="cb60-21"><a href="#cb60-21"></a></span>
-<span id="cb60-22"><a href="#cb60-22"></a><span class="co">#delete lines ending with x OR X</span></span>
-<span id="cb60-23"><a href="#cb60-23"></a><span class="fu">sed</span> <span class="st">&#39;/[xX]$/d&#39;</span> file</span>
-<span id="cb60-24"><a href="#cb60-24"></a></span>
-<span id="cb60-25"><a href="#cb60-25"></a><span class="co">#delete blank lines (&#39;^$&#39; indicates lines containing nothing)</span></span>
-<span id="cb60-26"><a href="#cb60-26"></a><span class="fu">sed</span> <span class="st">&#39;/^$/d&#39;</span> file</span>
-<span id="cb60-27"><a href="#cb60-27"></a></span>
-<span id="cb60-28"><a href="#cb60-28"></a><span class="co">#delete lines that start with capital letters</span></span>
-<span id="cb60-29"><a href="#cb60-29"></a><span class="fu">sed</span> <span class="st">&#39;/^[A-Z]*$/d&#39;</span> file</span>
-<span id="cb60-30"><a href="#cb60-30"></a></span>
-<span id="cb60-31"><a href="#cb60-31"></a><span class="co">#delete lines with the pattern **Unix**</span></span>
-<span id="cb60-32"><a href="#cb60-32"></a><span class="fu">sed</span> <span class="st">&#39;/Unix/d&#39;</span> file</span>
-<span id="cb60-33"><a href="#cb60-33"></a></span>
-<span id="cb60-34"><a href="#cb60-34"></a><span class="co">#delete files with the pattern unix or Linux</span></span>
-<span id="cb60-35"><a href="#cb60-35"></a><span class="fu">sed</span> <span class="st">&#39;/Unix\|Linux/d&#39;</span> file</span>
-<span id="cb60-36"><a href="#cb60-36"></a></span>
-<span id="cb60-37"><a href="#cb60-37"></a><span class="co">#delete the 2nd occurence of each pattern (here *u*)</span></span>
-<span id="cb60-38"><a href="#cb60-38"></a><span class="fu">sed</span> <span class="st">&#39;s/u//2&#39;</span> file</span>
-<span id="cb60-39"><a href="#cb60-39"></a></span>
-<span id="cb60-40"><a href="#cb60-40"></a><span class="co">#remove all digits across the whole file</span></span>
-<span id="cb60-41"><a href="#cb60-41"></a><span class="fu">sed</span> <span class="st">&#39;s/[0-9]//g&#39;</span> file</span>
-<span id="cb60-42"><a href="#cb60-42"></a></span>
-<span id="cb60-43"><a href="#cb60-43"></a><span class="co">#remove all alpha-numerical characters</span></span>
-<span id="cb60-44"><a href="#cb60-44"></a><span class="fu">sed</span> <span class="st">&#39;s/[a-zA-Z0-9]//g&#39;</span> file</span>
-<span id="cb60-45"><a href="#cb60-45"></a></span>
-<span id="cb60-46"><a href="#cb60-46"></a><span class="co">#remove character regardless of the case</span></span>
-<span id="cb60-47"><a href="#cb60-47"></a><span class="fu">sed</span> <span class="st">&#39;s/[uU]//g&#39;</span> file</span></code></pre></div>
+<div class="sourceCode" id="cb61"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb61-1"><a href="#cb61-1"></a><span class="co"># remove 1 first line</span></span>
+<span id="cb61-2"><a href="#cb61-2"></a><span class="fu">sed</span> <span class="st">&#39;1d&#39;</span> Input_docs/Experiment1.txt</span>
+<span id="cb61-3"><a href="#cb61-3"></a></span>
+<span id="cb61-4"><a href="#cb61-4"></a><span class="co">#remove last line</span></span>
+<span id="cb61-5"><a href="#cb61-5"></a><span class="fu">sed</span> <span class="st">&#39;$d&#39;</span> Input_docs/Experiment1.txt</span>
+<span id="cb61-6"><a href="#cb61-6"></a></span>
+<span id="cb61-7"><a href="#cb61-7"></a><span class="co">#remove lines 2-4</span></span>
+<span id="cb61-8"><a href="#cb61-8"></a><span class="fu">sed</span> <span class="st">&#39;2,4d&#39;</span> Input_docs/Experiment1.txt</span>
+<span id="cb61-9"><a href="#cb61-9"></a></span>
+<span id="cb61-10"><a href="#cb61-10"></a><span class="co">#remove lines other than 2-4</span></span>
+<span id="cb61-11"><a href="#cb61-11"></a><span class="fu">sed</span> <span class="st">&#39;2,4!d&#39;</span> Input_docs/Experiment1.txt </span>
+<span id="cb61-12"><a href="#cb61-12"></a></span>
+<span id="cb61-13"><a href="#cb61-13"></a><span class="co">#remove the first and last line</span></span>
+<span id="cb61-14"><a href="#cb61-14"></a><span class="fu">sed</span> <span class="st">&#39;1d;$d&#39;</span> Input_docs/Experiment1.txt</span>
+<span id="cb61-15"><a href="#cb61-15"></a></span>
+<span id="cb61-16"><a href="#cb61-16"></a><span class="co">#remove lines beginning with an **L**</span></span>
+<span id="cb61-17"><a href="#cb61-17"></a><span class="fu">sed</span> <span class="st">&#39;/^L/d&#39;</span> Input_docs/Experiment1.txt</span>
+<span id="cb61-18"><a href="#cb61-18"></a></span>
+<span id="cb61-19"><a href="#cb61-19"></a><span class="co">#delete lines ending with d</span></span>
+<span id="cb61-20"><a href="#cb61-20"></a><span class="fu">sed</span> <span class="st">&#39;/d$/d&#39;</span> Input_docs/Experiment1.txt</span>
+<span id="cb61-21"><a href="#cb61-21"></a></span>
+<span id="cb61-22"><a href="#cb61-22"></a><span class="co">#delete lines ending with x OR X</span></span>
+<span id="cb61-23"><a href="#cb61-23"></a><span class="fu">sed</span> <span class="st">&#39;/[dD]$/d&#39;</span> Input_docs/Experiment1.txt</span>
+<span id="cb61-24"><a href="#cb61-24"></a></span>
+<span id="cb61-25"><a href="#cb61-25"></a><span class="co">#delete blank lines (&#39;^$&#39; indicates lines containing nothing)</span></span>
+<span id="cb61-26"><a href="#cb61-26"></a><span class="fu">sed</span> <span class="st">&#39;/^$/d&#39;</span> Input_docs/Experiment1.txt</span>
+<span id="cb61-27"><a href="#cb61-27"></a></span>
+<span id="cb61-28"><a href="#cb61-28"></a><span class="co">#delete lines that start with capital letters</span></span>
+<span id="cb61-29"><a href="#cb61-29"></a><span class="fu">sed</span> <span class="st">&#39;/^[A-Z]*$/d&#39;</span> Input_docs/Experiment1.txt</span>
+<span id="cb61-30"><a href="#cb61-30"></a></span>
+<span id="cb61-31"><a href="#cb61-31"></a><span class="co">#delete lines with the pattern **Unix**</span></span>
+<span id="cb61-32"><a href="#cb61-32"></a><span class="fu">sed</span> <span class="st">&#39;/Ex/d&#39;</span> Input_docs/Experiment1.txt</span>
+<span id="cb61-33"><a href="#cb61-33"></a></span>
+<span id="cb61-34"><a href="#cb61-34"></a><span class="co">#delete files with the pattern unix or Linux</span></span>
+<span id="cb61-35"><a href="#cb61-35"></a><span class="fu">sed</span> <span class="st">&#39;/Unix\|Linux/d&#39;</span> Input_docs/Experiment1.txt</span>
+<span id="cb61-36"><a href="#cb61-36"></a></span>
+<span id="cb61-37"><a href="#cb61-37"></a><span class="co">#delete the 2nd occurence of each pattern (here *o*)</span></span>
+<span id="cb61-38"><a href="#cb61-38"></a><span class="fu">sed</span> <span class="st">&#39;s/o//2&#39;</span> Input_docs/Experiment1.txt</span>
+<span id="cb61-39"><a href="#cb61-39"></a></span>
+<span id="cb61-40"><a href="#cb61-40"></a><span class="co">#remove all digits across the whole file</span></span>
+<span id="cb61-41"><a href="#cb61-41"></a><span class="fu">sed</span> <span class="st">&#39;s/[0-9]//g&#39;</span> Input_docs/Experiment1.txt</span>
+<span id="cb61-42"><a href="#cb61-42"></a></span>
+<span id="cb61-43"><a href="#cb61-43"></a><span class="co">#remove all alpha-numerical characters</span></span>
+<span id="cb61-44"><a href="#cb61-44"></a><span class="fu">sed</span> <span class="st">&#39;s/[a-zA-Z0-9]//g&#39;</span> Input_docs/Experiment1.txt</span>
+<span id="cb61-45"><a href="#cb61-45"></a></span>
+<span id="cb61-46"><a href="#cb61-46"></a><span class="co">#remove character regardless of the case</span></span>
+<span id="cb61-47"><a href="#cb61-47"></a><span class="fu">sed</span> <span class="st">&#39;s/[eE]//g&#39;</span> Input_docs/Experiment1.txt</span></code></pre></div>
 <div id="section-54" class="section level83">
 <p class="heading"></p>
 </div>
@@ -2687,7 +2716,9 @@ $(document).ready(function () {
 <ul>
 <li>LC_ALL=C: make sure that join and sort speak the same language -a1 = also print unpairable lines (print lines from file 1 in this case) -j = equivalent to ‘-1 FIELD -2 FIELD’ -1 FIELD = in File1 use column FIELD (i.e. 1) -o: specify the order of the output format</li>
 </ul>
-<div class="sourceCode" id="cb61"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb61-1"><a href="#cb61-1"></a><span class="va">LC_ALL=</span>C <span class="fu">join</span> -a1  -j1 -e<span class="st">&#39;-&#39;</span> -o 0,2.2,2.3 <span class="op">&lt;(</span><span class="va">LC_ALL=</span>C <span class="fu">sort</span> File1<span class="op">)</span> <span class="op">&lt;(</span><span class="va">LC_ALL=</span>C <span class="fu">sort</span> File2<span class="op">)</span> -t <span class="st">$&#39;</span><span class="dt">\t</span><span class="st">&#39;</span> <span class="kw">|</span> <span class="va">LC_ALL=</span>C <span class="fu">sort</span>  <span class="op">&gt;</span> MergedFile</span></code></pre></div>
+<div class="sourceCode" id="cb62"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb62-1"><a href="#cb62-1"></a></span>
+<span id="cb62-2"><a href="#cb62-2"></a><span class="va">LC_ALL=</span>C <span class="fu">join</span> -a1  -j1 -e<span class="st">&#39;-&#39;</span> -o 0,2.2,2.3 <span class="op">&lt;(</span><span class="va">LC_ALL=</span>C <span class="fu">sort</span> Input_docs/Experiment2.txt<span class="op">)</span> <span class="op">&lt;(</span><span class="va">LC_ALL=</span>C <span class="fu">sort</span> Input_docs/Experiment3.txt<span class="op">)</span> -t <span class="st">$&#39;</span><span class="dt">\t</span><span class="st">&#39;</span> <span class="kw">|</span> <span class="va">LC_ALL=</span>C <span class="fu">sort</span>  <span class="op">&gt;</span> MergedFile</span></code></pre></div>
+<p>Starting the section below , we have random code snippets that are useful to deal with sequencing data and/or genomic data.</p>
 <div id="section-58" class="section level83">
 <p class="heading"></p>
 </div>
@@ -2709,7 +2740,8 @@ $(document).ready(function () {
 <div id="section-62" class="section level22">
 <p class="heading"></p>
 <p>Example of output found <a href="https://www.bioinformatics.babraham.ac.uk/projects/fastqc/">here</a></p>
-<div class="sourceCode" id="cb62"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb62-1"><a href="#cb62-1"></a><span class="ex">fastqc</span> fasta_file</span></code></pre></div>
+<div class="sourceCode" id="cb63"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb63-1"><a href="#cb63-1"></a></span>
+<span id="cb63-2"><a href="#cb63-2"></a><span class="ex">fastqc</span> fasta_file</span></code></pre></div>
 </div>
 </div>
 <div id="trimming-adaptors" class="section level2">
@@ -2732,7 +2764,7 @@ $(document).ready(function () {
 <li>trim_n : Remove flanking N bases from each read. That is, a read such as this: NNACGTACGTNNNN</li>
 </ul>
 <p>When you use -p/–paired-output, cutadapt checks whether the files are properly paired. If a read is removed from one of the files, cutadapt will ensure it is also removed from the other file. By default, the filtering options discard or redirect the read pair if any of the two reads fulfill the criteria. That is, –max-n discards the pair if one of the two reads has too many N bases. To further complicate matters, cutadapt switches to a backwards compatibility mode (“legacy mode”) when none of the uppercase modification options (-A/-B/-G/-U) are given. In that mode, filtering criteria are checked only for the first read. Cutadapt will also tell you at the top of the report whether legacy mode is active. Check that line if you get strange results!</p>
-<div class="sourceCode" id="cb63"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb63-1"><a href="#cb63-1"></a><span class="ex">cutadapt</span> -a ADAPTER_FWD -A ADAPTER_REV -o out.1.fastq -p out.2.fastq reads.1.fastq reads.2.fastq</span></code></pre></div>
+<div class="sourceCode" id="cb64"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb64-1"><a href="#cb64-1"></a><span class="ex">cutadapt</span> -a ADAPTER_FWD -A ADAPTER_REV -o out.1.fastq -p out.2.fastq reads.1.fastq reads.2.fastq</span></code></pre></div>
 </div>
 </div>
 <div id="interleaving-reads-from-r1-and-r2" class="section level2">
@@ -2740,7 +2772,7 @@ $(document).ready(function () {
 <div id="section-64" class="section level22">
 <p class="heading"></p>
 <p>Some programs need the R1 and R2 reads to be interleaved for data analysis (i.e. IDBA)</p>
-<div class="sourceCode" id="cb64"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb64-1"><a href="#cb64-1"></a><span class="ex">python</span> interleave_fastq.py R1_001_CUTADAPT.fastq R2_001_CUTADAPT.fastq <span class="op">&gt;</span> combined.fastq</span></code></pre></div>
+<div class="sourceCode" id="cb65"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb65-1"><a href="#cb65-1"></a><span class="ex">python</span> interleave_fastq.py R1_001_CUTADAPT.fastq R2_001_CUTADAPT.fastq <span class="op">&gt;</span> combined.fastq</span></code></pre></div>
 </div>
 </div>
 <div id="sickle-filtering-sequences-by-quality" class="section level2">
@@ -2749,7 +2781,7 @@ $(document).ready(function () {
 <p class="heading"></p>
 <p>More info can be found <a href="https://github.com/najoshi/sickle">here</a></p>
 <p>Parameters: - -q: quality threshold, default 20 - -l : length threshold, default 20</p>
-<div class="sourceCode" id="cb65"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb65-1"><a href="#cb65-1"></a><span class="ex">path/Sickle/sickle-master/sickle</span> pe -c combined.fastq -t sanger -m MB12_15_S22_L5_combo_trimmed.fastq -s MB12_15_S22_L5_singles_trimmed.fastq</span></code></pre></div>
+<div class="sourceCode" id="cb66"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb66-1"><a href="#cb66-1"></a><span class="ex">path/Sickle/sickle-master/sickle</span> pe -c combined.fastq -t sanger -m MB12_15_S22_L5_combo_trimmed.fastq -s MB12_15_S22_L5_singles_trimmed.fastq</span></code></pre></div>
 <div id="section-66" class="section level83">
 <p class="heading"></p>
 </div>
@@ -2773,15 +2805,15 @@ $(document).ready(function () {
 <p class="heading"></p>
 <p>Basic info can be found <a href="http://cab.spbu.ru/software/meta-spades/">here</a>.</p>
 <p>Out of experience this assemblies provides good assemblies with low memory requirements. There are several additional settings that can be controlled, the most relevant to check out is usually the kmer size (applies for all assemblers)</p>
-<div class="sourceCode" id="cb66"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb66-1"><a href="#cb66-1"></a><span class="co">#on R1 and R2</span></span>
-<span id="cb66-2"><a href="#cb66-2"></a><span class="ex">metaspades.py</span>   -1 MB12_15_S22_combined_combo_trimmed_1.fastq -2 combo_trimmed_2.fastq -o outdir</span>
-<span id="cb66-3"><a href="#cb66-3"></a></span>
-<span id="cb66-4"><a href="#cb66-4"></a><span class="co">#run based on interleaved sequences</span></span>
-<span id="cb66-5"><a href="#cb66-5"></a><span class="ex">metaspades.py</span>   --12 MB12_15_S22_combined_combo_trimmed.fastq -o outdir</span>
-<span id="cb66-6"><a href="#cb66-6"></a></span>
-<span id="cb66-7"><a href="#cb66-7"></a><span class="co">#setup for a loop</span></span>
-<span id="cb66-8"><a href="#cb66-8"></a><span class="co">#setup for loop</span></span>
-<span id="cb66-9"><a href="#cb66-9"></a><span class="kw">for</span> <span class="ex">i</span> in <span class="kw">`</span><span class="fu">cat</span> SampleList<span class="kw">`;</span> <span class="kw">do</span> <span class="ex">megahit</span> -1 path/<span class="va">${i}</span>.fw_paired.fastq.gz -2 path/<span class="va">${i}</span>.rv_paired.fastq.gz -t 20 -o <span class="va">$i</span><span class="kw">;</span> <span class="kw">done</span></span></code></pre></div>
+<div class="sourceCode" id="cb67"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb67-1"><a href="#cb67-1"></a><span class="co">#on R1 and R2</span></span>
+<span id="cb67-2"><a href="#cb67-2"></a><span class="ex">metaspades.py</span>   -1 MB12_15_S22_combined_combo_trimmed_1.fastq -2 combo_trimmed_2.fastq -o outdir</span>
+<span id="cb67-3"><a href="#cb67-3"></a></span>
+<span id="cb67-4"><a href="#cb67-4"></a><span class="co">#run based on interleaved sequences</span></span>
+<span id="cb67-5"><a href="#cb67-5"></a><span class="ex">metaspades.py</span>   --12 MB12_15_S22_combined_combo_trimmed.fastq -o outdir</span>
+<span id="cb67-6"><a href="#cb67-6"></a></span>
+<span id="cb67-7"><a href="#cb67-7"></a><span class="co">#setup for a loop</span></span>
+<span id="cb67-8"><a href="#cb67-8"></a><span class="co">#setup for loop</span></span>
+<span id="cb67-9"><a href="#cb67-9"></a><span class="kw">for</span> <span class="ex">i</span> in <span class="kw">`</span><span class="fu">cat</span> SampleList<span class="kw">`;</span> <span class="kw">do</span> <span class="ex">megahit</span> -1 path/<span class="va">${i}</span>.fw_paired.fastq.gz -2 path/<span class="va">${i}</span>.rv_paired.fastq.gz -t 20 -o <span class="va">$i</span><span class="kw">;</span> <span class="kw">done</span></span></code></pre></div>
 </div>
 </div>
 <div id="idba-ud" class="section level2">
@@ -2793,18 +2825,18 @@ $(document).ready(function () {
 </div>
 <div id="fq2fa-transfer-files-into-format-needed-by-idba" class="section level3">
 <h3>fq2fa: Transfer files into format needed by IDBA</h3>
-<div class="sourceCode" id="cb67"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb67-1"><a href="#cb67-1"></a><span class="ex">fq2fa</span> --paired MB12_15_S22_combined_combo_trimmed.fastq  MB12_15_S22_combined_combo_trimmed.fasta</span></code></pre></div>
+<div class="sourceCode" id="cb68"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb68-1"><a href="#cb68-1"></a><span class="ex">fq2fa</span> --paired MB12_15_S22_combined_combo_trimmed.fastq  MB12_15_S22_combined_combo_trimmed.fasta</span></code></pre></div>
 </div>
 <div id="assemble" class="section level3">
 <h3>assemble</h3>
-<div class="sourceCode" id="cb68"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb68-1"><a href="#cb68-1"></a><span class="ex">idba_ud</span> -r input_file.fasta -o output_directory_name --pre_correction --mink 75 --maxk 105 --step 10 --seed_kmer 55 --num_threads 40</span></code></pre></div>
+<div class="sourceCode" id="cb69"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb69-1"><a href="#cb69-1"></a><span class="ex">idba_ud</span> -r input_file.fasta -o output_directory_name --pre_correction --mink 75 --maxk 105 --step 10 --seed_kmer 55 --num_threads 40</span></code></pre></div>
 </div>
 </div>
 <div id="metaquast-control-the-quality-of-assemblies" class="section level2">
 <h2>Metaquast: Control the quality of assemblies</h2>
 <div id="section-72" class="section level22">
 <p class="heading"></p>
-<div class="sourceCode" id="cb69"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb69-1"><a href="#cb69-1"></a><span class="ex">metaquast.py</span> contigs.fasta -o outputfolder</span></code></pre></div>
+<div class="sourceCode" id="cb70"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb70-1"><a href="#cb70-1"></a><span class="ex">metaquast.py</span> contigs.fasta -o outputfolder</span></code></pre></div>
 <div id="section-73" class="section level83">
 <p class="heading"></p>
 </div>
@@ -2825,29 +2857,29 @@ $(document).ready(function () {
 <ol style="list-style-type: decimal">
 <li>create Index file</li>
 </ol>
-<div class="sourceCode" id="cb70"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb70-1"><a href="#cb70-1"></a><span class="ex">bwa</span> index All_Bacteria_RP.fasta</span></code></pre></div>
+<div class="sourceCode" id="cb71"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb71-1"><a href="#cb71-1"></a><span class="ex">bwa</span> index All_Bacteria_RP.fasta</span></code></pre></div>
 <ol start="2" style="list-style-type: decimal">
 <li>Align genomes against raw R1 and R2 reads with default bwa settings</li>
 </ol>
-<div class="sourceCode" id="cb71"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb71-1"><a href="#cb71-1"></a><span class="ex">bwa</span> mem All_Bacteria_RP.fasta R1_001.fastq R2_001.fastq  <span class="op">&gt;</span> paired.sam</span></code></pre></div>
+<div class="sourceCode" id="cb72"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb72-1"><a href="#cb72-1"></a><span class="ex">bwa</span> mem All_Bacteria_RP.fasta R1_001.fastq R2_001.fastq  <span class="op">&gt;</span> paired.sam</span></code></pre></div>
 <ol start="3" style="list-style-type: decimal">
 <li>create bam file and sort</li>
 </ol>
-<div class="sourceCode" id="cb72"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb72-1"><a href="#cb72-1"></a><span class="ex">samtools</span> view -hb -F4 paired.sam <span class="kw">|</span> <span class="ex">samtools</span> sort - -o paired_sorted.sam</span></code></pre></div>
+<div class="sourceCode" id="cb73"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb73-1"><a href="#cb73-1"></a><span class="ex">samtools</span> view -hb -F4 paired.sam <span class="kw">|</span> <span class="ex">samtools</span> sort - -o paired_sorted.sam</span></code></pre></div>
 <ol start="4" style="list-style-type: decimal">
 <li>create index for bam file</li>
 </ol>
-<div class="sourceCode" id="cb73"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb73-1"><a href="#cb73-1"></a><span class="ex">samtools</span> index paired_sorted.sam</span></code></pre></div>
+<div class="sourceCode" id="cb74"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb74-1"><a href="#cb74-1"></a><span class="ex">samtools</span> index paired_sorted.sam</span></code></pre></div>
 <ol start="5" style="list-style-type: decimal">
 <li>count mapped reads (contig ID, read length, #mapped reads and # unmapped reads)</li>
 </ol>
-<div class="sourceCode" id="cb74"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb74-1"><a href="#cb74-1"></a><span class="ex">samtools</span> idxstats paired_sorted.bam <span class="op">&gt;</span> mapped.txt</span></code></pre></div>
+<div class="sourceCode" id="cb75"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb75-1"><a href="#cb75-1"></a><span class="ex">samtools</span> idxstats paired_sorted.bam <span class="op">&gt;</span> mapped.txt</span></code></pre></div>
 <ol start="6" style="list-style-type: decimal">
 <li>count row sum</li>
 </ol>
-<div class="sourceCode" id="cb75"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb75-1"><a href="#cb75-1"></a><span class="fu">awk</span> <span class="st">&#39;{Mapped+=$3}END{print FILENAME,Mapped}&#39;</span> mapped.txt<span class="kw">;</span> <span class="kw">done</span> <span class="op">&gt;</span> <span class="ex">All_mapped.txt</span></span></code></pre></div>
+<div class="sourceCode" id="cb76"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb76-1"><a href="#cb76-1"></a><span class="fu">awk</span> <span class="st">&#39;{Mapped+=$3}END{print FILENAME,Mapped}&#39;</span> mapped.txt<span class="kw">;</span> <span class="kw">done</span> <span class="op">&gt;</span> <span class="ex">All_mapped.txt</span></span></code></pre></div>
 <p>NA. Only print out properly paired reads (use a flag)</p>
-<div class="sourceCode" id="cb76"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb76-1"><a href="#cb76-1"></a><span class="ex">samtools</span> view -hbS -f 2 All_Bacteria_4572_12cm_final.sam <span class="kw">|</span> <span class="ex">samtools</span> sort - Bacteria_4572_12cm_sorted_only_paired</span></code></pre></div>
+<div class="sourceCode" id="cb77"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb77-1"><a href="#cb77-1"></a><span class="ex">samtools</span> view -hbS -f 2 All_Bacteria_4572_12cm_final.sam <span class="kw">|</span> <span class="ex">samtools</span> sort - Bacteria_4572_12cm_sorted_only_paired</span></code></pre></div>
 <p>samtools specifications:</p>
 <ul>
 <li>-h Include the header in the output.</li>
@@ -2880,11 +2912,11 @@ $(document).ready(function () {
 <ol start="0" style="list-style-type: decimal">
 <li>Select subset of fasta sequences</li>
 </ol>
-<div class="sourceCode" id="cb77"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb77-1"><a href="#cb77-1"></a><span class="fu">perl</span> /home/scripts/screen_list_new.pl to_keep.txt xxx.fasta keep <span class="op">&gt;</span> subsetted.fasta</span></code></pre></div>
+<div class="sourceCode" id="cb78"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb78-1"><a href="#cb78-1"></a><span class="fu">perl</span> /home/scripts/screen_list_new.pl to_keep.txt xxx.fasta keep <span class="op">&gt;</span> subsetted.fasta</span></code></pre></div>
 <ol style="list-style-type: decimal">
 <li>Transfer files to needed format, ideally include reference genomes</li>
 </ol>
-<div class="sourceCode" id="cb78"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb78-1"><a href="#cb78-1"></a><span class="fu">perl</span> /home/scripts/ESOM/esomWrapper.pl -path /home/DWH_SIP/binning -ext fasta -dir ESOM_4K -min 4000 -max 4000 -mod</span></code></pre></div>
+<div class="sourceCode" id="cb79"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb79-1"><a href="#cb79-1"></a><span class="fu">perl</span> /home/scripts/ESOM/esomWrapper.pl -path /home/DWH_SIP/binning -ext fasta -dir ESOM_4K -min 4000 -max 4000 -mod</span></code></pre></div>
 <ol start="2" style="list-style-type: decimal">
 <li>run esomana</li>
 </ol>
@@ -2911,7 +2943,7 @@ $(document).ready(function () {
 <ol start="4" style="list-style-type: decimal">
 <li>extract bins</li>
 </ol>
-<div class="sourceCode" id="cb79"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb79-1"><a href="#cb79-1"></a><span class="fu">perl</span> /home/scripts/ESOM/getClassFasta.pl -cls ../Tetra_esom_final2.cls -names ../Tetra_esom_5000.names -fasta ../esom.fasta -loyal 51 -num 1</span></code></pre></div>
+<div class="sourceCode" id="cb80"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb80-1"><a href="#cb80-1"></a><span class="fu">perl</span> /home/scripts/ESOM/getClassFasta.pl -cls ../Tetra_esom_final2.cls -names ../Tetra_esom_5000.names -fasta ../esom.fasta -loyal 51 -num 1</span></code></pre></div>
 <p>NA. change memory allowance for java</p>
 <ul>
 <li>go to esomstart</li>
@@ -2934,50 +2966,50 @@ $(document).ready(function () {
 <ol style="list-style-type: decimal">
 <li>set the python3 environment in your shell (keep that in mind to deactivate it and go to python2 when not needed)</li>
 </ol>
-<div class="sourceCode" id="cb80"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb80-1"><a href="#cb80-1"></a><span class="bu">source</span> ~/.bashrc.conda3</span></code></pre></div>
+<div class="sourceCode" id="cb81"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb81-1"><a href="#cb81-1"></a><span class="bu">source</span> ~/.bashrc.conda3</span></code></pre></div>
 <ol start="2" style="list-style-type: upper-alpha">
 <li>activate the environment</li>
 </ol>
-<div class="sourceCode" id="cb81"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb81-1"><a href="#cb81-1"></a><span class="ex">anvi-activate-v3</span></span></code></pre></div>
+<div class="sourceCode" id="cb82"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb82-1"><a href="#cb82-1"></a><span class="ex">anvi-activate-v3</span></span></code></pre></div>
 <ol start="3" style="list-style-type: upper-alpha">
 <li>test that all is good</li>
 </ol>
-<div class="sourceCode" id="cb82"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb82-1"><a href="#cb82-1"></a><span class="ex">anvi-self-test</span> --suite mini</span></code></pre></div>
+<div class="sourceCode" id="cb83"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb83-1"><a href="#cb83-1"></a><span class="ex">anvi-self-test</span> --suite mini</span></code></pre></div>
 <ol start="4" style="list-style-type: upper-alpha">
 <li>close virtual environment with</li>
 </ol>
-<div class="sourceCode" id="cb83"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb83-1"><a href="#cb83-1"></a><span class="ex">deactivate</span></span></code></pre></div>
+<div class="sourceCode" id="cb84"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb84-1"><a href="#cb84-1"></a><span class="ex">deactivate</span></span></code></pre></div>
 <ol start="2" style="list-style-type: decimal">
 <li>needed input files Anvi’o needs the assembled contigs (see above) and a mapping file (see details in the BWA section below) Conversion sam to bam (do not sort and keep easy headers!, init-bam is doing the sorting):</li>
 </ol>
-<div class="sourceCode" id="cb84"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb84-1"><a href="#cb84-1"></a><span class="ex">samtools</span> view -bS -F 4 G1_v_G1.sam -o G1_v_G1.bam</span>
-<span id="cb84-2"><a href="#cb84-2"></a></span>
-<span id="cb84-3"><a href="#cb84-3"></a><span class="ex">samtools</span> view -F 4 -bS G1_vs_G1.sam <span class="kw">|</span> <span class="ex">samtools</span> sort - G1_vs_G1_sorted</span></code></pre></div>
+<div class="sourceCode" id="cb85"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb85-1"><a href="#cb85-1"></a><span class="ex">samtools</span> view -bS -F 4 G1_v_G1.sam -o G1_v_G1.bam</span>
+<span id="cb85-2"><a href="#cb85-2"></a></span>
+<span id="cb85-3"><a href="#cb85-3"></a><span class="ex">samtools</span> view -F 4 -bS G1_vs_G1.sam <span class="kw">|</span> <span class="ex">samtools</span> sort - G1_vs_G1_sorted</span></code></pre></div>
 <ol start="3" style="list-style-type: decimal">
 <li>prepare bam file</li>
 </ol>
-<div class="sourceCode" id="cb85"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb85-1"><a href="#cb85-1"></a><span class="ex">anvi-init-bam</span> G1_vs_G1_sorted.bam -o G1_vs_G1_init.bam</span>
-<span id="cb85-2"><a href="#cb85-2"></a><span class="ex">For</span> several samples at once at once do:</span>
-<span id="cb85-3"><a href="#cb85-3"></a><span class="kw">for</span> <span class="ex">sample</span> in <span class="kw">`</span><span class="fu">cat</span> SAMPLE_IDs<span class="kw">`;</span> <span class="kw">do</span> <span class="ex">anvi-init-bam</span> <span class="va">$sample</span>.bam -o <span class="va">$sample</span>-init.bam<span class="kw">;</span> <span class="kw">done</span></span></code></pre></div>
+<div class="sourceCode" id="cb86"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb86-1"><a href="#cb86-1"></a><span class="ex">anvi-init-bam</span> G1_vs_G1_sorted.bam -o G1_vs_G1_init.bam</span>
+<span id="cb86-2"><a href="#cb86-2"></a><span class="ex">For</span> several samples at once at once do:</span>
+<span id="cb86-3"><a href="#cb86-3"></a><span class="kw">for</span> <span class="ex">sample</span> in <span class="kw">`</span><span class="fu">cat</span> SAMPLE_IDs<span class="kw">`;</span> <span class="kw">do</span> <span class="ex">anvi-init-bam</span> <span class="va">$sample</span>.bam -o <span class="va">$sample</span>-init.bam<span class="kw">;</span> <span class="kw">done</span></span></code></pre></div>
 <ol start="5" style="list-style-type: decimal">
 <li>prepare contigs db (from anvio folder)</li>
 </ol>
-<div class="sourceCode" id="cb86"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb86-1"><a href="#cb86-1"></a><span class="ex">anvi-gen-contigs-database</span> -f Guay1_2kb_scaffolds.fasta  -o contigs.db</span></code></pre></div>
+<div class="sourceCode" id="cb87"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb87-1"><a href="#cb87-1"></a><span class="ex">anvi-gen-contigs-database</span> -f Guay1_2kb_scaffolds.fasta  -o contigs.db</span></code></pre></div>
 <ol start="5" style="list-style-type: decimal">
 <li>prepare bam db (from anvio folder)</li>
 </ol>
-<div class="sourceCode" id="cb87"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb87-1"><a href="#cb87-1"></a><span class="ex">anvi-profile</span> -i ../../../ggKbase/Guay1/BWA/G1_vs_G2-init.bam -c contigs.db --min-contig-length 2000 --output-dir G1_vs_G2_profile --sample-name G1_vs_G2 -T 2</span>
-<span id="cb87-2"><a href="#cb87-2"></a></span>
-<span id="cb87-3"><a href="#cb87-3"></a><span class="ex">anvi-profile</span> -i BWA/G1_vs_G1-init.bam -c contigs.db --min-contig-length 2500 --output-dir G1_vs_G1_profile --sample-name G1_vs_G1 -T 2 -M 2500</span></code></pre></div>
+<div class="sourceCode" id="cb88"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb88-1"><a href="#cb88-1"></a><span class="ex">anvi-profile</span> -i ../../../ggKbase/Guay1/BWA/G1_vs_G2-init.bam -c contigs.db --min-contig-length 2000 --output-dir G1_vs_G2_profile --sample-name G1_vs_G2 -T 2</span>
+<span id="cb88-2"><a href="#cb88-2"></a></span>
+<span id="cb88-3"><a href="#cb88-3"></a><span class="ex">anvi-profile</span> -i BWA/G1_vs_G1-init.bam -c contigs.db --min-contig-length 2500 --output-dir G1_vs_G1_profile --sample-name G1_vs_G1 -T 2 -M 2500</span></code></pre></div>
 <ol start="6" style="list-style-type: decimal">
 <li>combine profiles (for the 4 mapping files against S1 scaffolds) and bin</li>
 </ol>
-<div class="sourceCode" id="cb88"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb88-1"><a href="#cb88-1"></a><span class="ex">anvi-merge</span> */PROFILE.db -o SAMPLES-MERGED -c contigs.db </span></code></pre></div>
+<div class="sourceCode" id="cb89"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb89-1"><a href="#cb89-1"></a><span class="ex">anvi-merge</span> */PROFILE.db -o SAMPLES-MERGED -c contigs.db </span></code></pre></div>
 <ol start="7" style="list-style-type: decimal">
 <li>summarize bins</li>
 </ol>
-<div class="sourceCode" id="cb89"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb89-1"><a href="#cb89-1"></a><span class="ex">anvi-summarize</span> -p SAMPLES-MERGED/PROFILE.db -c contigs.db -o SAMPLES-SUMMARY -C CONCOCT </span></code></pre></div>
-<p>Paramters: - M INT, –min-contig-length INT Minimum length of contigs in a BAM file to analyze. The minimum length should be long enough for tetra- nucleotide frequency analysis to be meaningful. There is no way to define a golden number of minumum length that would be applicable to genomes found in all environments, but we chose the default to be 2500, and have been happy with it. You are welcome to experiment, but we advise to never go below 1,000. You also should remember that the lower you go, the more time it will take to analyze all contigs. You can use –list-contigs parameter to have an idea how many contigs would be discarded for a given M.</p>
+<div class="sourceCode" id="cb90"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb90-1"><a href="#cb90-1"></a><span class="ex">anvi-summarize</span> -p SAMPLES-MERGED/PROFILE.db -c contigs.db -o SAMPLES-SUMMARY -C CONCOCT </span></code></pre></div>
+<p>Paramters: - M INT, –min-contig-length INT Minimum length of contigs in a BAM file to analyze. The minimum length should be long enough for tetra- nucleotide frequency analysis to be meaningful. There is no way to define a golden number of minumum length that would be applicable to genomes found in all environments, but we chose the default to be 2500, and have been happy with it. You are welcome to Input_docs/Experiment, but we advise to never go below 1,000. You also should remember that the lower you go, the more time it will take to analyze all contigs. You can use –list-contigs parameter to have an idea how many contigs would be discarded for a given M.</p>
 </div>
 </div>
 <div id="metabat" class="section level2">
@@ -2993,19 +3025,19 @@ $(document).ready(function () {
 <li>For creating sam files see in ggkbase section (as an example)</li>
 </ul>
 <p>Conversion sam to bam (do not sort and keep easy headers!):</p>
-<div class="sourceCode" id="cb90"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb90-1"><a href="#cb90-1"></a><span class="ex">samtools</span> view -S -b xxx.sam <span class="op">&gt;</span> xxx.bam</span></code></pre></div>
+<div class="sourceCode" id="cb91"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb91-1"><a href="#cb91-1"></a><span class="ex">samtools</span> view -S -b xxx.sam <span class="op">&gt;</span> xxx.bam</span></code></pre></div>
 <ol start="2" style="list-style-type: decimal">
 <li>Convert bam files</li>
 </ol>
-<div class="sourceCode" id="cb91"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb91-1"><a href="#cb91-1"></a><span class="ex">jgi_summarize_bam_contig_depths</span> --outputDepth Sample_depth_metabat.txt --pairedContigs Sample/paired.txt Sample/*.bam </span></code></pre></div>
+<div class="sourceCode" id="cb92"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb92-1"><a href="#cb92-1"></a><span class="ex">jgi_summarize_bam_contig_depths</span> --outputDepth Sample_depth_metabat.txt --pairedContigs Sample/paired.txt Sample/*.bam </span></code></pre></div>
 <p>If you want to get rid of the variance (for abundance graphs later on)</p>
-<div class="sourceCode" id="cb92"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb92-1"><a href="#cb92-1"></a><span class="ex">jgi_summarize_bam_contig_depths</span> --outputDepth G17_depth_no_var.txt ../../../ggKbase/Guay17/BWA/*-init.bam  --noIntraDepthVariance</span></code></pre></div>
+<div class="sourceCode" id="cb93"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb93-1"><a href="#cb93-1"></a><span class="ex">jgi_summarize_bam_contig_depths</span> --outputDepth G17_depth_no_var.txt ../../../ggKbase/Guay17/BWA/*-init.bam  --noIntraDepthVariance</span></code></pre></div>
 <ol start="3" style="list-style-type: decimal">
 <li>run metabat</li>
 </ol>
-<div class="sourceCode" id="cb93"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb93-1"><a href="#cb93-1"></a><span class="ex">metabat</span> -i Guay17_2kb_scaffolds.fasta -a depth.txt -o bin -t 5 --minProb 75 --minContig 2500 --minContigByCorr 2500</span></code></pre></div>
+<div class="sourceCode" id="cb94"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb94-1"><a href="#cb94-1"></a><span class="ex">metabat</span> -i Guay17_2kb_scaffolds.fasta -a depth.txt -o bin -t 5 --minProb 75 --minContig 2500 --minContigByCorr 2500</span></code></pre></div>
 <p>Ideally oone has &gt; 10 samples to estimate the coverage across samples accurately, If we have less we can do the following:</p>
-<div class="sourceCode" id="cb94"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb94-1"><a href="#cb94-1"></a><span class="ex">metabat</span> -i Guay9_5kb_scaffolds.fasta -a depth.txt -o bin --minSamples 2 --minCVSum 0 -s 500000 --saveCls --unbinned --keep -d -v --minCV 0.1 -m 2500</span></code></pre></div>
+<div class="sourceCode" id="cb95"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb95-1"><a href="#cb95-1"></a><span class="ex">metabat</span> -i Guay9_5kb_scaffolds.fasta -a depth.txt -o bin --minSamples 2 --minCVSum 0 -s 500000 --saveCls --unbinned --keep -d -v --minCV 0.1 -m 2500</span></code></pre></div>
 <p>Options: - -m [ –minContig ] arg (=2500) Minimum size of a contig to be considered for binning (should be &gt;=1500; ideally &gt;=2500). If # of samples &gt;= minSamples, small contigs (&gt;=1000) - –pairedContigs arg The file to output the sparse matrix of contigs which paired reads span (default: none)</p>
 </div>
 </div>
@@ -3017,11 +3049,11 @@ $(document).ready(function () {
 <li><p>create mapping files (done with bwa)</p></li>
 <li><p>use the depth file created with the metabat workflow but do some cosmetics so that it works for maxbin</p></li>
 </ol>
-<div class="sourceCode" id="cb95"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb95-1"><a href="#cb95-1"></a><span class="fu">cut</span> -f1,3 Sample_depth_metabat.txt <span class="kw">|</span> <span class="fu">tail</span> -n+2 <span class="op">&gt;</span> Sample_depth_maxbin.txt</span></code></pre></div>
+<div class="sourceCode" id="cb96"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb96-1"><a href="#cb96-1"></a><span class="fu">cut</span> -f1,3 Sample_depth_metabat.txt <span class="kw">|</span> <span class="fu">tail</span> -n+2 <span class="op">&gt;</span> Sample_depth_maxbin.txt</span></code></pre></div>
 <ol start="3" style="list-style-type: decimal">
 <li>run binner</li>
 </ol>
-<div class="sourceCode" id="cb96"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb96-1"><a href="#cb96-1"></a><span class="ex">run_MaxBin.pl</span> -thread 30 -contig contigs_2500.fna -out Maxbin/mx_b -abund Sample_depth_maxbin.txt</span></code></pre></div>
+<div class="sourceCode" id="cb97"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb97-1"><a href="#cb97-1"></a><span class="ex">run_MaxBin.pl</span> -thread 30 -contig contigs_2500.fna -out Maxbin/mx_b -abund Sample_depth_maxbin.txt</span></code></pre></div>
 </div>
 </div>
 <div id="concot" class="section level2">
@@ -3033,27 +3065,27 @@ $(document).ready(function () {
 <li><p>create mapping files (done with bwa)</p></li>
 <li><p>use the depth file created with the metabat workflow but do some cosmetics so that it works for maxbin</p></li>
 </ol>
-<div class="sourceCode" id="cb97"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb97-1"><a href="#cb97-1"></a><span class="fu">awk</span> <span class="st">&#39;NR &gt; 1 {for(x=1;x&lt;=NF;x++) if(x == 1 || (x &gt;= 4 &amp;&amp; x % 2 == 0)) printf &quot;%s&quot;, $x (x == NF || x == (NF-1) ? &quot;\n&quot;:&quot;\t&quot;)}&#39;</span> depth_metabat.txt <span class="op">&gt;</span> depth_concoct.txt</span></code></pre></div>
+<div class="sourceCode" id="cb98"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb98-1"><a href="#cb98-1"></a><span class="fu">awk</span> <span class="st">&#39;NR &gt; 1 {for(x=1;x&lt;=NF;x++) if(x == 1 || (x &gt;= 4 &amp;&amp; x % 2 == 0)) printf &quot;%s&quot;, $x (x == NF || x == (NF-1) ? &quot;\n&quot;:&quot;\t&quot;)}&#39;</span> depth_metabat.txt <span class="op">&gt;</span> depth_concoct.txt</span></code></pre></div>
 <ol start="3" style="list-style-type: decimal">
 <li>run binner</li>
 </ol>
-<div class="sourceCode" id="cb98"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb98-1"><a href="#cb98-1"></a><span class="co">#on ada activate the environment first</span></span>
-<span id="cb98-2"><a href="#cb98-2"></a><span class="bu">source</span> ~/.bashrc.conda3</span>
-<span id="cb98-3"><a href="#cb98-3"></a></span>
-<span id="cb98-4"><a href="#cb98-4"></a><span class="co">#activate environment</span></span>
-<span id="cb98-5"><a href="#cb98-5"></a><span class="ex">conda</span> activate concoct_env</span>
-<span id="cb98-6"><a href="#cb98-6"></a></span>
-<span id="cb98-7"><a href="#cb98-7"></a><span class="co">#run binner</span></span>
-<span id="cb98-8"><a href="#cb98-8"></a><span class="ex">concoct</span> -t 20 --composition_file contigs_2500.fna --coverage_file depth_concoct.txt -b Concoct</span>
-<span id="cb98-9"><a href="#cb98-9"></a></span>
-<span id="cb98-10"><a href="#cb98-10"></a><span class="co">#prepare file that lists clustered contigs</span></span>
-<span id="cb98-11"><a href="#cb98-11"></a><span class="ex">merge_cutup_clustering.py</span> Concoct/clustering_gt1000.csv <span class="op">&gt;</span> Concoct/clustering_merged.csv</span>
-<span id="cb98-12"><a href="#cb98-12"></a></span>
-<span id="cb98-13"><a href="#cb98-13"></a><span class="co">#extract bins</span></span>
-<span id="cb98-14"><a href="#cb98-14"></a><span class="ex">extract_fasta_bins.py</span> Assembly/contigs_2500.fna Concoct/clustering_merged.csv --output_path Concoct/bins</span>
-<span id="cb98-15"><a href="#cb98-15"></a></span>
-<span id="cb98-16"><a href="#cb98-16"></a><span class="co">#close environment</span></span>
-<span id="cb98-17"><a href="#cb98-17"></a><span class="ex">conda</span> deactivate concoct_env</span></code></pre></div>
+<div class="sourceCode" id="cb99"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb99-1"><a href="#cb99-1"></a><span class="co">#on ada activate the environment first</span></span>
+<span id="cb99-2"><a href="#cb99-2"></a><span class="bu">source</span> ~/.bashrc.conda3</span>
+<span id="cb99-3"><a href="#cb99-3"></a></span>
+<span id="cb99-4"><a href="#cb99-4"></a><span class="co">#activate environment</span></span>
+<span id="cb99-5"><a href="#cb99-5"></a><span class="ex">conda</span> activate concoct_env</span>
+<span id="cb99-6"><a href="#cb99-6"></a></span>
+<span id="cb99-7"><a href="#cb99-7"></a><span class="co">#run binner</span></span>
+<span id="cb99-8"><a href="#cb99-8"></a><span class="ex">concoct</span> -t 20 --composition_file contigs_2500.fna --coverage_file depth_concoct.txt -b Concoct</span>
+<span id="cb99-9"><a href="#cb99-9"></a></span>
+<span id="cb99-10"><a href="#cb99-10"></a><span class="co">#prepare file that lists clustered contigs</span></span>
+<span id="cb99-11"><a href="#cb99-11"></a><span class="ex">merge_cutup_clustering.py</span> Concoct/clustering_gt1000.csv <span class="op">&gt;</span> Concoct/clustering_merged.csv</span>
+<span id="cb99-12"><a href="#cb99-12"></a></span>
+<span id="cb99-13"><a href="#cb99-13"></a><span class="co">#extract bins</span></span>
+<span id="cb99-14"><a href="#cb99-14"></a><span class="ex">extract_fasta_bins.py</span> Assembly/contigs_2500.fna Concoct/clustering_merged.csv --output_path Concoct/bins</span>
+<span id="cb99-15"><a href="#cb99-15"></a></span>
+<span id="cb99-16"><a href="#cb99-16"></a><span class="co">#close environment</span></span>
+<span id="cb99-17"><a href="#cb99-17"></a><span class="ex">conda</span> deactivate concoct_env</span></code></pre></div>
 </div>
 </div>
 <div id="binsanity" class="section level2">
@@ -3064,14 +3096,14 @@ $(document).ready(function () {
 <li><p>create mapping files (done with bwa)</p></li>
 <li><p>prepare the contig IDs in a format that works for BinSanity</p></li>
 </ol>
-<div class="sourceCode" id="cb99"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb99-1"><a href="#cb99-1"></a><span class="ex">get-ids</span> -f Assembly_folder -l contigs_2500.fna -o Assembly_folder/ids.txt</span></code></pre></div>
+<div class="sourceCode" id="cb100"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb100-1"><a href="#cb100-1"></a><span class="ex">get-ids</span> -f Assembly_folder -l contigs_2500.fna -o Assembly_folder/ids.txt</span></code></pre></div>
 <ol start="3" style="list-style-type: decimal">
 <li>create depth profiles for BinSanity</li>
 </ol>
-<div class="sourceCode" id="cb100"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb100-1"><a href="#cb100-1"></a><span class="ex">Binsanity-profile</span> -i Assembly_folder/_contigs_2500.fna -s mapping_files_folder/ -T 10 --ids /Assembly_folder/ids.txt -c depth_binsanity -o Binsanity</span>
-<span id="cb100-2"><a href="#cb100-2"></a></span>
-<span id="cb100-3"><a href="#cb100-3"></a><span class="ex">4.</span> run BinSanity</span>
-<span id="cb100-4"><a href="#cb100-4"></a><span class="ex">Binsanity-wf</span> --threads 10 -x 5000 -f Assembly_folder -l contigs_2500.fna -c depth_binsanity.cov.x100.lognorm -o BinSanity</span></code></pre></div>
+<div class="sourceCode" id="cb101"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb101-1"><a href="#cb101-1"></a><span class="ex">Binsanity-profile</span> -i Assembly_folder/_contigs_2500.fna -s mapping_files_folder/ -T 10 --ids /Assembly_folder/ids.txt -c depth_binsanity -o Binsanity</span>
+<span id="cb101-2"><a href="#cb101-2"></a></span>
+<span id="cb101-3"><a href="#cb101-3"></a><span class="ex">4.</span> run BinSanity</span>
+<span id="cb101-4"><a href="#cb101-4"></a><span class="ex">Binsanity-wf</span> --threads 10 -x 5000 -f Assembly_folder -l contigs_2500.fna -c depth_binsanity.cov.x100.lognorm -o BinSanity</span></code></pre></div>
 </div>
 </div>
 <div id="dastool-combining-results-from-different-binners" class="section level2">
@@ -3079,23 +3111,23 @@ $(document).ready(function () {
 <div id="section-87" class="section level22">
 <p class="heading"></p>
 <p>For this program to run we need to provide a bin –&gt; to contig list for all binning tools we have just. We can use awk to create this from the bin fna files created by each binning tools. For this to work ideally modify the bin headers + bin names to be shprt but descriptive</p>
-<div class="sourceCode" id="cb101"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb101-1"><a href="#cb101-1"></a><span class="fu">awk</span> <span class="st">&#39;/&gt;/{sub(&quot;&gt;&quot;,&quot;&amp;&quot;FILENAME&quot;-&quot;);sub(/\.fa/,x)}1&#39;</span> BinSanity/bins/* <span class="kw">|</span> <span class="fu">grep</span> <span class="st">&quot;&gt;&quot;</span> <span class="kw">|</span> <span class="fu">sed</span> <span class="st">&#39;s/&gt;//g&#39;</span> <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;BEGIN{FS=&quot;\t&quot;;OFS=&quot;\t&quot;}{split($1,a,&quot;-&quot;)}{print a[2],a[1]}&#39;</span> <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;BEGIN{FS=&quot;\t&quot;;OFS=&quot;\t&quot;}{split($2,a,&quot;/&quot;)}{print $1,a[4]}&#39;</span> <span class="op">&gt;</span> BinSanity/Binsanity_contig_list.txt</span></code></pre></div>
+<div class="sourceCode" id="cb102"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb102-1"><a href="#cb102-1"></a><span class="fu">awk</span> <span class="st">&#39;/&gt;/{sub(&quot;&gt;&quot;,&quot;&amp;&quot;FILENAME&quot;-&quot;);sub(/\.fa/,x)}1&#39;</span> BinSanity/bins/* <span class="kw">|</span> <span class="fu">grep</span> <span class="st">&quot;&gt;&quot;</span> <span class="kw">|</span> <span class="fu">sed</span> <span class="st">&#39;s/&gt;//g&#39;</span> <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;BEGIN{FS=&quot;\t&quot;;OFS=&quot;\t&quot;}{split($1,a,&quot;-&quot;)}{print a[2],a[1]}&#39;</span> <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;BEGIN{FS=&quot;\t&quot;;OFS=&quot;\t&quot;}{split($2,a,&quot;/&quot;)}{print $1,a[4]}&#39;</span> <span class="op">&gt;</span> BinSanity/Binsanity_contig_list.txt</span></code></pre></div>
 <p>Now we can run DASTool</p>
-<div class="sourceCode" id="cb102"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb102-1"><a href="#cb102-1"></a><span class="ex">DAS_Tool</span> -i BinSanity/Binsanity_contig_list.txt,Metabat/Metabat_contig_list.txt,Concoct/Concoct_contig_list.txt,Maxbin/Maxbin_contig_list.txt -l BinSanity,Metabat,Concoct,Maxbin -c Assembly/contigs_2500.fna --proteins DASTool/DASTool_<span class="va">${i}</span>_proteins.faa --db_directory /opt/biolinux/DAS_Tool  -o DASTool/DASTool --write_bins 1 -t 40</span></code></pre></div>
+<div class="sourceCode" id="cb103"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb103-1"><a href="#cb103-1"></a><span class="ex">DAS_Tool</span> -i BinSanity/Binsanity_contig_list.txt,Metabat/Metabat_contig_list.txt,Concoct/Concoct_contig_list.txt,Maxbin/Maxbin_contig_list.txt -l BinSanity,Metabat,Concoct,Maxbin -c Assembly/contigs_2500.fna --proteins DASTool/DASTool_<span class="va">${i}</span>_proteins.faa --db_directory /opt/biolinux/DAS_Tool  -o DASTool/DASTool --write_bins 1 -t 40</span></code></pre></div>
 </div>
 </div>
 <div id="renaming-bins" class="section level2">
 <h2>Renaming bins</h2>
 <div id="section-88" class="section level22">
 <p class="heading"></p>
-<div class="sourceCode" id="cb103"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb103-1"><a href="#cb103-1"></a><span class="co">#add file name into header</span></span>
-<span id="cb103-2"><a href="#cb103-2"></a><span class="kw">for</span> <span class="ex">i</span> in *faa<span class="kw">;</span> <span class="kw">do</span> <span class="fu">awk</span> <span class="st">&#39;/&gt;/{sub(&quot;&gt;&quot;,&quot;&amp;&quot;FILENAME&quot;-&quot;);sub(/\.faa/,x)}1&#39;</span> <span class="va">$i</span> <span class="op">&gt;</span> renamed/<span class="va">$i</span><span class="kw">;</span> <span class="kw">done</span></span>
-<span id="cb103-3"><a href="#cb103-3"></a></span>
-<span id="cb103-4"><a href="#cb103-4"></a><span class="co">#screen fasta headers for sequences to remove or to keep (example keeps)</span></span>
-<span id="cb103-5"><a href="#cb103-5"></a><span class="fu">perl</span> screen_list_new.pl to_keep.txt File.fasta keep <span class="op">&gt;</span> File_clean.fasta</span>
-<span id="cb103-6"><a href="#cb103-6"></a></span>
-<span id="cb103-7"><a href="#cb103-7"></a><span class="co">#screen fasta headers for sequences to remove or to keep (example removes)</span></span>
-<span id="cb103-8"><a href="#cb103-8"></a><span class="fu">perl</span> screen_list_new.pl to_remove.txt File.fasta  <span class="op">&gt;</span> File_clean.fasta</span></code></pre></div>
+<div class="sourceCode" id="cb104"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb104-1"><a href="#cb104-1"></a><span class="co">#add file name into header</span></span>
+<span id="cb104-2"><a href="#cb104-2"></a><span class="kw">for</span> <span class="ex">i</span> in *faa<span class="kw">;</span> <span class="kw">do</span> <span class="fu">awk</span> <span class="st">&#39;/&gt;/{sub(&quot;&gt;&quot;,&quot;&amp;&quot;FILENAME&quot;-&quot;);sub(/\.faa/,x)}1&#39;</span> <span class="va">$i</span> <span class="op">&gt;</span> renamed/<span class="va">$i</span><span class="kw">;</span> <span class="kw">done</span></span>
+<span id="cb104-3"><a href="#cb104-3"></a></span>
+<span id="cb104-4"><a href="#cb104-4"></a><span class="co">#screen fasta headers for sequences to remove or to keep (example keeps)</span></span>
+<span id="cb104-5"><a href="#cb104-5"></a><span class="fu">perl</span> screen_list_new.pl to_keep.txt File.fasta keep <span class="op">&gt;</span> File_clean.fasta</span>
+<span id="cb104-6"><a href="#cb104-6"></a></span>
+<span id="cb104-7"><a href="#cb104-7"></a><span class="co">#screen fasta headers for sequences to remove or to keep (example removes)</span></span>
+<span id="cb104-8"><a href="#cb104-8"></a><span class="fu">perl</span> screen_list_new.pl to_remove.txt File.fasta  <span class="op">&gt;</span> File_clean.fasta</span></code></pre></div>
 </div>
 </div>
 <div id="cleaning-bins" class="section level2">
@@ -3122,24 +3154,24 @@ $(document).ready(function () {
 <h2>CheckM: Check bin quality</h2>
 <div id="section-90" class="section level22">
 <p class="heading"></p>
-<div class="sourceCode" id="cb104"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb104-1"><a href="#cb104-1"></a><span class="co">#run tool</span></span>
-<span id="cb104-2"><a href="#cb104-2"></a><span class="ex">checkm</span> lineage_wf -x fna -f CheckM_table.txt -t 30 --pplacer_threads 1 bin_location outputdir</span>
-<span id="cb104-3"><a href="#cb104-3"></a></span>
-<span id="cb104-4"><a href="#cb104-4"></a><span class="co">#rm rows with &quot;-&quot; and replace multiple spaces with a tab</span></span>
-<span id="cb104-5"><a href="#cb104-5"></a><span class="fu">sed</span> <span class="st">&#39;/-/d&#39;</span> CheckM_table.txt <span class="kw">|</span> <span class="fu">sed</span> <span class="st">&#39;s/ \+ /\t/g&#39;</span> <span class="kw">|</span> <span class="fu">cut</span> -f 2-  <span class="op">&gt;</span> temp1</span>
-<span id="cb104-6"><a href="#cb104-6"></a></span>
-<span id="cb104-7"><a href="#cb104-7"></a><span class="co">#clean header name</span></span>
-<span id="cb104-8"><a href="#cb104-8"></a><span class="fu">awk</span> <span class="st">&#39;BEGIN{FS=&quot;\t&quot;; OFS=&quot;\t&quot;}{if(NR==1) $1=&quot;BinID&quot;} {print $0 }&#39;</span> temp1  <span class="op">&gt;</span> /CheckM_table_clean.txt</span>
-<span id="cb104-9"><a href="#cb104-9"></a></span>
-<span id="cb104-10"><a href="#cb104-10"></a><span class="co">#clean up</span></span>
-<span id="cb104-11"><a href="#cb104-11"></a><span class="fu">rm</span> temp*</span></code></pre></div>
+<div class="sourceCode" id="cb105"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb105-1"><a href="#cb105-1"></a><span class="co">#run tool</span></span>
+<span id="cb105-2"><a href="#cb105-2"></a><span class="ex">checkm</span> lineage_wf -x fna -f CheckM_table.txt -t 30 --pplacer_threads 1 bin_location outputdir</span>
+<span id="cb105-3"><a href="#cb105-3"></a></span>
+<span id="cb105-4"><a href="#cb105-4"></a><span class="co">#rm rows with &quot;-&quot; and replace multiple spaces with a tab</span></span>
+<span id="cb105-5"><a href="#cb105-5"></a><span class="fu">sed</span> <span class="st">&#39;/-/d&#39;</span> CheckM_table.txt <span class="kw">|</span> <span class="fu">sed</span> <span class="st">&#39;s/ \+ /\t/g&#39;</span> <span class="kw">|</span> <span class="fu">cut</span> -f 2-  <span class="op">&gt;</span> temp1</span>
+<span id="cb105-6"><a href="#cb105-6"></a></span>
+<span id="cb105-7"><a href="#cb105-7"></a><span class="co">#clean header name</span></span>
+<span id="cb105-8"><a href="#cb105-8"></a><span class="fu">awk</span> <span class="st">&#39;BEGIN{FS=&quot;\t&quot;; OFS=&quot;\t&quot;}{if(NR==1) $1=&quot;BinID&quot;} {print $0 }&#39;</span> temp1  <span class="op">&gt;</span> /CheckM_table_clean.txt</span>
+<span id="cb105-9"><a href="#cb105-9"></a></span>
+<span id="cb105-10"><a href="#cb105-10"></a><span class="co">#clean up</span></span>
+<span id="cb105-11"><a href="#cb105-11"></a><span class="fu">rm</span> temp*</span></code></pre></div>
 </div>
 </div>
 <div id="gtdb_tk-get-quick-taxonomic-overview" class="section level2">
 <h2>GTDB_tk: Get quick taxonomic overview</h2>
 <div id="section-91" class="section level22">
 <p class="heading"></p>
-<div class="sourceCode" id="cb105"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb105-1"><a href="#cb105-1"></a><span class="ex">gtdbtk</span> classify_wf --genome_dir bin_dir --out_dir outdir --cpus 20</span></code></pre></div>
+<div class="sourceCode" id="cb106"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb106-1"><a href="#cb106-1"></a><span class="ex">gtdbtk</span> classify_wf --genome_dir bin_dir --out_dir outdir --cpus 20</span></code></pre></div>
 <div id="section-92" class="section level83">
 <p class="heading"></p>
 </div>
@@ -3161,19 +3193,19 @@ $(document).ready(function () {
 <h2>Get proteins</h2>
 <div id="prodigal" class="section level3">
 <h3>Prodigal</h3>
-<div class="sourceCode" id="cb106"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb106-1"><a href="#cb106-1"></a><span class="ex">prodigal</span> -a protein_output.fasta -i input_file.fasta -o output_file.fasta</span></code></pre></div>
+<div class="sourceCode" id="cb107"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb107-1"><a href="#cb107-1"></a><span class="ex">prodigal</span> -a protein_output.fasta -i input_file.fasta -o output_file.fasta</span></code></pre></div>
 <ol style="list-style-type: decimal">
 <li>get list of files you want to loop trough</li>
 </ol>
-<div class="sourceCode" id="cb107"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb107-1"><a href="#cb107-1"></a><span class="fu">ls</span> fna/*fna <span class="op">&gt;</span> Files.txt</span></code></pre></div>
+<div class="sourceCode" id="cb108"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb108-1"><a href="#cb108-1"></a><span class="fu">ls</span> fna/*fna <span class="op">&gt;</span> Files.txt</span></code></pre></div>
 <ol start="2" style="list-style-type: decimal">
 <li>loop trough files with prodigal</li>
 </ol>
-<div class="sourceCode" id="cb108"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb108-1"><a href="#cb108-1"></a><span class="kw">for</span> <span class="ex">sample</span> in <span class="kw">`</span><span class="fu">cat</span> Files.txt<span class="kw">`;</span> <span class="kw">do</span>  <span class="ex">prodigal</span> -i <span class="va">$sample</span> -a prodigal/<span class="va">$sample</span>.faa<span class="kw">;</span> <span class="kw">done</span></span></code></pre></div>
+<div class="sourceCode" id="cb109"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb109-1"><a href="#cb109-1"></a><span class="kw">for</span> <span class="ex">sample</span> in <span class="kw">`</span><span class="fu">cat</span> Files.txt<span class="kw">`;</span> <span class="kw">do</span>  <span class="ex">prodigal</span> -i <span class="va">$sample</span> -a prodigal/<span class="va">$sample</span>.faa<span class="kw">;</span> <span class="kw">done</span></span></code></pre></div>
 </div>
 <div id="prokka" class="section level3">
 <h3>Prokka</h3>
-<div class="sourceCode" id="cb109"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb109-1"><a href="#cb109-1"></a><span class="ex">prokka</span> Genome.fna --outdir Prokka --prefix <span class="va">$sample</span> --kingdom Archaea --addgenes --force --increment 10 --compliant --centre UU --cpus 20 --norrna --notrna</span></code></pre></div>
+<div class="sourceCode" id="cb110"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb110-1"><a href="#cb110-1"></a><span class="ex">prokka</span> Genome.fna --outdir Prokka --prefix <span class="va">$sample</span> --kingdom Archaea --addgenes --force --increment 10 --compliant --centre UU --cpus 20 --norrna --notrna</span></code></pre></div>
 </div>
 </div>
 <div id="barrnap-find-ribosomal-marker-proteins" class="section level2">
@@ -3181,12 +3213,12 @@ $(document).ready(function () {
 <div id="section-96" class="section level22">
 <p class="heading"></p>
 <p>Notice; Can be also run on the assemblies</p>
-<div class="sourceCode" id="cb110"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb110-1"><a href="#cb110-1"></a><span class="co">#run barrnap for archaea/bacteria</span></span>
-<span id="cb110-2"><a href="#cb110-2"></a><span class="ex">barrnap</span> --kingdom arc --lencutoff 0.2 --reject 0.3 --evalue 1e-05 ../All_Old_Bins.fasta <span class="op">&gt;</span> barrnap_archaea.txt</span>
-<span id="cb110-3"><a href="#cb110-3"></a><span class="ex">barrnap</span> --kingdom bac --lencutoff 0.2 --reject 0.3 --evalue 1e-05 ../All_Old_Bins.fasta <span class="op">&gt;</span> barrnap_bacteria.txt</span>
-<span id="cb110-4"><a href="#cb110-4"></a></span>
-<span id="cb110-5"><a href="#cb110-5"></a><span class="co">#extract sequnces of interest from fasta files</span></span>
-<span id="cb110-6"><a href="#cb110-6"></a><span class="ex">bedtools</span> getfasta -fi Cascadia25_renamed.fasta -bed barrnap_hits.txt -fo 16S_seqs.fasta</span></code></pre></div>
+<div class="sourceCode" id="cb111"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb111-1"><a href="#cb111-1"></a><span class="co">#run barrnap for archaea/bacteria</span></span>
+<span id="cb111-2"><a href="#cb111-2"></a><span class="ex">barrnap</span> --kingdom arc --lencutoff 0.2 --reject 0.3 --evalue 1e-05 ../All_Old_Bins.fasta <span class="op">&gt;</span> barrnap_archaea.txt</span>
+<span id="cb111-3"><a href="#cb111-3"></a><span class="ex">barrnap</span> --kingdom bac --lencutoff 0.2 --reject 0.3 --evalue 1e-05 ../All_Old_Bins.fasta <span class="op">&gt;</span> barrnap_bacteria.txt</span>
+<span id="cb111-4"><a href="#cb111-4"></a></span>
+<span id="cb111-5"><a href="#cb111-5"></a><span class="co">#extract sequnces of interest from fasta files</span></span>
+<span id="cb111-6"><a href="#cb111-6"></a><span class="ex">bedtools</span> getfasta -fi Cascadia25_renamed.fasta -bed barrnap_hits.txt -fo 16S_seqs.fasta</span></code></pre></div>
 </div>
 </div>
 <div id="psort-search-for-signal-peptides" class="section level2">
@@ -3198,7 +3230,7 @@ $(document).ready(function () {
 <ol style="list-style-type: decimal">
 <li>run locally</li>
 </ol>
-<div class="sourceCode" id="cb111"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb111-1"><a href="#cb111-1"></a><span class="ex">/home/ninad/Scripts/PSORT_V3.0/bio-tools-psort-all/psort/bin/psort</span>  -a B10_G11.fa -o terse <span class="op">&gt;</span> test.out</span></code></pre></div>
+<div class="sourceCode" id="cb112"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb112-1"><a href="#cb112-1"></a><span class="ex">/home/ninad/Scripts/PSORT_V3.0/bio-tools-psort-all/psort/bin/psort</span>  -a B10_G11.fa -o terse <span class="op">&gt;</span> test.out</span></code></pre></div>
 <p>Install: $ make $ make test $ make install RECOMMENDED: cp -r psort /usr/local/psortb</p>
 <p>Options: - –positive, -p Gram positive bacteria - –negative, -n Gram negative bacteria - –archaea, -a Archaea</p>
 </div>
@@ -3211,16 +3243,16 @@ $(document).ready(function () {
 <ol style="list-style-type: decimal">
 <li>start antismash</li>
 </ol>
-<div class="sourceCode" id="cb112"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb112-1"><a href="#cb112-1"></a>    <span class="bu">source</span> activate antismash </span></code></pre></div>
+<div class="sourceCode" id="cb113"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb113-1"><a href="#cb113-1"></a>    <span class="bu">source</span> activate antismash </span></code></pre></div>
 <ol start="2" style="list-style-type: decimal">
 <li>run antismash</li>
 </ol>
-<div class="sourceCode" id="cb113"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb113-1"><a href="#cb113-1"></a><span class="fu">find</span> . -maxdepth 2 -name <span class="st">&quot;*.fa&quot;</span> -exec antismash --cpus 4  {} <span class="dt">\;</span></span>
-<span id="cb113-2"><a href="#cb113-2"></a><span class="ex">antismash</span> All_GB_Bins.faa --input-type prot --outputfolder antimash/ --cpu 4</span></code></pre></div>
+<div class="sourceCode" id="cb114"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb114-1"><a href="#cb114-1"></a><span class="fu">find</span> . -maxdepth 2 -name <span class="st">&quot;*.fa&quot;</span> -exec antismash --cpus 4  {} <span class="dt">\;</span></span>
+<span id="cb114-2"><a href="#cb114-2"></a><span class="ex">antismash</span> All_GB_Bins.faa --input-type prot --outputfolder antimash/ --cpu 4</span></code></pre></div>
 <ol start="3" style="list-style-type: decimal">
 <li>close antismash</li>
 </ol>
-<div class="sourceCode" id="cb114"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb114-1"><a href="#cb114-1"></a>    <span class="bu">source</span> deactivate antismash</span></code></pre></div>
+<div class="sourceCode" id="cb115"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb115-1"><a href="#cb115-1"></a>    <span class="bu">source</span> deactivate antismash</span></code></pre></div>
 <div id="section-99" class="section level83">
 <p class="heading"></p>
 </div>
@@ -3250,44 +3282,44 @@ $(document).ready(function () {
 </div>
 <div id="phylosift-marker-set" class="section level3">
 <h3>Phylosift marker set</h3>
-<div class="sourceCode" id="cb115"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb115-1"><a href="#cb115-1"></a><span class="co"># find markers</span></span>
-<span id="cb115-2"><a href="#cb115-2"></a><span class="ex">phylosift</span> search --threads 10  --isolate --besthit {}</span>
-<span id="cb115-3"><a href="#cb115-3"></a></span>
-<span id="cb115-4"><a href="#cb115-4"></a><span class="co">#align markers</span></span>
-<span id="cb115-5"><a href="#cb115-5"></a><span class="ex">phylosift</span> align --threads 10 --isolate --besthit {}</span>
-<span id="cb115-6"><a href="#cb115-6"></a></span>
-<span id="cb115-7"><a href="#cb115-7"></a><span class="co">#add in original bin name into the header</span></span>
-<span id="cb115-8"><a href="#cb115-8"></a><span class="ex">phylosift</span> name --threads 10 --isolate --besthit</span>
-<span id="cb115-9"><a href="#cb115-9"></a></span>
-<span id="cb115-10"><a href="#cb115-10"></a><span class="co">#prepare the alignment file</span></span>
-<span id="cb115-11"><a href="#cb115-11"></a><span class="fu">find</span> . -type f -regex <span class="st">&#39;.*alignDir/concat.updated.1.fasta&#39;</span>   -exec cat {} <span class="dt">\;</span> <span class="kw">|</span> <span class="fu">sed</span> -r <span class="st">&#39;s/\.1\..*//&#39;</span>  <span class="op">&gt;</span> Ref_V1_alignment.fa  </span></code></pre></div>
+<div class="sourceCode" id="cb116"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb116-1"><a href="#cb116-1"></a><span class="co"># find markers</span></span>
+<span id="cb116-2"><a href="#cb116-2"></a><span class="ex">phylosift</span> search --threads 10  --isolate --besthit {}</span>
+<span id="cb116-3"><a href="#cb116-3"></a></span>
+<span id="cb116-4"><a href="#cb116-4"></a><span class="co">#align markers</span></span>
+<span id="cb116-5"><a href="#cb116-5"></a><span class="ex">phylosift</span> align --threads 10 --isolate --besthit {}</span>
+<span id="cb116-6"><a href="#cb116-6"></a></span>
+<span id="cb116-7"><a href="#cb116-7"></a><span class="co">#add in original bin name into the header</span></span>
+<span id="cb116-8"><a href="#cb116-8"></a><span class="ex">phylosift</span> name --threads 10 --isolate --besthit</span>
+<span id="cb116-9"><a href="#cb116-9"></a></span>
+<span id="cb116-10"><a href="#cb116-10"></a><span class="co">#prepare the alignment file</span></span>
+<span id="cb116-11"><a href="#cb116-11"></a><span class="fu">find</span> . -type f -regex <span class="st">&#39;.*alignDir/concat.updated.1.fasta&#39;</span>   -exec cat {} <span class="dt">\;</span> <span class="kw">|</span> <span class="fu">sed</span> -r <span class="st">&#39;s/\.1\..*//&#39;</span>  <span class="op">&gt;</span> Ref_V1_alignment.fa  </span></code></pre></div>
 </div>
 <div id="to-find-rps-rp16-set" class="section level3">
 <h3>to find RPs (RP16 set)</h3>
 <ol style="list-style-type: decimal">
 <li>run Phylosift</li>
 </ol>
-<div class="sourceCode" id="cb116"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb116-1"><a href="#cb116-1"></a><span class="ex">phylosift</span> all --keep_search ex4484_10.fasta  --output output dir</span></code></pre></div>
+<div class="sourceCode" id="cb117"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb117-1"><a href="#cb117-1"></a><span class="ex">phylosift</span> all --keep_search ex4484_10.fasta  --output output dir</span></code></pre></div>
 <ol start="2" style="list-style-type: decimal">
 <li>Phylosift provides and output dir called aligndir/</li>
 </ol>
 <p>The fasta names of the sequences in the following files need to be trimmed with sed, phylosift adds numbers at the end of the name stating the location on the contig. These number need to be trimmed so that they are consistent between files and can be concatenated in Geneious. This command removes all the characters after “.” In the name portion of the fasta sequences and outputs it a renamed faa file.</p>
-<div class="sourceCode" id="cb117"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb117-1"><a href="#cb117-1"></a>    <span class="fu">sed</span> <span class="st">&#39;s/[.].*//&#39;</span> DNGNGWU00010.updated.1.fasta <span class="op">&gt;</span> rpL2_bins.faa    </span>
-<span id="cb117-2"><a href="#cb117-2"></a>    <span class="fu">sed</span> <span class="st">&#39;s/[.].*//&#39;</span> DNGNGWU00012.updated.1.fasta <span class="op">&gt;</span> rpL3_bins.faa    </span>
-<span id="cb117-3"><a href="#cb117-3"></a>    <span class="fu">sed</span> <span class="st">&#39;s/[.].*//&#39;</span> DNGNGWU00009.updated.1.fasta <span class="op">&gt;</span> rpL4_bins.faa    </span>
-<span id="cb117-4"><a href="#cb117-4"></a>    <span class="fu">sed</span> <span class="st">&#39;s/[.].*//&#39;</span> DNGNGWU00025.updated.1.fasta <span class="op">&gt;</span> rpL5_bins.faa    </span>
-<span id="cb117-5"><a href="#cb117-5"></a>    <span class="fu">sed</span> <span class="st">&#39;s/[.].*//&#39;</span> DNGNGWU00023.updated.1.fasta <span class="op">&gt;</span> rpL6_bins.faa    </span>
-<span id="cb117-6"><a href="#cb117-6"></a>    <span class="fu">sed</span> <span class="st">&#39;s/[.].*//&#39;</span> DNGNGWU00014.updated.1.fasta <span class="op">&gt;</span> rpL14_bins.faa  </span>
-<span id="cb117-7"><a href="#cb117-7"></a>    <span class="fu">sed</span> <span class="st">&#39;s/[.].*//&#39;</span> DNGNGWU00021.updated.1.fasta <span class="op">&gt;</span> rpL15_bins.faa </span>
-<span id="cb117-8"><a href="#cb117-8"></a>    <span class="fu">sed</span> <span class="st">&#39;s/[.].*//&#39;</span> DNGNGWU00018.updated.1.fasta <span class="op">&gt;</span> rpL16_bins.faa  </span>
-<span id="cb117-9"><a href="#cb117-9"></a>    <span class="fu">sed</span> <span class="st">&#39;s/[.].*//&#39;</span> DNGNGWU00033.updated.1.fasta <span class="op">&gt;</span> rpL18_bins.faa  </span>
-<span id="cb117-10"><a href="#cb117-10"></a>    <span class="fu">sed</span> <span class="st">&#39;s/[.].*//&#39;</span> DNGNGWU00007.updated.1.fasta <span class="op">&gt;</span> rpL22_bins.faa  </span>
-<span id="cb117-11"><a href="#cb117-11"></a>    <span class="fu">sed</span> <span class="st">&#39;s/[.].*//&#39;</span> DNGNGWU00040.updated.1.fasta <span class="op">&gt;</span> rpL24_bins.faa  </span>
-<span id="cb117-12"><a href="#cb117-12"></a>    <span class="fu">sed</span> <span class="st">&#39;s/[.].*//&#39;</span> DNGNGWU00028.updated.1.fasta <span class="op">&gt;</span> rpS3_bins.faa   </span>
-<span id="cb117-13"><a href="#cb117-13"></a>    <span class="fu">sed</span> <span class="st">&#39;s/[.].*//&#39;</span> DNGNGWU00031.updated.1.fasta <span class="op">&gt;</span> rpS8_bins.faa   </span>
-<span id="cb117-14"><a href="#cb117-14"></a>    <span class="fu">sed</span> <span class="st">&#39;s/[.].*//&#39;</span> DNGNGWU00002.updated.1.fasta <span class="op">&gt;</span> rpS10_bins.faa  </span>
-<span id="cb117-15"><a href="#cb117-15"></a>    <span class="fu">sed</span> <span class="st">&#39;s/[.].*//&#39;</span> DNGNGWU00036.updated.1.fasta <span class="op">&gt;</span> rpS17_bins.faa  </span>
-<span id="cb117-16"><a href="#cb117-16"></a>  <span class="fu">sed</span> <span class="st">&#39;s/[.].*//&#39;</span> DNGNGWU00016.updated.1.fasta <span class="op">&gt;</span> rpS19_bins.faa</span></code></pre></div>
+<div class="sourceCode" id="cb118"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb118-1"><a href="#cb118-1"></a>    <span class="fu">sed</span> <span class="st">&#39;s/[.].*//&#39;</span> DNGNGWU00010.updated.1.fasta <span class="op">&gt;</span> rpL2_bins.faa    </span>
+<span id="cb118-2"><a href="#cb118-2"></a>    <span class="fu">sed</span> <span class="st">&#39;s/[.].*//&#39;</span> DNGNGWU00012.updated.1.fasta <span class="op">&gt;</span> rpL3_bins.faa    </span>
+<span id="cb118-3"><a href="#cb118-3"></a>    <span class="fu">sed</span> <span class="st">&#39;s/[.].*//&#39;</span> DNGNGWU00009.updated.1.fasta <span class="op">&gt;</span> rpL4_bins.faa    </span>
+<span id="cb118-4"><a href="#cb118-4"></a>    <span class="fu">sed</span> <span class="st">&#39;s/[.].*//&#39;</span> DNGNGWU00025.updated.1.fasta <span class="op">&gt;</span> rpL5_bins.faa    </span>
+<span id="cb118-5"><a href="#cb118-5"></a>    <span class="fu">sed</span> <span class="st">&#39;s/[.].*//&#39;</span> DNGNGWU00023.updated.1.fasta <span class="op">&gt;</span> rpL6_bins.faa    </span>
+<span id="cb118-6"><a href="#cb118-6"></a>    <span class="fu">sed</span> <span class="st">&#39;s/[.].*//&#39;</span> DNGNGWU00014.updated.1.fasta <span class="op">&gt;</span> rpL14_bins.faa  </span>
+<span id="cb118-7"><a href="#cb118-7"></a>    <span class="fu">sed</span> <span class="st">&#39;s/[.].*//&#39;</span> DNGNGWU00021.updated.1.fasta <span class="op">&gt;</span> rpL15_bins.faa </span>
+<span id="cb118-8"><a href="#cb118-8"></a>    <span class="fu">sed</span> <span class="st">&#39;s/[.].*//&#39;</span> DNGNGWU00018.updated.1.fasta <span class="op">&gt;</span> rpL16_bins.faa  </span>
+<span id="cb118-9"><a href="#cb118-9"></a>    <span class="fu">sed</span> <span class="st">&#39;s/[.].*//&#39;</span> DNGNGWU00033.updated.1.fasta <span class="op">&gt;</span> rpL18_bins.faa  </span>
+<span id="cb118-10"><a href="#cb118-10"></a>    <span class="fu">sed</span> <span class="st">&#39;s/[.].*//&#39;</span> DNGNGWU00007.updated.1.fasta <span class="op">&gt;</span> rpL22_bins.faa  </span>
+<span id="cb118-11"><a href="#cb118-11"></a>    <span class="fu">sed</span> <span class="st">&#39;s/[.].*//&#39;</span> DNGNGWU00040.updated.1.fasta <span class="op">&gt;</span> rpL24_bins.faa  </span>
+<span id="cb118-12"><a href="#cb118-12"></a>    <span class="fu">sed</span> <span class="st">&#39;s/[.].*//&#39;</span> DNGNGWU00028.updated.1.fasta <span class="op">&gt;</span> rpS3_bins.faa   </span>
+<span id="cb118-13"><a href="#cb118-13"></a>    <span class="fu">sed</span> <span class="st">&#39;s/[.].*//&#39;</span> DNGNGWU00031.updated.1.fasta <span class="op">&gt;</span> rpS8_bins.faa   </span>
+<span id="cb118-14"><a href="#cb118-14"></a>    <span class="fu">sed</span> <span class="st">&#39;s/[.].*//&#39;</span> DNGNGWU00002.updated.1.fasta <span class="op">&gt;</span> rpS10_bins.faa  </span>
+<span id="cb118-15"><a href="#cb118-15"></a>    <span class="fu">sed</span> <span class="st">&#39;s/[.].*//&#39;</span> DNGNGWU00036.updated.1.fasta <span class="op">&gt;</span> rpS17_bins.faa  </span>
+<span id="cb118-16"><a href="#cb118-16"></a>  <span class="fu">sed</span> <span class="st">&#39;s/[.].*//&#39;</span> DNGNGWU00016.updated.1.fasta <span class="op">&gt;</span> rpS19_bins.faa</span></code></pre></div>
 </div>
 </div>
 <div id="alignments" class="section level2">
@@ -3297,12 +3329,12 @@ $(document).ready(function () {
 </div>
 <div id="mafft" class="section level3">
 <h3>mafft</h3>
-<div class="sourceCode" id="cb118"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb118-1"><a href="#cb118-1"></a><span class="ex">mafft</span> --reorder --thread 8 Marker_Genes/Sample.faa <span class="op">&gt;</span> Alignment/mafft/Sample.aln</span></code></pre></div>
+<div class="sourceCode" id="cb119"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb119-1"><a href="#cb119-1"></a><span class="ex">mafft</span> --reorder --thread 8 Marker_Genes/Sample.faa <span class="op">&gt;</span> Alignment/mafft/Sample.aln</span></code></pre></div>
 </div>
 <div id="muscle" class="section level3">
 <h3>muscle</h3>
 <p>Generally slower than mafft.</p>
-<div class="sourceCode" id="cb119"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb119-1"><a href="#cb119-1"></a><span class="ex">muscle</span> -in <span class="op">&lt;</span>inputfile<span class="op">&gt;</span> -out <span class="op">&lt;</span>outputfile<span class="op">&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb120"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb120-1"><a href="#cb120-1"></a><span class="ex">muscle</span> -in <span class="op">&lt;</span>inputfile<span class="op">&gt;</span> -out <span class="op">&lt;</span>outputfile<span class="op">&gt;</span></span></code></pre></div>
 </div>
 </div>
 <div id="trimming" class="section level2">
@@ -3312,18 +3344,18 @@ $(document).ready(function () {
 </div>
 <div id="bmge" class="section level3">
 <h3>BMGE</h3>
-<div class="sourceCode" id="cb120"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb120-1"><a href="#cb120-1"></a><span class="ex">java</span> -jar /opt/biolinux/BMGE-1.12/BMGE.jar -i Alignment/mafft/Sample.aln -t AA -m BLOSUM30 -b 2 -h 0.55 -of Alignment/BMGE/h0.55/Sample_trimmed.aln</span></code></pre></div>
+<div class="sourceCode" id="cb121"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb121-1"><a href="#cb121-1"></a><span class="ex">java</span> -jar /opt/biolinux/BMGE-1.12/BMGE.jar -i Alignment/mafft/Sample.aln -t AA -m BLOSUM30 -b 2 -h 0.55 -of Alignment/BMGE/h0.55/Sample_trimmed.aln</span></code></pre></div>
 </div>
 <div id="trimal" class="section level3">
 <h3>Trimal</h3>
-<div class="sourceCode" id="cb121"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb121-1"><a href="#cb121-1"></a><span class="ex">trimal</span> -in Bacteria_alignment_renamed.fa -out Bacteria_alignment_trimed.fa -automated1</span></code></pre></div>
+<div class="sourceCode" id="cb122"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb122-1"><a href="#cb122-1"></a><span class="ex">trimal</span> -in Bacteria_alignment_renamed.fa -out Bacteria_alignment_trimed.fa -automated1</span></code></pre></div>
 </div>
 </div>
 <div id="concatenate-single-protein-alignments" class="section level2">
 <h2>Concatenate single protein alignments</h2>
 <div id="section-106" class="section level22">
 <p class="heading"></p>
-<div class="sourceCode" id="cb122"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb122-1"><a href="#cb122-1"></a><span class="ex">catfasta2phyml.pl</span> -f -c Alignment/BMGE/h0.55/*.aln <span class="op">&gt;</span> Alignment/concatenated/Alignment_concat.faa</span></code></pre></div>
+<div class="sourceCode" id="cb123"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb123-1"><a href="#cb123-1"></a><span class="ex">catfasta2phyml.pl</span> -f -c Alignment/BMGE/h0.55/*.aln <span class="op">&gt;</span> Alignment/concatenated/Alignment_concat.faa</span></code></pre></div>
 </div>
 </div>
 <div id="running-phylogenies" class="section level2">
@@ -3333,40 +3365,40 @@ $(document).ready(function () {
 </div>
 <div id="iqtree" class="section level3">
 <h3>iqtree</h3>
-<div class="sourceCode" id="cb123"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb123-1"><a href="#cb123-1"></a><span class="co">#find right substitutions mode and then run tree</span></span>
-<span id="cb123-2"><a href="#cb123-2"></a><span class="ex">iqtree</span> -s example.phy -m MFP</span>
-<span id="cb123-3"><a href="#cb123-3"></a></span>
-<span id="cb123-4"><a href="#cb123-4"></a><span class="co">#run iqtree without the model test</span></span>
-<span id="cb123-5"><a href="#cb123-5"></a><span class="ex">iqtree</span> -s Alignment_concat.faa -ntmax 20 -nt AUTO -m LG+G -bb 1000 -alrt 1000 -pre Alignment_concat</span></code></pre></div>
+<div class="sourceCode" id="cb124"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb124-1"><a href="#cb124-1"></a><span class="co">#find right substitutions mode and then run tree</span></span>
+<span id="cb124-2"><a href="#cb124-2"></a><span class="ex">iqtree</span> -s example.phy -m MFP</span>
+<span id="cb124-3"><a href="#cb124-3"></a></span>
+<span id="cb124-4"><a href="#cb124-4"></a><span class="co">#run iqtree without the model test</span></span>
+<span id="cb124-5"><a href="#cb124-5"></a><span class="ex">iqtree</span> -s Alignment_concat.faa -ntmax 20 -nt AUTO -m LG+G -bb 1000 -alrt 1000 -pre Alignment_concat</span></code></pre></div>
 </div>
 <div id="raxml" class="section level3">
 <h3>Raxml</h3>
-<div class="sourceCode" id="cb124"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb124-1"><a href="#cb124-1"></a><span class="ex">raxmlHPC-PTHREADS-AVX</span> -T 10 -f a -m PROTGAMMAAUTO -N autoMRE -p 12345 -x 12345 -s Bacteria_alignment_trimed2.phy -n Bacteria_tree</span></code></pre></div>
+<div class="sourceCode" id="cb125"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb125-1"><a href="#cb125-1"></a><span class="ex">raxmlHPC-PTHREADS-AVX</span> -T 10 -f a -m PROTGAMMAAUTO -N autoMRE -p 12345 -x 12345 -s Bacteria_alignment_trimed2.phy -n Bacteria_tree</span></code></pre></div>
 </div>
 <div id="fasttree" class="section level3">
 <h3>fasttree</h3>
 <p>Comment: This tool is not as good as ML methods but can be used for very large alignments and to get an overview.</p>
-<div class="sourceCode" id="cb125"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb125-1"><a href="#cb125-1"></a><span class="ex">FastTree</span> -wag -gamma 29conservedZaremba_BS18BacRefv4_bmge.faa <span class="op">&gt;</span> 29conservedZaremba_BS18BacRefv4_bmge_Fasttree_wag_gamma.tree</span></code></pre></div>
+<div class="sourceCode" id="cb126"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb126-1"><a href="#cb126-1"></a><span class="ex">FastTree</span> -wag -gamma 29conservedZaremba_BS18BacRefv4_bmge.faa <span class="op">&gt;</span> 29conservedZaremba_BS18BacRefv4_bmge_Fasttree_wag_gamma.tree</span></code></pre></div>
 </div>
 <div id="phylobayes" class="section level3">
 <h3>Phylobayes</h3>
 <p>Bayesian trees. Notice, needs special setup to run on on the NIOZ severs. Will be added later.</p>
 <p>NOTE: convergence if maxdiff &lt; 0.1 still ok &lt; 0.3 not converged &gt; 0.3</p>
-<div class="sourceCode" id="cb126"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb126-1"><a href="#cb126-1"></a><span class="co">#start some chains </span></span>
-<span id="cb126-2"><a href="#cb126-2"></a><span class="kw">for</span> <span class="ex">i</span> in 1 2 3 4<span class="kw">;</span> <span class="kw">do</span> <span class="ex">mpirun</span> -np 7 pb_mpi -d aln.phy -cat -gtr -x 10 -1 chain<span class="va">$i</span> <span class="kw">&amp;</span> <span class="kw">done</span></span>
-<span id="cb126-3"><a href="#cb126-3"></a></span>
-<span id="cb126-4"><a href="#cb126-4"></a><span class="co">#check for convergence</span></span>
-<span id="cb126-5"><a href="#cb126-5"></a><span class="co">#example: bpcomp -x &lt;burnin&gt; &lt;every&gt; -o &lt;outputprefix&gt; &lt;chain1&gt; &lt;chain2&gt; &lt;chain3&gt; &lt;chain4&gt;</span></span>
-<span id="cb126-6"><a href="#cb126-6"></a><span class="ex">bpcomp</span> -x 250 1 -o convergence chain1 chain2 chain3 chain4</span>
-<span id="cb126-7"><a href="#cb126-7"></a></span>
-<span id="cb126-8"><a href="#cb126-8"></a><span class="co">#check number of available trees</span></span>
-<span id="cb126-9"><a href="#cb126-9"></a><span class="fu">wc</span> -l *.trace</span>
-<span id="cb126-10"><a href="#cb126-10"></a></span>
-<span id="cb126-11"><a href="#cb126-11"></a><span class="co">#stop run</span></span>
-<span id="cb126-12"><a href="#cb126-12"></a><span class="kw">for</span> <span class="ex">i</span> in 1 2 3 4<span class="kw">;</span> <span class="kw">do</span> <span class="bu">echo</span> 0 <span class="op">&gt;</span> chain<span class="va">$i</span>.run<span class="kw">;</span> <span class="kw">done</span></span>
-<span id="cb126-13"><a href="#cb126-13"></a></span>
-<span id="cb126-14"><a href="#cb126-14"></a><span class="co">#restart runs</span></span>
-<span id="cb126-15"><a href="#cb126-15"></a><span class="kw">for</span> <span class="ex">i</span> in 1 2 3 4<span class="kw">;</span> <span class="kw">do</span> <span class="ex">mpirun</span> -np 7 pb_mpi chain<span class="va">$i</span> <span class="kw">&amp;</span> <span class="kw">done</span> </span></code></pre></div>
+<div class="sourceCode" id="cb127"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb127-1"><a href="#cb127-1"></a><span class="co">#start some chains </span></span>
+<span id="cb127-2"><a href="#cb127-2"></a><span class="kw">for</span> <span class="ex">i</span> in 1 2 3 4<span class="kw">;</span> <span class="kw">do</span> <span class="ex">mpirun</span> -np 7 pb_mpi -d aln.phy -cat -gtr -x 10 -1 chain<span class="va">$i</span> <span class="kw">&amp;</span> <span class="kw">done</span></span>
+<span id="cb127-3"><a href="#cb127-3"></a></span>
+<span id="cb127-4"><a href="#cb127-4"></a><span class="co">#check for convergence</span></span>
+<span id="cb127-5"><a href="#cb127-5"></a><span class="co">#example: bpcomp -x &lt;burnin&gt; &lt;every&gt; -o &lt;outputprefix&gt; &lt;chain1&gt; &lt;chain2&gt; &lt;chain3&gt; &lt;chain4&gt;</span></span>
+<span id="cb127-6"><a href="#cb127-6"></a><span class="ex">bpcomp</span> -x 250 1 -o convergence chain1 chain2 chain3 chain4</span>
+<span id="cb127-7"><a href="#cb127-7"></a></span>
+<span id="cb127-8"><a href="#cb127-8"></a><span class="co">#check number of available trees</span></span>
+<span id="cb127-9"><a href="#cb127-9"></a><span class="fu">wc</span> -l *.trace</span>
+<span id="cb127-10"><a href="#cb127-10"></a></span>
+<span id="cb127-11"><a href="#cb127-11"></a><span class="co">#stop run</span></span>
+<span id="cb127-12"><a href="#cb127-12"></a><span class="kw">for</span> <span class="ex">i</span> in 1 2 3 4<span class="kw">;</span> <span class="kw">do</span> <span class="bu">echo</span> 0 <span class="op">&gt;</span> chain<span class="va">$i</span>.run<span class="kw">;</span> <span class="kw">done</span></span>
+<span id="cb127-13"><a href="#cb127-13"></a></span>
+<span id="cb127-14"><a href="#cb127-14"></a><span class="co">#restart runs</span></span>
+<span id="cb127-15"><a href="#cb127-15"></a><span class="kw">for</span> <span class="ex">i</span> in 1 2 3 4<span class="kw">;</span> <span class="kw">do</span> <span class="ex">mpirun</span> -np 7 pb_mpi chain<span class="va">$i</span> <span class="kw">&amp;</span> <span class="kw">done</span> </span></code></pre></div>
 </div>
 </div>
 <div id="removing-contaminants-from-nexus-files" class="section level2">
@@ -3374,26 +3406,26 @@ $(document).ready(function () {
 <div id="section-108" class="section level22">
 <p class="heading"></p>
 <p>Notice: For this to work ONLY the potential things to remove (or keep) need to be color coded</p>
-<div class="sourceCode" id="cb127"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb127-1"><a href="#cb127-1"></a><span class="co">#1. Get contaminants</span></span>
-<span id="cb127-2"><a href="#cb127-2"></a><span class="fu">grep</span> <span class="st">&quot;#&quot;</span> OG25_colored <span class="op">&gt;</span> OG25_contaminated.txt</span>
-<span id="cb127-3"><a href="#cb127-3"></a></span>
-<span id="cb127-4"><a href="#cb127-4"></a><span class="co">#2. Separate column by ‘</span></span>
-<span id="cb127-5"><a href="#cb127-5"></a><span class="fu">awk</span> <span class="st">&#39;{split($0,a,&quot;[&quot;); print a[1],a[2],a[3]}&#39;</span> OG25_contaminated.txt <span class="op">&gt;</span> temp1</span>
-<span id="cb127-6"><a href="#cb127-6"></a></span>
-<span id="cb127-7"><a href="#cb127-7"></a><span class="co">#3. Split by | </span></span>
-<span id="cb127-8"><a href="#cb127-8"></a><span class="fu">awk</span> <span class="st">&#39;{split($0,a,&quot;|&quot;); print a[9]}&#39;</span> temp1 <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;{if (NR!=1) {print}}&#39;</span>   <span class="op">&gt;</span> temp2</span>
-<span id="cb127-9"><a href="#cb127-9"></a></span>
-<span id="cb127-10"><a href="#cb127-10"></a><span class="co">#4. Cut after _ to only get GCA nr (cut after 2nd _)</span></span>
-<span id="cb127-11"><a href="#cb127-11"></a><span class="fu">cut</span> -d <span class="st">&quot;_&quot;</span> -f1-2 temp2    <span class="op">&gt;</span> temp3</span>
-<span id="cb127-12"><a href="#cb127-12"></a></span>
-<span id="cb127-13"><a href="#cb127-13"></a><span class="co">#5. Cut after . to only get GCA nr </span></span>
-<span id="cb127-14"><a href="#cb127-14"></a><span class="fu">cut</span> -d <span class="st">&quot;.&quot;</span> -f1  temp3  <span class="op">&gt;</span> temp4</span>
-<span id="cb127-15"><a href="#cb127-15"></a></span>
-<span id="cb127-16"><a href="#cb127-16"></a><span class="co">#6. Cut after &#39; to only get GCA nr</span></span>
-<span id="cb127-17"><a href="#cb127-17"></a><span class="fu">cut</span> -d <span class="st">&quot;&#39;&quot;</span> -f1  temp4  <span class="op">&gt;</span> to_remove</span>
-<span id="cb127-18"><a href="#cb127-18"></a></span>
-<span id="cb127-19"><a href="#cb127-19"></a><span class="co">#clean</span></span>
-<span id="cb127-20"><a href="#cb127-20"></a><span class="fu">rm</span> temp*</span></code></pre></div>
+<div class="sourceCode" id="cb128"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb128-1"><a href="#cb128-1"></a><span class="co">#1. Get contaminants</span></span>
+<span id="cb128-2"><a href="#cb128-2"></a><span class="fu">grep</span> <span class="st">&quot;#&quot;</span> OG25_colored <span class="op">&gt;</span> OG25_contaminated.txt</span>
+<span id="cb128-3"><a href="#cb128-3"></a></span>
+<span id="cb128-4"><a href="#cb128-4"></a><span class="co">#2. Separate column by ‘</span></span>
+<span id="cb128-5"><a href="#cb128-5"></a><span class="fu">awk</span> <span class="st">&#39;{split($0,a,&quot;[&quot;); print a[1],a[2],a[3]}&#39;</span> OG25_contaminated.txt <span class="op">&gt;</span> temp1</span>
+<span id="cb128-6"><a href="#cb128-6"></a></span>
+<span id="cb128-7"><a href="#cb128-7"></a><span class="co">#3. Split by | </span></span>
+<span id="cb128-8"><a href="#cb128-8"></a><span class="fu">awk</span> <span class="st">&#39;{split($0,a,&quot;|&quot;); print a[9]}&#39;</span> temp1 <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;{if (NR!=1) {print}}&#39;</span>   <span class="op">&gt;</span> temp2</span>
+<span id="cb128-9"><a href="#cb128-9"></a></span>
+<span id="cb128-10"><a href="#cb128-10"></a><span class="co">#4. Cut after _ to only get GCA nr (cut after 2nd _)</span></span>
+<span id="cb128-11"><a href="#cb128-11"></a><span class="fu">cut</span> -d <span class="st">&quot;_&quot;</span> -f1-2 temp2    <span class="op">&gt;</span> temp3</span>
+<span id="cb128-12"><a href="#cb128-12"></a></span>
+<span id="cb128-13"><a href="#cb128-13"></a><span class="co">#5. Cut after . to only get GCA nr </span></span>
+<span id="cb128-14"><a href="#cb128-14"></a><span class="fu">cut</span> -d <span class="st">&quot;.&quot;</span> -f1  temp3  <span class="op">&gt;</span> temp4</span>
+<span id="cb128-15"><a href="#cb128-15"></a></span>
+<span id="cb128-16"><a href="#cb128-16"></a><span class="co">#6. Cut after &#39; to only get GCA nr</span></span>
+<span id="cb128-17"><a href="#cb128-17"></a><span class="fu">cut</span> -d <span class="st">&quot;&#39;&quot;</span> -f1  temp4  <span class="op">&gt;</span> to_remove</span>
+<span id="cb128-18"><a href="#cb128-18"></a></span>
+<span id="cb128-19"><a href="#cb128-19"></a><span class="co">#clean</span></span>
+<span id="cb128-20"><a href="#cb128-20"></a><span class="fu">rm</span> temp*</span></code></pre></div>
 <div id="section-109" class="section level83">
 <p class="heading"></p>
 </div>
@@ -3418,18 +3450,18 @@ $(document).ready(function () {
 <ol style="list-style-type: decimal">
 <li>Download available NCBI archaeal and bacterial genome lists</li>
 </ol>
-<div class="sourceCode" id="cb128"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb128-1"><a href="#cb128-1"></a><span class="fu">wget</span> ftp://ftp.ncbi.nlm.nih.gov/genomes/genbank/bacteria/assembly_summary.txt</span>
-<span id="cb128-2"><a href="#cb128-2"></a><span class="fu">wget</span> ftp://ftp.ncbi.nlm.nih.gov/genomes/genbank/archaea/assembly_summary.txt  </span></code></pre></div>
+<div class="sourceCode" id="cb129"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb129-1"><a href="#cb129-1"></a><span class="fu">wget</span> ftp://ftp.ncbi.nlm.nih.gov/genomes/genbank/bacteria/assembly_summary.txt</span>
+<span id="cb129-2"><a href="#cb129-2"></a><span class="fu">wget</span> ftp://ftp.ncbi.nlm.nih.gov/genomes/genbank/archaea/assembly_summary.txt  </span></code></pre></div>
 <ol start="2" style="list-style-type: decimal">
 <li>Select set of complete and reference genomes you want to work with</li>
 <li>Copy link in column ftp_path and generate a new file ‘get_genomes.txt ‘</li>
 <li>Add complete path information to get_genomes.txt:</li>
 </ol>
-<div class="sourceCode" id="cb129"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb129-1"><a href="#cb129-1"></a><span class="fu">sed</span> -r <span class="st">&#39;s|(ftp://ftp.ncbi.nlm.nih.gov/genomes/all/)(GCA/)([0-9]{3}/)([0-9]{3}/)([0-9]{3}/)(GCA_.+)|\1\2\3\4\5\6/\6_genomic.fna.gz|&#39;</span> get_genomes.txt  <span class="op">&gt;</span> get_genomes_v2.txt  </span></code></pre></div>
+<div class="sourceCode" id="cb130"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb130-1"><a href="#cb130-1"></a><span class="fu">sed</span> -r <span class="st">&#39;s|(ftp://ftp.ncbi.nlm.nih.gov/genomes/all/)(GCA/)([0-9]{3}/)([0-9]{3}/)([0-9]{3}/)(GCA_.+)|\1\2\3\4\5\6/\6_genomic.fna.gz|&#39;</span> get_genomes.txt  <span class="op">&gt;</span> get_genomes_v2.txt  </span></code></pre></div>
 <ol start="5" style="list-style-type: decimal">
 <li>Download genomes:</li>
 </ol>
-<div class="sourceCode" id="cb130"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb130-1"><a href="#cb130-1"></a><span class="kw">for</span> <span class="ex">next</span> in <span class="va">$(</span><span class="fu">cat</span> get_genomes_v2.txt<span class="va">)</span><span class="kw">;</span> <span class="kw">do</span> <span class="fu">wget</span> <span class="st">&quot;</span><span class="va">$next</span><span class="st">&quot;</span><span class="kw">;</span> <span class="kw">done</span></span></code></pre></div>
+<div class="sourceCode" id="cb131"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb131-1"><a href="#cb131-1"></a><span class="kw">for</span> <span class="ex">next</span> in <span class="va">$(</span><span class="fu">cat</span> get_genomes_v2.txt<span class="va">)</span><span class="kw">;</span> <span class="kw">do</span> <span class="fu">wget</span> <span class="st">&quot;</span><span class="va">$next</span><span class="st">&quot;</span><span class="kw">;</span> <span class="kw">done</span></span></code></pre></div>
 </div>
 </div>
 <div id="dealing-with-ncbi-genomes-and-their-taxonomy" class="section level2">
@@ -3463,11 +3495,11 @@ $(document).ready(function () {
 <ol style="list-style-type: decimal">
 <li>make your own profile</li>
 </ol>
-<div class="sourceCode" id="cb131"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb131-1"><a href="#cb131-1"></a><span class="ex">hmmbuild</span> Rhodopsin_aln.hmm Rhodopsin_aln.fasta</span></code></pre></div>
+<div class="sourceCode" id="cb132"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb132-1"><a href="#cb132-1"></a><span class="ex">hmmbuild</span> Rhodopsin_aln.hmm Rhodopsin_aln.fasta</span></code></pre></div>
 <ol start="2" style="list-style-type: decimal">
 <li>run hmmsearch</li>
 </ol>
-<div class="sourceCode" id="cb132"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb132-1"><a href="#cb132-1"></a><span class="ex">hmmsearchTable</span> Genomes.faa Rhodopsin_aln.hmm 6 -E 1e-20 <span class="op">&gt;</span> output.txt</span></code></pre></div>
+<div class="sourceCode" id="cb133"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb133-1"><a href="#cb133-1"></a><span class="ex">hmmsearchTable</span> Genomes.faa Rhodopsin_aln.hmm 6 -E 1e-20 <span class="op">&gt;</span> output.txt</span></code></pre></div>
 </div>
 </div>
 <div id="blast" class="section level2">
@@ -3480,28 +3512,28 @@ $(document).ready(function () {
 <ul>
 <li>against DNA sequences</li>
 </ul>
-<div class="sourceCode" id="cb133"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb133-1"><a href="#cb133-1"></a><span class="ex">makeblastdb</span> -in All_Bacteria_RP.fasta -out All_Bacteria_RP -dbtype nucl -parse_seqids</span></code></pre></div>
+<div class="sourceCode" id="cb134"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb134-1"><a href="#cb134-1"></a><span class="ex">makeblastdb</span> -in All_Bacteria_RP.fasta -out All_Bacteria_RP -dbtype nucl -parse_seqids</span></code></pre></div>
 <ul>
 <li>against proteins equences</li>
 </ul>
-<div class="sourceCode" id="cb134"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb134-1"><a href="#cb134-1"></a><span class="ex">makeblastdb</span> -in Genomes.faa -out Genomes -dbtype prot -parse_seqids</span></code></pre></div>
+<div class="sourceCode" id="cb135"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb135-1"><a href="#cb135-1"></a><span class="ex">makeblastdb</span> -in Genomes.faa -out Genomes -dbtype prot -parse_seqids</span></code></pre></div>
 <ol start="2" style="list-style-type: decimal">
 <li>run blast</li>
 </ol>
 <ul>
 <li>DNA</li>
 </ul>
-<div class="sourceCode" id="cb135"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb135-1"><a href="#cb135-1"></a><span class="ex">blastn</span> -num_threads 5 -outfmt 6 -query 4484_0_1cm.fasta -db All_Bacteria_RP -out 4484_0_1cm_e20.blast.txt -evalue 1e-20</span></code></pre></div>
+<div class="sourceCode" id="cb136"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb136-1"><a href="#cb136-1"></a><span class="ex">blastn</span> -num_threads 5 -outfmt 6 -query 4484_0_1cm.fasta -db All_Bacteria_RP -out 4484_0_1cm_e20.blast.txt -evalue 1e-20</span></code></pre></div>
 <ul>
 <li>Protein</li>
 </ul>
-<div class="sourceCode" id="cb136"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb136-1"><a href="#cb136-1"></a><span class="ex">blastp</span> -num_threads 5 -outfmt 6 -query K01783.faa -db Genomes -out K01783_v_AllUAP2_e20.txt -evalue 1e-20</span></code></pre></div>
+<div class="sourceCode" id="cb137"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb137-1"><a href="#cb137-1"></a><span class="ex">blastp</span> -num_threads 5 -outfmt 6 -query K01783.faa -db Genomes -out K01783_v_AllUAP2_e20.txt -evalue 1e-20</span></code></pre></div>
 <ol start="3" style="list-style-type: decimal">
 <li>get best hit</li>
 </ol>
-<div class="sourceCode" id="cb137"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb137-1"><a href="#cb137-1"></a><span class="fu">perl</span> best_blast.pl K01783_v_AllUAP2_e20.txt K01783_v_AllUAP2_e20_best_hit.txt</span></code></pre></div>
+<div class="sourceCode" id="cb138"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb138-1"><a href="#cb138-1"></a><span class="fu">perl</span> best_blast.pl K01783_v_AllUAP2_e20.txt K01783_v_AllUAP2_e20_best_hit.txt</span></code></pre></div>
 <p>NA. get hits that meet certain criteria, i.e. only sequences with % &gt; 75</p>
-<div class="sourceCode" id="cb138"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb138-1"><a href="#cb138-1"></a>    <span class="fu">awk</span> <span class="st">&#39; $3 &gt;= 75 &#39;</span>  Cas25_WOR_52_54_Protein_e20_best.txt</span></code></pre></div>
+<div class="sourceCode" id="cb139"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb139-1"><a href="#cb139-1"></a>    <span class="fu">awk</span> <span class="st">&#39; $3 &gt;= 75 &#39;</span>  Cas25_WOR_52_54_Protein_e20_best.txt</span></code></pre></div>
 <p>The header for blast files looks as follows:</p>
 <p><strong><em>query id subject id % identity alignment length mismatches gap opens q. start q. end s. start s. end evalue bit score</em></strong></p>
 </div>
@@ -3510,7 +3542,7 @@ $(document).ready(function () {
 <h2>Calculate ANI</h2>
 <div id="section-121" class="section level22">
 <p class="heading"></p>
-<div class="sourceCode" id="cb139"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb139-1"><a href="#cb139-1"></a><span class="fu">perl</span> ANI.pl --fd formatdb --bl blastall --qr ../Bins/Cascadia25_renamed.fasta --sb ../ReferenceGenomes/DNA/Bacteria_KD3_62_uncultured_DG_56.fna --od ANI <span class="op">&gt;</span> KD3_ANI.txt</span></code></pre></div>
+<div class="sourceCode" id="cb140"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb140-1"><a href="#cb140-1"></a><span class="fu">perl</span> ANI.pl --fd formatdb --bl blastall --qr ../Bins/Cascadia25_renamed.fasta --sb ../ReferenceGenomes/DNA/Bacteria_KD3_62_uncultured_DG_56.fna --od ANI <span class="op">&gt;</span> KD3_ANI.txt</span></code></pre></div>
 </div>
 </div>
 <div id="comparem-calculate-aai" class="section level2">
@@ -3518,7 +3550,7 @@ $(document).ready(function () {
 <div id="section-122" class="section level22">
 <p class="heading"></p>
 <p><a href="https://github.com/dparks1134/CompareM">Tutorial</a></p>
-<div class="sourceCode" id="cb140"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb140-1"><a href="#cb140-1"></a><span class="ex">comparem</span>  aai_wf  --tmp_dir temp/ --file_ext fna -c 30  fna Output</span></code></pre></div>
+<div class="sourceCode" id="cb141"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb141-1"><a href="#cb141-1"></a><span class="ex">comparem</span>  aai_wf  --tmp_dir temp/ --file_ext fna -c 30  fna Output</span></code></pre></div>
 </div>
 </div>
 <div id="phylorank" class="section level2">
@@ -3534,7 +3566,7 @@ $(document).ready(function () {
 <div id="section-124" class="section level22">
 <p class="heading"></p>
 <p>Cluster sequences by sequence identiy</p>
-<div class="sourceCode" id="cb141"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb141-1"><a href="#cb141-1"></a><span class="ex">usearch10.0.240_i86linux32</span> -cluster_fast GB_rps3_blast.faa  -id 0.97 -consout nr_consensus.fasta</span></code></pre></div>
+<div class="sourceCode" id="cb142"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb142-1"><a href="#cb142-1"></a><span class="ex">usearch10.0.240_i86linux32</span> -cluster_fast GB_rps3_blast.faa  -id 0.97 -consout nr_consensus.fasta</span></code></pre></div>
 </div>
 </div>
 </div>

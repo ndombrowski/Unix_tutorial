@@ -3,9 +3,7 @@ title: "General Code Notebook"
 author: "Nina Dombrowski"
 affiliation: "NIOZ"
 date: "`r Sys.Date()`"
-knit: (function(input_file, encoding) {
-  out_dir <- 'docs';
-  rmarkdown::render(input_file,
+knit: (function(input_file, encoding) {out_dir <- 'docs';rmarkdown::render(input_file,encoding=encoding,output_file=file.path(dirname(input_file), out_dir, 'index.html'))})
 output:
   rmdformats::readthedown:
     highlight: kate
