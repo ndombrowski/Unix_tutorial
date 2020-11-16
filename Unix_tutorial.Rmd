@@ -6,8 +6,6 @@ date: "`r Sys.Date()`"
 knit: (function(input_file, encoding) {
   out_dir <- 'docs';
   rmarkdown::render(input_file,
- encoding=encoding,
- output_file=file.path(dirname(input_file), out_dir, 'index.html'))})
 output:
   rmdformats::readthedown:
     highlight: kate
@@ -379,10 +377,10 @@ gzip reduces the size of the named files using Lempel–Ziv coding (LZ77). Whene
 ```bash
 
 #compress a file
-gzip GCA_002728275.1_ASM272827v1_genomic.fna 
+gzip Input_docs/PF00900.faa
 
 #decompress a file
-gzip -d GCA_002728275.1_ASM272827v1_genomic.fna.gz 
+gzip -d Input_docs/PF00900.faa.gz 
 
 ```
 
@@ -672,7 +670,7 @@ This command is simple but essential for quality control
 
 ```bash
 #count how many lines we have in a file we have
-wc -l Input_docs/Experiment1.txt
+wc -l Input_docs/Input_docs/Experiment1.txt
 
 #count how many files we have that end with a certain extension
 ll Input_docs/*.txt | wc -l
@@ -689,13 +687,13 @@ This command is simple but essential for quality control
 
 ```bash
 #count how often the pattern **control** occurs in our document
-grep "control" Input_docs/Experiment1.txt
+grep "control" Input_docs/Input_docs/Experiment1.txt
 
 #only give the counts, not the lines
-grep -c "control" Input_docs/Experiment1.txt
+grep -c "control" Input_docs/Input_docs/Experiment1.txt
 
 #grep a pattern only if it occurs at the beginning of a line
-grep "^Ex" Input_docs/Experiment1.txt
+grep "^Ex" Input_docs/Input_docs/Experiment1.txt
 ```
 
 
@@ -725,12 +723,12 @@ grep -c "^Ex." *.txt
 
 4. [012] wildcard = matches 0 or 1 or 2 exactly once
 ```bash
-grep -c "^Ex" Experiment[012].txt
+grep -c "^Ex" Input_docs/Experiment[012].txt
 ```
 
 5. [0-9] wildcard = matches matches any number exactly one
 ```bash
-grep -c "^Ex" Experiment[0-9].txt
+grep -c "^Ex" Input_docs/Experiment[0-9].txt
 ```
 
 6. combining wildcards
@@ -745,14 +743,14 @@ grep -c "^Ex" [A-Z][a-z]*[12].txt
 - these 6 letters should be followed by either a 1 or 2
 
 ```bash
-grep -c "[a-z]\{6\}[12]" Experiment[12].txt
+grep -c "[a-z]\{6\}[12]" Input_docs/Experiment[12].txt
 ```
 
 7. if we are not sure how many characters we have
 - matches 3-10 characters
 
 ```bash
-grep -c "[a-z]\{3,10\}[12]" Experiment[12].txt
+grep -c "[a-z]\{3,10\}[12]" Input_docs/Experiment[12].txt
 ```
 
 
@@ -769,10 +767,10 @@ Options:
 
 ```bash
 #keep the first element
-cut -f1 -d "-" File.fna > File_new.fna
+cut -f1 -d "_" Input_docs/PF01015.faa > Output_docs/File_new.fna
 
 #keep the first and second element
-cut -f1,2 -d "-" File.fna > File_new.fna
+cut -f1,2 -d "_" Input_docs/PF01015.faa > Output_docs/File_new.fna
 ```
 
 
@@ -808,13 +806,13 @@ cat file1 file2 file3 > file_merged.txt
  ```
 
 
-In this example combine Ex1.txt and Ex2.txt into one file named All_experiments
+In this example combine Ex1.txt and Ex2.txt into one file named All_Input_docs/Experiments
 
 ```bash
-cat Experiment1.txt Experiment2.txt > All_experiments.txt
+cat Input_docs/Experiment1.txt Input_docs/Experiment2.txt > All_Input_docs/Experiments.txt
 ```
 
-## Sort and uniq
+## Sort
 ######################
 
 1. **sort** – sort lines in a file from A-Z
@@ -823,31 +821,22 @@ There are a number of programs that require files to be sorted
 
 ```bash
 #sort using the fourth column
-sort -k4 Experiment2.txt
+sort -k4 Input_docs/Experiment2.txt
 
 #sort using the 5th and then the third column
-sort -k5 -k3 Experiment1.txt
+sort -k5 -k3 Input_docs/Experiment1.txt
 ```
 
 2. **uniq** – can be used to remove or find duplicates. However, for this to work the file first needs to be sorted
 
 ```bash
+
 #only keep duplicate
-sort Experiment2.txt | uniq -d
+sort Input_docs/Experiment2.txt | uniq -d
 
 #remove duplicate
-sort Experiment2.txt| uniq -u
-```
+sort Input_docs/Experiment2.txt| uniq -u
 
-
-
-## datamash: merging rows by keys
-######################
-
-GNU datamash is a command-line program which performs basic numeric, textual and statistical operations on input textual data files.
-
-```bash
-datamash -sW -g1 collapse 2 collapse 4 < Unimarkers_KO_count_table.txt  > Unimarkers_KO_collapsed.txt
 ```
 
 
@@ -861,9 +850,22 @@ The standard output of one command is fed into the standard input of another
 In this example we first combine the files, then sort the combined output and find the uniq elements.
 
 ```bash
-cat Experiment[12].txt | sort | uniq
+cat Input_docs/Experiment[12].txt | sort | uniq
 ```
 
+
+
+
+## datamash: merging rows by keys
+######################
+
+GNU datamash is a command-line program which performs basic numeric, textual and statistical operations on input textual data files.
+
+```bash
+
+datamash -sW -g1 collapse 2 collapse 4 < Unimarkers_KO_count_table.txt  > Unimarkers_KO_collapsed.txt
+
+```
 
 ############################################
 ############################################
@@ -1028,10 +1030,20 @@ For more information, see [here](https://community.coherentpdf.com)
 ######################
 
 ```bash
-for f in *.fa; do  
-mv -- "$f" "${f%.fa}.fna" 
+
+cd Input_docs
+
+for f in *.faa; do  
+mv -- "$f" "${f%.faa}.fna" 
 done
+
+cd ..
 ```
+
+Exercise:
+
+Change the filename back to faa.
+
 
 
 ## Change file names
@@ -1041,7 +1053,7 @@ done
 Oldname - NewName - Pattern used to grep all files
 
 **Warning**
-Based on the file system there are two versions on how to use rename:
+Based on the file system there are two versions on how to use rename and if you work on your own system you might need to install it first.
 
 ```bash
 # version 1
@@ -1051,6 +1063,20 @@ rename 's/OldName/NewName/' Bin*
 rename OldName Newname Bin*
 
 ```
+
+Exercise:
+
+```bash
+
+cd Input_docs
+
+rename 's/PF/PFAM/' PF*  
+
+cd ..
+```
+
+
+
 
 ## Replacing names in files (works on every kind of file)
 ######################
@@ -1066,15 +1092,26 @@ In these cases either update your naming scheme OR add an end of line indicator
 
 
 ```bash
-perl replace_tree_names.pl names_to_replace.txt File.fasta > File_renamed.fasta
+
+perl replace_tree_names.pl Input_docs/names_to_replace Input_docs/PF00900.faa > Output_docs/PF00900_renamed.faa
+
 ```
+
+Exercise:
+
+1. Grep the names of the fasta headers of PF01015
+2. Remove the ``>``
+3. 
+
 
 
 ## Extract sequence by pattern found in fasta header
 ######################
 
 ```bash
+
 perl extractSequence.pl File.faa <pattern> > File_Subset.faa
+
 ```
 
  
@@ -1085,7 +1122,9 @@ perl extractSequence.pl File.faa <pattern> > File_Subset.faa
 Here: Find all files that start with *DN** and have a *codon** in them. Once you have these files grep the number of sequences in each file.
 
 ```bash
+
 find . -maxdepth 6 -name 'DN*codon*' -exec grep -c -H ">" {} \; > Count_hits.txt
+
 ```
 
 
@@ -1102,11 +1141,14 @@ A ‘for *loop’** is a bash programming language statement which allows code t
 The bash *while** loop is a control flow statement that allows code or commands to be executed repeatedly based on a given condition. For example, run echo command 5 times or read text file line by line or evaluate the options passed on the command line for a script.
 
 ```bash
+
 #1. by providing a file with names to loop through
-for sample in `cat List`; do cp ${sample}.fna new_dir/fna; done  
+mkdir new_dir
+
+for sample in `cat List`; do cp Input_docs/${sample}.faa new_dir; done  
 
 #2. by grepping files using file names
-for sample in *`cat List`*fna; do cp $sample new_dir/fna; done  
+for sample in Input_docs/*fna; do cp $sample new_dir/fna; done  
 
 #3.while loop example 1
 
@@ -1142,21 +1184,24 @@ And example file can be generated with *echo "how now brown cow" > temp.txt*
 
 ## Basics search and replace
 ######################
+
 ```bash
-# search for 'ow' and replace it with 'aagh'
-sed 's/ow/aagh/' temp.txt
+# search for 'Ex' and replace it with 'Experiment'
+sed 's/Ex/Experiment/' Input_docs/Experiment1.txt 
 
 # search and replace pattern across the whole file and not only the first line
-sed 's/ow/aagh/g' temp.txt
+sed 's/Ex/Experiment/g' Input_docs/Experiment1.txt 
 
 #we also can use wildcards
-sed 's/control[0-9]/control/g' Experiment1.txt > new_file.txt
+sed 's/control[0-9]/control/g' Input_docs/Experiment1.txt > Output_docs/new_file.txt
 ```
 
 One important thing to remember is that certain symbols have specific meanings in UNIX. Examples are: comma, brackets, pipes. Do search for these in files, we need to escape them with a **\**:
 
 ```bash
-sed 's/N\[0.4uM\]/N(0.4uM)/g' Experiment1.txt > new_file.txt
+
+sed 's/N\[0.4uM\]/N(0.4uM)/g' Input_docs/Experiment1.txt > Output_docs/new_file.txt
+
 ```
 
 
@@ -1167,52 +1212,52 @@ sed 's/N\[0.4uM\]/N(0.4uM)/g' Experiment1.txt > new_file.txt
 
 ```bash
 # remove 1 first line
-sed '1d' temp.txt
+sed '1d' Input_docs/Experiment1.txt
 
 #remove last line
-sed '$d' file
+sed '$d' Input_docs/Experiment1.txt
 
 #remove lines 2-4
-sed '2,4d' file
+sed '2,4d' Input_docs/Experiment1.txt
 
 #remove lines other than 2-4
-sed '2,4!d' file 
+sed '2,4!d' Input_docs/Experiment1.txt 
 
 #remove the first and last line
-sed '1d;$d' file
+sed '1d;$d' Input_docs/Experiment1.txt
 
 #remove lines beginning with an **L**
-sed '/^L/d' file
+sed '/^L/d' Input_docs/Experiment1.txt
 
-#delete lines ending with x
-sed '/x$/d' file
+#delete lines ending with d
+sed '/d$/d' Input_docs/Experiment1.txt
 
 #delete lines ending with x OR X
-sed '/[xX]$/d' file
+sed '/[dD]$/d' Input_docs/Experiment1.txt
 
 #delete blank lines ('^$' indicates lines containing nothing)
-sed '/^$/d' file
+sed '/^$/d' Input_docs/Experiment1.txt
 
 #delete lines that start with capital letters
-sed '/^[A-Z]*$/d' file
+sed '/^[A-Z]*$/d' Input_docs/Experiment1.txt
 
 #delete lines with the pattern **Unix**
-sed '/Unix/d' file
+sed '/Ex/d' Input_docs/Experiment1.txt
 
 #delete files with the pattern unix or Linux
-sed '/Unix\|Linux/d' file
+sed '/Unix\|Linux/d' Input_docs/Experiment1.txt
 
-#delete the 2nd occurence of each pattern (here *u*)
-sed 's/u//2' file
+#delete the 2nd occurence of each pattern (here *o*)
+sed 's/o//2' Input_docs/Experiment1.txt
 
 #remove all digits across the whole file
-sed 's/[0-9]//g' file
+sed 's/[0-9]//g' Input_docs/Experiment1.txt
 
 #remove all alpha-numerical characters
-sed 's/[a-zA-Z0-9]//g' file
+sed 's/[a-zA-Z0-9]//g' Input_docs/Experiment1.txt
 
 #remove character regardless of the case
-sed 's/[uU]//g' file
+sed 's/[eE]//g' Input_docs/Experiment1.txt
 ```
 
 
@@ -1234,9 +1279,14 @@ For join to work input files need to be sorted, in the given example the files a
 
 
 ```bash
-LC_ALL=C join -a1  -j1 -e'-' -o 0,2.2,2.3 <(LC_ALL=C sort File1) <(LC_ALL=C sort File2) -t $'\t' | LC_ALL=C sort  > MergedFile
+
+LC_ALL=C join -a1  -j1 -e'-' -o 0,2.2,2.3 <(LC_ALL=C sort Input_docs/Experiment2.txt) <(LC_ALL=C sort Input_docs/Experiment3.txt) -t $'\t' | LC_ALL=C sort  > MergedFile
+
 ```
 
+
+
+Starting the section below , we have random code snippets that are useful to deal with sequencing data and/or genomic data.
 
 
 ###################################################################################
@@ -1251,7 +1301,9 @@ LC_ALL=C join -a1  -j1 -e'-' -o 0,2.2,2.3 <(LC_ALL=C sort File1) <(LC_ALL=C sort
 Example of output found [here](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/)
 
 ```bash
+
 fastqc fasta_file
+
 ```
 
 
@@ -1557,7 +1609,7 @@ Paramters:
                         that would be applicable to genomes found in all
                         environments, but we chose the default to be 2500, and
                         have been happy with it. You are welcome to
-                        experiment, but we advise to never go below 1,000. You
+                        Input_docs/Experiment, but we advise to never go below 1,000. You
                         also should remember that the lower you go, the more
                         time it will take to analyze all contigs. You can use
                         --list-contigs parameter to have an idea how many
