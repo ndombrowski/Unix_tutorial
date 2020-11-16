@@ -46,7 +46,7 @@ A lot of the files work with some basic text files provdided in the Input_docs f
 
 ## Tutorials for bioinformatics
 
-One example unix tutorial can be found [here](http://www.ee.surrey.ac.uk/Teaching/Unix/index.html)
+One example for a shorter unix tutorial can be found [here](http://www.ee.surrey.ac.uk/Teaching/Unix/index.html). The tutorial that follows below should give insights into all basic commands as well but in case something is missing it is always worthwhile to check other sources as well. 
 
 ## Useful Databases (mostly for annotations)
 
