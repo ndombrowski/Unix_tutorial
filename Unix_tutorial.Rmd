@@ -56,7 +56,7 @@ knitr::opts_chunk$set(eval=TRUE, cache=FALSE, message=FALSE, warning=FALSE,
 
 This workflow gives a basic introduction into the command line.
 
-A lot of the files work with some basic text files provdided in the `Input_docs` folder. If you want to run this tutorial you can use these files.
+A lot of the files work with some basic text files provided in the `Input_docs` folder. If you want to run this tutorial you can download these files from [here](https://github.com/ndombrowski/Unix_tutorial/tree/main/Input_docs).
 
 
 If working on the servers please keep in mind:
@@ -110,12 +110,12 @@ Nowadays, we have graphical user interfaces (GUIs) in addition to command line i
 - Accessing the terminal (to work on our servers, this is our most important tool)
   
     - Mac users: Search for **terminal** in spotlight and you are done.
-    - Windows users: You will need some software for using the servers. An introduction to Cygwin can be found under <How_to/Windows_users/Cygwin_intro.docx>. Another alternative is mobaXterm, which is used by a lot of NIOZ people (but we do not have a lot of experience with it at the moment ourselves, find out more [here](https://mobaxterm.mobatek.net/)). Newer windows setups also should come with their own version of the terminal, if that is the case you do not have to do anything.
+    - Windows users: You will need some software for using the command line. One option is [Cygwin](https://courses.cs.washington.edu/courses/cse154/19sp/resources/assets/shells/cygwin.html) and another alternative is [mobaXterm](https://mobaxterm.mobatek.net/). Finally, newer Windows version come with it's own Windows subsystem for Linux (WSL) which can be installed as explained [here](https://learn.microsoft.com/en-us/windows/wsl/basic-commands#install). 
 
 If all is working you should see something like this:
 
 <p align="left">
-  <img width="400" height="400" src="/Users/ninadombrowski/Desktop/WorkingDir/Notebooks/Pictures/terminal.png">
+  <img width="400"  src="../../Notebooks//Pictures/terminal.png">
 </p>
 
 If you are working from a mac, most of the important things (nano, perl, python are already installed). 
@@ -128,7 +128,7 @@ For Windows users you might need to setup some more things (esp a textviewer, li
 The basic file system on Unix looks like this:
 
 <p align="left">
-  <img width="400" height="400" src="/Users/ninadombrowski/Desktop/WorkingDir/Notebooks/Pictures/filesystem.png">
+  <img width="400" src="../../Notebooks//Pictures/filesystem.png">
 </p>
 
 - Different to what you might know from Windows, unix does not use Drives.
@@ -234,180 +234,6 @@ The general structure of a command looks like this:
 
 
 
-
-# Connecting to severs
-######################
-
-## Basics
-
-**SSH** (Secure Shell) is a network protocol that enables secure remote connections between two systems.
-
-Options:
-
-- ``-Y`` option enables trusted X11 forwarding in SSH (if we want to open i.e. a java interface, or view alignments). For this to work you might need to install X11 on your computer first. Trusted means: the remote machine is treated as a trusted client. This means that  other graphical (X11) clients could take data from the remote machine (make screenshots, do keylogging and other nasty stuff) and it is even possible to alter those data.
-- ``-X`` option enables untrusted X11 forwarding in SSH. Untrusted means = your local client sends a command to the remote machine and receives the graphical output
-
-```{bash class.source = 'fold-show', eval=FALSE}
-
-#connect to a server
-ssh -X username@server
-
-```
-
-
-## Checking available resources
-######################
-
-
-<div class="alert alert-danger" role="alert">
-  <strong>Since we share resources with a lot of other users keep all of this in mind. <br><br>
-  Try not to use more than 30% of our avail. resources. <br><br>
-  If you need more contact the users.
-  </strong>
-</div>
-
-There are different methods we have to check how busy the servers are.
-
-1a. ``top``
-
-Typing top into the terminal should give something like this:
-
-<p align="left">
-  <img width="600" height="600" src="/Users/ninadombrowski/Desktop/WorkingDir/Notebooks/Pictures/top.png">
-</p>
-
-- PID: Unique process id.
-- USER: Task’s owner.
-- PR: It is the priority of the task.
-- NI: The nice value of the task. A negative nice value means higher priority,whereas a positive nice value means lower priority.
-- VIRT: Total amount of virtual memory used by the task.
-- RES: Resident size, the non-swapped physical memory a task has used.
-- SHR: Shared Mem size (kb), the amount of shared memory used by a task.
-- %CPU: It shows the CPU usage as a percentage of total CPU time.
-- %MEM: It shows the Memory usage, a task’s currently used share of available physical memory.
-  - **as a rule of thump in the example above the first process uses 1492/100 = so roughly 15 of the 144 avail. cpus**
-- S: Status of the process
-- TIME+: CPU Time
-- COMMAND: Display the command line used to start a task or the name ofthe associated program.
-
-
-1b. ``htop``
-
-Htop gives similar info to top but allows to access how many CPUs and how much mem is used in total a bit easier:
-
-<p align="left">
-  <img src="/Users/ninadombrowski/Desktop/WorkingDir/Notebooks/Pictures/htop.png">
-</p>
-
-The numbers from 1-144 are our 144 CPUs and the fuller the bar is, the more of a single CPU is currently in use. This is also summarized under **tasks**. Another important line is the **memory** listing how much in total of the avail. memory is in use.
-
-2. ``df``
-
-Monitor avail. space on the different file systems.
-
-<p align="left">
-  <img width="600" height="600" src="/Users/ninadombrowski/Desktop/WorkingDir/Notebooks/Pictures/df.png">
-</p>
-
-
-
-3. ``free``
-
-Monitor avail. memory on the different file systems.
-
-<p align="left">
-  <img width="600" height="600" src="/Users/ninadombrowski/Desktop/WorkingDir/Notebooks/Pictures/free.png">
-</p>
-
-We can see that lv3, where scratch is, is almost full. So it is a good point to do data cleaning.
-
-4. ``du``
-
-Monitor how much space specific folders take up. In the example below we look at all the folders in the current directory
-
-For example, we can ask how much space our desktop needs:
-
-```{bash class.source = 'fold-show', eval=FALSE}
-du -sh Desktop/
-```
-
-
-## Transferring data from/to a server
-######################
-
-Note: If transferring data the transfer is prepared from the terminal of your local computer. 
-There are filetransfer systems that can make the job easier, i.e. FileZilla.
-
-```{bash class.source = 'fold-show', eval=FALSE}
-#from local to server
-scp File username@server:/HomeDir
-
-#from server to local
-scp username@server:/HomeDir/File Desktop
-```
-
-
-## Working on a server via slurm
-######################
-
-As mentioned above on the larger NIOZ server we can not directly run jobs but need to submit them via a job submission system called slurm.
-
-This section is for your information only.
-
-### Preparing a job script
-
-To submit a job, we need to open a document in nano and describe what resources we need, i.e. with 
-
-```{bash class.source = 'fold-show', eval=FALSE}
-nano jobscript.sh
-```
-
-Inside the script we can have something written like this:
-
-```{bash class.source = 'fold-show', eval=FALSE}
-#!/bin/sh
-#SBATCH --partition=normal    # default "normal", if not specified
-#SBATCH --nodelist=no1       # the node we want to work on
-#SBATCH --time=0-06:30:00     # run time in days-hh:mm:ss
-#SBATCH --nodes=1             # require 1 node
-#SBATCH --ntasks-per-node=36  # (by default, "ntasks"="cpus")
-#SBATCH --mem-per-cpu=4000    # MB RAM per CPU core (default 4 GB/core)
-#SBATCH --error=job.%J.err
-#SBATCH --output=job.%J.out
-
-# Executable commands :
-iqtree -s my_aln.faa
-```
-
-The most important things are
-
-- the partition, esp. for jobs that run longer 
-- the node we want to work on, i.e. only some allow for longer running jobs
-- the number of nodes, we usally use one for our jobs
-- --error and --output are good to keep in case you ran into problems
-
-Not absolutely necessary (at least on the NIOZ system but might be on other systems)
-
-- time = not necessary for the NIOZ server, just make sure you are in the max limit
-- mem-per-cpu
-- nodes = not needed if you use nodelist
-
-
-
-### basic commands for slurm:
-
-- ``squeue`` is important to check and see whether your command is running ok but also to see how heavily used servers are.
-
-```{bash class.source = 'fold-show', eval=FALSE}
-#submitting your job
-sbatch jobscript.sh
-
-#checking for running jobs
-squeue
-
-#kill a job incase sth is wrong (the job ID you can find via squeue)
-scancel job#
-```
 
 
 ###################################################################################
@@ -557,7 +383,7 @@ Certain characters are significant to the shell; Escaping is a method of quoting
 Below, we find the special meanings of certain escaped characters:
 
 <p align="left">
-  <img width="400" height="400" src="/Users/ninadombrowski/Desktop/WorkingDir/Notebooks/Pictures/escaping.png">
+  <img width="400" src="../../Notebooks//Pictures/escaping.png">
 </p>
 
 
@@ -838,7 +664,7 @@ grep  "control" Input_docs/Experiment[0-9].txt
 grep "control" Input_docs/[A-Z][a-z]*[12].txt
 ```
 
-- [a-z]\{7\} we are exactly looking for 6 letters (as in 'control')
+- [a-z]\{7\} we are exactly looking for 7 letters (as in 'control')
 - these 7 letters should be followed by either a 1 or 2
 
 ```{bash class.source = 'fold-show', eval=FALSE}
@@ -1303,6 +1129,18 @@ sed 's/[eE]//g' Input_docs/Experiment1.txt
 ```
 
 
+## removing text between patterns 
+
+If we have complicated headers and want to shorten it sed is also useful. I.e. lets consider this example: >MBN1215629.1 4Fe-4S dicluster domain-containing protein [Candidatus Lokiarchaeota archaeon]
+
+The ID and taxon are useful but the text in between might be a bit much. Here, we can use the first space and the `[` as patterns and we want to remove everything in between.
+
+```{bash class.source = 'fold-show', eval=FALSE}
+
+sed 's/ [^\[]*/_/1' <(echo ">MBN1215629.1 4Fe-4S dicluster domain-containing protein [Candidatus Lokiarchaeota archaeon]")
+
+```
+
 
 
 ############################################
@@ -1369,7 +1207,7 @@ for i in 1 2 3 4 5; do echo "Welcome $i times"; done
 Here, you see what this command does step by step:
 
 <p align="left">
-  <img width=600, height=600, src="/Users/ninadombrowski/Desktop/WorkingDir/Notebooks/Pictures/loops.png">
+  <img width=600 src="../../Notebooks//Pictures/loops.png">
 </p>
 
 
@@ -1383,7 +1221,7 @@ for i in Input_docs/*txt; do sed 's/N/P/g' $i; done
 ````
 
 <p align="left">
-  <img width=600, height=600, src="/Users/ninadombrowski/Desktop/WorkingDir/Notebooks/Pictures/loops2.png">
+  <img width=600 src="../../Notebooks//Pictures/loops2.png">
 </p>
 
 
@@ -1835,6 +1673,182 @@ Here: Find all files that start with *DN** and have a *codon** in them. Once you
 
 find . -maxdepth 6 -name 'DN*codon*' -exec grep -c -H ">" {} \; > Count_hits.txt
 
+```
+
+
+
+# Connecting to severs
+######################
+
+## Basics
+
+**SSH** (Secure Shell) is a network protocol that enables secure remote connections between two systems.
+
+Options:
+
+- ``-Y`` option enables trusted X11 forwarding in SSH (if we want to open i.e. a java interface, or view alignments). For this to work you might need to install X11 on your computer first. Trusted means: the remote machine is treated as a trusted client. This means that  other graphical (X11) clients could take data from the remote machine (make screenshots, do keylogging and other nasty stuff) and it is even possible to alter those data.
+- ``-X`` option enables untrusted X11 forwarding in SSH. Untrusted means = your local client sends a command to the remote machine and receives the graphical output
+
+```{bash class.source = 'fold-show', eval=FALSE}
+
+#connect to a server
+ssh -X username@server
+
+```
+
+
+## Checking available resources
+######################
+
+
+<div class="alert alert-danger" role="alert">
+  <strong>Since we share resources with a lot of other users keep all of this in mind. <br><br>
+  Try not to use more than 30% of our avail. resources. <br><br>
+  If you need more contact the users.
+  </strong>
+</div>
+
+There are different methods we have to check how busy the servers are.
+
+1a. ``top``
+
+Typing top into the terminal should give something like this:
+
+<p align="left">
+  <img width="600" src="../../Notebooks//Pictures/top.png">
+</p>
+
+- PID: Unique process id.
+- USER: Task’s owner.
+- PR: It is the priority of the task.
+- NI: The nice value of the task. A negative nice value means higher priority,whereas a positive nice value means lower priority.
+- VIRT: Total amount of virtual memory used by the task.
+- RES: Resident size, the non-swapped physical memory a task has used.
+- SHR: Shared Mem size (kb), the amount of shared memory used by a task.
+- %CPU: It shows the CPU usage as a percentage of total CPU time.
+- %MEM: It shows the Memory usage, a task’s currently used share of available physical memory.
+  - **as a rule of thump in the example above the first process uses 1492/100 = so roughly 15 of the 144 avail. cpus**
+- S: Status of the process
+- TIME+: CPU Time
+- COMMAND: Display the command line used to start a task or the name ofthe associated program.
+
+
+1b. ``htop``
+
+Htop gives similar info to top but allows to access how many CPUs and how much mem is used in total a bit easier:
+
+<p align="left">
+  <img src="../../Notebooks//Pictures/htop.png">
+</p>
+
+The numbers from 1-144 are our 144 CPUs and the fuller the bar is, the more of a single CPU is currently in use. This is also summarized under **tasks**. Another important line is the **memory** listing how much in total of the avail. memory is in use.
+
+2. ``df``
+
+Monitor avail. space on the different file systems.
+
+<p align="left">
+  <img width="600" src="../../Notebooks//Pictures/df.png">
+</p>
+
+
+
+3. ``free``
+
+Monitor avail. memory on the different file systems.
+
+<p align="left">
+  <img width="600" src="../../Notebooks//Pictures/free.png">
+</p>
+
+We can see that lv3, where scratch is, is almost full. So it is a good point to do data cleaning.
+
+4. ``du``
+
+Monitor how much space specific folders take up. In the example below we look at all the folders in the current directory
+
+For example, we can ask how much space our desktop needs:
+
+```{bash class.source = 'fold-show', eval=FALSE}
+du -sh Desktop/
+```
+
+
+## Transferring data from/to a server
+######################
+
+Note: If transferring data the transfer is prepared from the terminal of your local computer. 
+There are filetransfer systems that can make the job easier, i.e. FileZilla.
+
+```{bash class.source = 'fold-show', eval=FALSE}
+#from local to server
+scp File username@server:/HomeDir
+
+#from server to local
+scp username@server:/HomeDir/File Desktop
+```
+
+
+## Working on a server via slurm
+######################
+
+As mentioned above on the larger NIOZ server we can not directly run jobs but need to submit them via a job submission system called slurm.
+
+This section is for your information only.
+
+### Preparing a job script
+
+To submit a job, we need to open a document in nano and describe what resources we need, i.e. with 
+
+```{bash class.source = 'fold-show', eval=FALSE}
+nano jobscript.sh
+```
+
+Inside the script we can have something written like this:
+
+```{bash class.source = 'fold-show', eval=FALSE}
+#!/bin/sh
+#SBATCH --partition=normal    # default "normal", if not specified
+#SBATCH --nodelist=no1       # the node we want to work on
+#SBATCH --time=0-06:30:00     # run time in days-hh:mm:ss
+#SBATCH --nodes=1             # require 1 node
+#SBATCH --ntasks-per-node=36  # (by default, "ntasks"="cpus")
+#SBATCH --mem-per-cpu=4000    # MB RAM per CPU core (default 4 GB/core)
+#SBATCH --error=job.%J.err
+#SBATCH --output=job.%J.out
+
+# Executable commands :
+iqtree -s my_aln.faa
+```
+
+The most important things are
+
+- the partition, esp. for jobs that run longer 
+- the node we want to work on, i.e. only some allow for longer running jobs
+- the number of nodes, we usally use one for our jobs
+- --error and --output are good to keep in case you ran into problems
+
+Not absolutely necessary (at least on the NIOZ system but might be on other systems)
+
+- time = not necessary for the NIOZ server, just make sure you are in the max limit
+- mem-per-cpu
+- nodes = not needed if you use nodelist
+
+
+
+### basic commands for slurm:
+
+- ``squeue`` is important to check and see whether your command is running ok but also to see how heavily used servers are.
+
+```{bash class.source = 'fold-show', eval=FALSE}
+#submitting your job
+sbatch jobscript.sh
+
+#checking for running jobs
+squeue
+
+#kill a job incase sth is wrong (the job ID you can find via squeue)
+scancel job#
 ```
 
 
